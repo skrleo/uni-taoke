@@ -1,0 +1,46 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+import $http from '@/service/http.js';
+import $U from '@/utils/util.js';
+
+export default new Vuex.Store({
+	state:{
+		// 登录
+		loginStatus:false,
+		token:false,
+		user:{},
+	},
+	getters:{
+		
+	},
+	mutations:{
+		// 登录
+		login(state,data){
+			state.loginStatus = true
+			state.user = data.user
+			state.token = data.token
+			uni.setStorageSync('user', JSON.stringify(data));
+		},
+		// 退出登录
+		logout(state){
+			state.loginStatus = false
+			state.user = {}
+			state.token = false
+			uni.removeStorageSync('user');
+		},
+	},
+	actions:{
+		// 初始化登录状态
+		initUser({state,dispatch}){
+			let data = uni.getStorageSync('user');
+			if(data){
+				state.user = JSON.parse(data.user)
+				state.loginStatus = true
+				state.token = data.token
+			}
+		}
+	}
+})
