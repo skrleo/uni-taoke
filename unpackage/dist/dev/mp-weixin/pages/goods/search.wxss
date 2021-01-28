@@ -1,0 +1,70 @@
+.ui-bar-search-title-box .cu-bar {
+  padding-top: 25px;
+  min-height: calc(25px + 101rpx);
+}
+.ui-bar-search-title-box .cu-bar .content {
+  top: 25px;
+  width: calc(100% - 181.81rpx);
+}
+.ui-bar-search-title-box .cu-bar .search-form [class*="cuIcon-"] {
+  margin: 0 0.8em 0 0.8em;
+}
+.ui-bar-search-title-box .cu-bar .search-form {
+  margin-right: 181.81rpx;
+  margin-left: 9.09rpx;
+}
+.ui-bar-search-title-box .cu-bar .search-form .close-icon {
+  font-size: 29.09rpx;
+}
+.ui-bar-search-title-box .cu-bar.fixed.no-shadow {
+  box-shadow: inherit;
+}
+.ui-bar-search-title-box .cu-bar.bg-white {
+  color: #333333;
+}
+.ui-bar-search-title-box .ui-seat-height {
+  width: 100%;
+  height: calc(25px + 101rpx);
+}
+.ui-search-list-view {
+  position: relative;
+  width: 100%;
+}
+.ui-search-list-view .search-list-view .search-bar-view {
+  position: relative;
+  margin-bottom: 18.18rpx;
+  width: 100%;
+}
+.ui-search-list-view .search-list-view .search-bar-view .icon-right {
+  position: absolute;
+  right: 0;
+  top: 5.45rpx;
+}
+.ui-search-list-view .search-list-view .search-bar-view .text-right {
+  position: absolute;
+  right: 0;
+  top: 4rpx;
+}
+.ui-search-list-view .search-list-view .search-bar-view .text-right text + text {
+  margin-left: 27.27rpx;
+}
+.ui-search-list-view .search-list-view .btn-view {
+  position: relative;
+  padding-bottom: 36.36rpx;
+  width: 100%;
+}
+.ui-search-list-view .search-list-view .btn-view .cu-btn {
+  color: #333333;
+  height: 54.54rpx;
+  font-size: 23.63rpx;
+  margin-right: 27.27rpx;
+  margin-bottom: 18.18rpx;
+}
+.ui-search-list-view .search-list-view .btn-view .cu-btn .close-icon {
+  top: 0;
+  color: #9c9797;
+  right: -9.09rpx;
+  position: absolute;
+  font-size: 27.27rpx;
+}
+

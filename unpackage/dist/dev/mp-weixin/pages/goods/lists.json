@@ -1,0 +1,8 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "goods-sort-list": "/components/goods/goods-sort-list"
+  }
+}

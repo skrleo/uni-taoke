@@ -9,7 +9,7 @@ export default {
 	},
 	request(options = {}){
 		
-		options.url = 'http://api.17wangku.com/api' + options.url
+		options.url = 'https://api.17wangku.com/api' + options.url
 		options.method = options.method || this.common.method
 		options.header = options.header || this.common.header
 		
@@ -67,7 +67,7 @@ export default {
 		return this.request(options)
 	},
 	upload(url,options = {}){
-		options.url = 'http://api.17wangku.com/api' + url
+		options.url = 'https://api.17wangku.com/api' + url
 		options.header = options.header || {}
 		// 验证权限token
 		if(options.token){

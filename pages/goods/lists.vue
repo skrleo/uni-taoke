@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<view class="cu-bar search bg-white">
-			<view class="search-form round" @tap="searchTap">
+			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input :adjust-position="false" type="text" placeholder="搜索商品" confirm-type="search"></input>
+				<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search"></input>
 			</view>
 			
 			<view class="action" @tap="searchTap">
@@ -11,15 +11,16 @@
 			</view>
 		</view>
 		
-		
-		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
-			<scroll-view scroll-y="true" class="sv" style="height:100%">
-				<!--商品列表-->
-				<view class="bg-white ui-search-list-view">
-					<goods-sort-list :list_data="goods_lists" @listTap="goodsSortListTap"></goods-sort-list>
-				</view>
-			</scroll-view>
-		</mescroll-body>
+		<view class="goods-list-box">
+			<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
+				<scroll-view scroll-y="true" class="sv" style="height:100%">
+					<!--商品列表-->
+					<view class="bg-white ui-search-list-view">
+						<goods-sort-list :list_data="goods_lists" @listTap="goodsInfo"></goods-sort-list>
+					</view>
+				</scroll-view>
+			</mescroll-body>
+		</view>
 	</view>
 </template>
 
@@ -35,11 +36,16 @@
 		},
 		data() {
 			return {
-				search_close: false, searchKey: '', deleteView: false,
-				TabCur: 0, goods_lists: [],
+				search_close: false, 
+				searchKey: '', 
+				deleteView: false,
+				TabCur: 0, 
+				keyword: '',
+				goods_lists: [],
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			this.keyword = option.keyword;
 		},
 		methods: {
 			/*下拉刷新的回调 */
@@ -47,7 +53,7 @@
 				this.mescroll.resetUpScroll()
 			},
 			upCallback(page) {
-				this.$Http.get('/goods/lists?type=1&channel=pdd&pageNum='+page.num+'&pageSize='+page.size).then(res => {
+				this.$Http.get('/goods/lists?type=1&channel=pdd&pageNum='+page.num+'&pageSize='+page.size+'&goods_type=1&keyword=' + this.keyword).then(res => {
 					if(page.num == 1) this.goods_lists = [];
 					this.goods_lists=this.goods_lists.concat(res.lists);
 					this.mescroll.endSuccess(res.lists.length);
@@ -56,37 +62,39 @@
 					this.mescroll.endErr();
 				})
 			},
-			searchInput(event) {
-				let value = event.detail.value;
-				this.searchKey = value;
-				if(value) {
-					this.search_close = true;
-				} else {
-					this.search_close = false;
-				}
-			},
-			closeInput() {
-				this.searchKey = '';
-				this.search_close = false;
-			},
 			BackPage() {
 				uni.navigateBack();
 			},
 			tabSelect(e) {
 				this.TabCur = e.currentTarget.dataset.id;
 			},
-			goodsSortListTap(e) {
-				uni.navigateTo({
-					url: '/pages/goods/goods?id='+e.data.goods_id+'&channel='+e.data.channel+'&search_id='+e.data.search_id
-				});
+			goodsInfo(e) {
+				var params = {type:1,channel:'pdd',goods_id:e.data.goods_id,is_mini:1}
+				this.$Http.get('/goods/transform',params).then(res => {
+					uni.navigateToMiniProgram({
+						appId: res.data.we_app_info.app_id,
+						path: res.data.we_app_info.page_path
+					});
+				})
 			},
 			searchTap() {
-				console.log("搜索..");
+				this.$Http.get('/goods/lists?type=1&channel=pdd&pageNum='+page.num+'&pageSize='+page.size+'&goods_type=1&keyword=' + this.keyword).then(res => {
+					this.goods_lists = res.lists;
+				})
 			},
 		}
 	}
 </script>
 
 <style lang="scss">
+	.search {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 9999;
+	}
+	.goods-list-box {
+		margin-top: 100upx;
+	}
 	@import "../../static/style/sort_list.scss";
 </style>

@@ -1,0 +1,8 @@
+{
+  "backgroundColorTop": "#ffffff",
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "云淘荟买",
+  "usingComponents": {
+    "mescroll-body": "/components/mescroll-uni/mescroll-body"
+  }
+}

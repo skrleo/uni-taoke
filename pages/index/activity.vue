@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="cu-card case" v-for="(item,index) in activity_lists" :key="index">
-			<view class="cu-item shadow">
+			<view class="cu-item shadow" @click="activityInfo(item)">
 				<view class="image">
 					<image :src="item.thumb" mode="widthFix"></image>
 					<view class="cu-tag bg-blue">美团</view>
@@ -35,7 +35,30 @@
 				this.$Http.get('/home/activity',params).then(res => {
 					this.activity_lists = res.lists;
 				})
-			}
+			},
+			activityInfo(e) {
+				var params = {channel:'mt',jump_url:e.jump_url}
+				this.$Http.get('/goods/transform',params).then(res => {
+					if(res.statusCode === 200){
+						if(res.data.jump_type === 1){
+							this.navigateTo({
+								url: res.data.jump_url
+							}, res.data.jump_type);
+						}
+						if(res.data.jump_type === 2){
+							this.navigateTo({
+								appId: res.data.appId,
+								path: res.data.path,
+							}, res.data.jump_type);
+						}
+					}else{
+						uni.showToast({
+							title: '请求异常！',
+							icon: 'none'
+						});
+					}
+				})
+			},
 		}
 	}
 </script>

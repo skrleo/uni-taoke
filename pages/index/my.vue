@@ -4,19 +4,20 @@
 			<view class="cu-item shadow">
 				<view class="cu-list menu-avatar padding-top-xl">
 					<view class="cu-item">
-						<view class="cu-avatar round lg" v-bind:style="{ 'background-image': 'url('+ user.avatar_url +')'}"></view>
+						<view class="cu-avatar round lg" v-if="user.avatar_url" v-bind:style="{ 'background-image': 'url('+ user.avatar_url +')'}"></view>
+						<view class="cu-avatar round lg" v-if="!user.avatar_url" style="background-image: url(../../static/avatar.jpeg);"></view>
 						<view class="content flex-sub">
 							<view class="text-grey">{{user.nickname}}</view>
 							<view class="text-gray text-sm flex justify-between">
 								手机号：{{user.phone}}
 							</view>
 						</view>
-						<view class="cu-capsule round margin-right-lg">
+						<view class="cu-capsule round margin-right-lg" v-if="user.invite_code">
 							<view class='cu-tag bg-black'>
 								邀请码
 							</view>
 							<view class="cu-tag line-black">
-								13145200A
+								{{user.invite_code}}
 							</view>
 						</view>
 					</view>
@@ -47,19 +48,19 @@
 		<view class="cu-list menu sm-border card-menu margin-top">
 			<view class="cu-item arrow">
 				<view class="content">
-					<text class="cuIcon-circlefill text-grey"></text>
+					<text class="cuIcon-ticket text-grey"></text>
 					<text class="text-grey">优惠券</text>
 				</view>
 			</view>
 			<view class="cu-item arrow">
 				<navigator class="content" hover-class="none" url="../list/list" open-type="redirect">
-					<text class="cuIcon-circlefill text-grey"></text>
+					<text class="cuIcon-form text-grey"></text>
 					<text class="text-grey">地址管理</text>
 				</navigator>
 			</view>
 			<view class="cu-item arrow">
 				<view class="content">
-					<text class="cuIcon-circlefill text-grey"></text>
+					<text class="cuIcon-question text-grey"></text>
 					<text class="text-grey">清除缓存</text>
 				</view>
 				<view class="action">

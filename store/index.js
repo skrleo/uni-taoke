@@ -37,9 +37,10 @@ export default new Vuex.Store({
 		initUser({state,dispatch}){
 			let data = uni.getStorageSync('user');
 			if(data){
-				state.user = JSON.parse(data.user)
+				let info = JSON.parse(data)
 				state.loginStatus = true
-				state.token = data.token
+				state.token = info.token
+				state.user = info.user
 			}
 		}
 	}

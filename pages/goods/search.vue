@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<view class="cu-bar search bg-white">
-			<view class="search-form round" @tap="searchTap">
+			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input :adjust-position="false" type="text" placeholder="搜索商品" confirm-type="search"></input>
+				<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search"></input>
 			</view>
 			
 			<view class="action" @tap="searchTap">
@@ -20,9 +20,9 @@
 					<text class="cuIcon-delete text-gray icon-right" @tap="deleteTap"/>
 				</view>
 				<view class="btn-view">
-					<button class="cu-btn round">耳机</button>
-					<button class="cu-btn round">苹果手机</button>
-					<button class="cu-btn round">电动车</button>
+					<button class="cu-btn round" @click="searchWord('耳机')">耳机</button>
+					<button class="cu-btn round" @click="searchWord('苹果手机')">苹果手机</button>
+					<button class="cu-btn round" @click="searchWord('电动车')">电动车</button>
 				</view>
 			</view>
 			
@@ -32,21 +32,21 @@
 					<text class="text-black">推荐搜索</text>
 				</view>
 				<view class="btn-view">
-					<button class="cu-btn round">耳机</button>
-					<button class="cu-btn round">苹果手机</button>
-					<button class="cu-btn round">电动车</button>
-					<button class="cu-btn round">笔记本</button>
-					<button class="cu-btn round">衣柜</button>
-					<button class="cu-btn round">平板电脑</button>
-					<button class="cu-btn round">华为手机</button>
-					<button class="cu-btn round">小米</button>
-					<button class="cu-btn round">三星</button>
+					<button class="cu-btn round" @click="searchWord('耳机')">耳机</button>
+					<button class="cu-btn round" @click="searchWord('苹果手机')">苹果手机</button>
+					<button class="cu-btn round" @click="searchWord('电动车')">电动车</button>
+					<button class="cu-btn round" @click="searchWord('笔记本')">笔记本</button>
+					<button class="cu-btn round" @click="searchWord('衣柜')">衣柜</button>
+					<button class="cu-btn round" @click="searchWord('平板电脑')">平板电脑</button>
+					<button class="cu-btn round" @click="searchWord('华为手机')">华为手机</button>
+					<button class="cu-btn round" @click="searchWord('小米')">小米</button>
+					<button class="cu-btn round" @click="searchWord('三星')">三星</button>
 				</view>
 			</view>
 		</view>
 		
 		<!--处理历史记录-->
-		<view class="padding ui-search-list-view" v-if="deleteView">
+		<view class="padding ui-search-list-view bg-white" v-if="deleteView">
 			<!--搜索记录-->
 			<view class="search-list-view">
 				<view class="search-bar-view">
@@ -81,7 +81,10 @@
 	export default {
 		data() {
 			return {
-				search_close: false, searchKey: '', deleteView: false,
+				keyword:'',
+				search_close: false, 
+				searchKey: '', 
+				deleteView: false,
 			}
 		},
 		onLoad() {
@@ -95,6 +98,14 @@
 			});
 		},
 		methods: {
+			searchWord(keyword) {
+				this.keyword = keyword;
+				if(this.keyword !== ''){
+					uni.navigateTo({
+						url: "/pages/goods/lists?keyword=" + this.keyword
+					});
+				}
+			},
 			searchInput(event) {
 				let value = event.detail.value;
 				this.searchKey = value;
@@ -115,8 +126,15 @@
 				this.deleteView = false;
 			},
 			searchTap() {
+				if(this.keyword == ''){
+					uni.showToast({
+						title: '搜索内容不能为空！',
+						icon: 'none'
+					});
+					return false;
+				}
 				uni.navigateTo({
-					url: "/pages/goods/lists"
+					url: "/pages/goods/lists?keyword=" + this.keyword
 				});
 			}
 		}

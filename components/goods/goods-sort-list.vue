@@ -1,5 +1,5 @@
 <template>
-	<view class="ui-goods-list-box">
+	<view class="ui-goods-list-box" v-if="list_data.length > 0">
 		<view class="cu-list menu-avatar">
 			<block v-for="(item,index) in list_data" :key="index">
 				<view class="cu-item" @tap="listTap(item,index)">

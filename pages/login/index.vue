@@ -3,7 +3,7 @@
 		<view class="login bg-white">
 			<view class="padding-xs flex align-center padding-top-xl">
 				<view class="flex-sub text-center text-xl" style="margin-top: 80upx;">
-					<view class="cu-avatar xl round" style="background-image:url(../../static/logo.png);"></view>
+					<view class="cu-avatar xl round" style="background-image:url(https://img.17wangku.com/taoke/logo.png);"></view>
 				</view>
 			</view>
 			<view class="padding-xs flex align-center margin-bottom-xl">
@@ -68,12 +68,10 @@
 						uni.login({
 							provider: 'weixin',
 							success: (res2) => {
-								console.log(res2)
 								this.$Http.get('/wx/login?code='+res2.code).then(res => {
 									if(res.statusCode == 200){
 										if(res.data.is_login){
 											// 修改vuex的state,持久化存储
-											console.log(res.data)
 											this.$store.commit('login',res.data)
 											// 提示和跳转
 											uni.navigateBack({
@@ -133,7 +131,6 @@
 								if(res.statusCode == 200){
 									this.showModal=false;
 									// 修改vuex的state,持久化存储
-									console.log(res.data)
 									this.$store.commit('login',res.data)
 									// 提示和跳转
 									uni.navigateBack({

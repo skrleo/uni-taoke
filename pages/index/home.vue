@@ -10,10 +10,9 @@
 		<swiper class="card-swiper square-dot" :indicator-dots="true" :circular="true"
 		 :autoplay="true" interval="5000" duration="500" @change="cardSwiper" indicator-color="#8799a3"
 		 indicator-active-color="#0081ff">
-			<swiper-item v-for="(item,index) in banner_list" :key="index" @tap='swiperInfo'>
+			<swiper-item v-for="(item,index) in banner_list" :key="index">
 				<view class="swiper-item">
 					<image :src="item.thumb" mode="aspectFill"></image>
-					<!-- <video :src="item.thumb" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" v-if="item.type=='video'"></video> -->
 				</view>
 			</swiper-item>
 		</swiper>
@@ -76,7 +75,7 @@
 			<view class="text-xs"><text class="text-ABC">top picks</text></view>
 		</view>
 		
-		<view class="ui-goods-list-box">
+		<view class="ui-goods-list-box" v-if="goods_lists.length > 0">
 			<view class="flex flex-wrap">
 				<view class="basis-df padding-sm">
 					<block v-for="(item,index) in goods_lists" :key="index" v-if="index%2==0">
@@ -200,7 +199,7 @@
 				this.base_init();
 			},
 			upCallback(page) {
-				this.$Http.get('/goods/lists?type=1&channel=pdd&pageNum='+page.num+'&pageSize='+page.size).then(res => {
+				this.$Http.get('/goods/lists?type=1&channel=pdd&pageNum='+page.num+'&pageSize='+page.size+'&goods_type=2').then(res => {
 					if(page.num == 1) this.goods_lists = [];
 					this.goods_lists=this.goods_lists.concat(res.lists);
 					this.mescroll.endSuccess(res.lists.length);
@@ -223,10 +222,9 @@
 				});
 			},
 			goodsInfo(e) {
-				console.log(e);
 				var params = {type:1,channel:'pdd',goods_id:e.goods_id,is_mini:1}
 				this.$Http.get('/goods/transform',params).then(res => {
-					uni.navigateToMiniProgram({
+					this.navigateTo({
 						appId: res.data.we_app_info.app_id,
 						path: res.data.we_app_info.page_path
 					});

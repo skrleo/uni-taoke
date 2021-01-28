@@ -38,7 +38,7 @@ Vue.prototype.checkAuth = (callback,checkPhone = true)=>{
 }
 
 // 权限验证跳转
-Vue.prototype.navigateTo = (options,checkPhone = true)=>{
+Vue.prototype.navigateTo = (options,type = 1)=>{
 	// 权限验证
 	if (!store.state.loginStatus) {
 		uni.showToast({
@@ -46,20 +46,20 @@ Vue.prototype.navigateTo = (options,checkPhone = true)=>{
 			icon: 'none'
 		});
 		return uni.navigateTo({
-			url: '/pages/login'
+			url: '/pages/login/index'
 		});
 	}
-	// 验证是否绑定手机号
-	if(checkPhone && !store.state.user.phone){
-		uni.showToast({
-			title: '请先登录',
-			icon: 'none'
-		});
-		return uni.navigateTo({
-			url: '/pages/login'
-		});
+	
+	if(type === 1){
+		uni.navigateTo(options);
+		return false;
 	}
-	uni.navigateTo(options);
+	
+	if(type === 2){
+		uni.navigateToMiniProgram(options);
+		return false;
+	}
+	
 }
 
 App.mpType = 'app'
