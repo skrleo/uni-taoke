@@ -1,23 +1,36 @@
 <template>
 	<view>
-		<view class="cu-card case no-card">
-			<view class="cu-item shadow">
-				<view class="cu-list menu-avatar padding-top-xl">
-					<view class="cu-item">
-						<view class="cu-avatar round lg" v-if="user.avatar_url" v-bind:style="{ 'background-image': 'url('+ user.avatar_url +')'}"></view>
-						<view class="cu-avatar round lg" v-if="!user.avatar_url" style="background-image: url(../../static/avatar.jpeg);"></view>
-						<view class="content flex-sub">
+		<view class="pure_top">
+			<view class="pure_top_box">
+				<view class="user_info_box padding-lr flex justify-between">
+					<view class="flex justify-start">
+						<view class="cu-avatar round lg align-center" v-bind:style="{ 'background-image': 'url('+ user.avatar_url +')'}"></view>
+						<view class="content flex-sub padding-left-xs margin-top-xs">
 							<view class="text-grey">{{user.nickname}}</view>
 							<view class="text-gray text-sm flex justify-between">
 								手机号：{{user.phone}}
 							</view>
 						</view>
-						<view class="cu-capsule round margin-right-lg" v-if="user.invite_code">
-							<view class='cu-tag bg-black'>
+					</view>
+					<view class="flex-sub padding-sm margin-xs">
+						<view class="cu-capsule round fr" v-if="user.invite_code">
+							<view class='cu-tag bg-orange'>
 								邀请码
 							</view>
-							<view class="cu-tag line-black">
+							<view class="cu-tag line-orange">
 								{{user.invite_code}}
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="cu-card case user_info_box">
+					<view class="cu-item shadow">
+						<view class="cu-item">
+							<view class="content flex-sub padding bg-orange flex justify-between" style="height: 120px;">
+								<view class="text-red">正义天使 凯尔</view>
+								<view class="margin-tb-sm text-center">
+									<button class="cu-btn round sm shadow bg-black">查看钱包</button>
+								</view>
 							</view>
 						</view>
 					</view>
@@ -142,7 +155,6 @@
 			},
 			// 退出登录
 			logout(){
-				console.log('退出登录成功');
 				uni.showModal({
 					content: '是否要退出登录',
 					success: (res)=> {
@@ -187,5 +199,28 @@
 
 	.switch-music::before {
 		content: "\e6db";
+	}
+	
+	.pure_top {
+	  width: 100%;
+	  height: 160px;
+	  position: relative;
+	  z-index: -9999;
+	  overflow: hidden;
+	}
+	.pure_top_box{
+		content: '';
+		width: 120%;
+		height: 160px;
+		position: absolute;
+		left: -10%; 
+		top: 0;
+		overflow: hidden;
+		border-radius: 0 0 50% 50%;
+		background-color: #2B2E3D;
+	}
+	.user_info_box{
+		width: 80%;
+		margin: 0 auto;
 	}
 </style>

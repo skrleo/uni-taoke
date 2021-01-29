@@ -14,9 +14,9 @@ export default {
 		options.header = options.header || this.common.header
 		
 		// 验证权限token
-		if(options.token){
-			options.header.Authorization = $store.state.token
-			if(!options.noCheck && !options.header.Authorization && !options.notoast){
+		if($store.state.loginStatus){
+			options.header.Authorization = 'Bearer ' + $store.state.token
+			if(!options.header.Authorization){
 				return uni.showToast({
 					title: '非法token,请重新登录',
 					icon: 'none'
@@ -34,10 +34,21 @@ export default {
 						return res(result)
 					}
 					// 请求服务端失败
-					if (result.statusCode !== 200 && !options.notoast) {
+					if (result.statusCode !== 200) {
 						uni.showToast({
 							title:result.data.message || '请求失败',
 							icon: 'none'
+						});
+						return rej(result.data)
+					}
+					
+					if (result.statusCode === 401) {
+						uni.showToast({
+							title:result.data.message || '登录异常',
+							icon: 'none'
+						});
+						uni.navigateTo({
+							url: '/pages/login/index',
 						});
 						return rej(result.data)
 					}

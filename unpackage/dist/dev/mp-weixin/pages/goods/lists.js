@@ -200,18 +200,18 @@ var _default = {
     tabSelect: function tabSelect(e) {
       this.TabCur = e.currentTarget.dataset.id;
     },
-    goodsInfo: function goodsInfo(e) {
+    goodsInfo: function goodsInfo(e) {var _this2 = this;
       var params = { type: 1, channel: 'pdd', goods_id: e.data.goods_id, is_mini: 1 };
       this.$Http.get('/goods/transform', params).then(function (res) {
-        uni.navigateToMiniProgram({
+        _this2.navigateTo({
           appId: res.data.we_app_info.app_id,
-          path: res.data.we_app_info.page_path });
-
+          path: res.data.we_app_info.page_path },
+        2);
       });
     },
-    searchTap: function searchTap() {var _this2 = this;
+    searchTap: function searchTap() {var _this3 = this;
       this.$Http.get('/goods/lists?type=1&channel=pdd&pageNum=' + page.num + '&pageSize=' + page.size + '&goods_type=1&keyword=' + this.keyword).then(function (res) {
-        _this2.goods_lists = res.lists;
+        _this3.goods_lists = res.lists;
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

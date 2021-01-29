@@ -18,4 +18,26 @@
 .switch-music::before {
 	content: "\e6db";
 }
+.pure_top {
+  width: 100%;
+  height: 160px;
+  position: relative;
+  z-index: -9999;
+  overflow: hidden;
+}
+.pure_top_box{
+	content: '';
+	width: 120%;
+	height: 160px;
+	position: absolute;
+	left: -10%; 
+	top: 0;
+	overflow: hidden;
+	border-radius: 0 0 50% 50%;
+	background-color: #2B2E3D;
+}
+.user_info_box{
+	width: 80%;
+	margin: 0 auto;
+}
 

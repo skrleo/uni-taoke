@@ -71,10 +71,10 @@
 			goodsInfo(e) {
 				var params = {type:1,channel:'pdd',goods_id:e.data.goods_id,is_mini:1}
 				this.$Http.get('/goods/transform',params).then(res => {
-					uni.navigateToMiniProgram({
+					this.navigateTo({
 						appId: res.data.we_app_info.app_id,
 						path: res.data.we_app_info.page_path
-					});
+					}, 2);
 				})
 			},
 			searchTap() {

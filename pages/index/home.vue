@@ -227,7 +227,7 @@
 					this.navigateTo({
 						appId: res.data.we_app_info.app_id,
 						path: res.data.we_app_info.page_path
-					});
+					}, 2);
 				})
 			},
 			DotStyle(e) {
