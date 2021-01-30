@@ -1,4 +1,7 @@
 
+.activity_lists_box {
+	padding-top: 38rpx;
+}
 .content {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -33,5 +36,11 @@
 .title {
 	font-size: 36rpx;
 	color: #8f8f94;
+}
+.activity_thumb {
+	width: 100%;
+}
+.cu-item {
+	margin-top: 0 !important;
 }
 

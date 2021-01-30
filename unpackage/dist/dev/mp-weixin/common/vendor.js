@@ -9541,7 +9541,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 52:
+/***/ 58:
 /*!************************************************!*\
   !*** F:/project/uni-app/yuntao/utils/tools.js ***!
   \************************************************/
@@ -9601,7 +9601,7 @@ _tool;exports.default = _default;
 
 /***/ }),
 
-/***/ 76:
+/***/ 90:
 /*!*************************************************************************!*\
   !*** F:/project/uni-app/yuntao/components/mescroll-uni/mescroll-uni.js ***!
   \*************************************************************************/
@@ -9703,7 +9703,7 @@ MeScroll.prototype.extendUpScroll = function (optUp) {
     noMoreSize: 5, // 如果列表已无数据,可设置列表的总数量要大于等于5条才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看
     offset: 80, // 距底部多远时,触发upCallback
     textLoading: '加载中 ...', // 加载中的提示文本
-    textNoMore: '-- END --', // 没有更多数据的提示文本
+    textNoMore: '-- 暂无更多 --', // 没有更多数据的提示文本
     bgColor: "transparent", // 背景颜色 (建议在pages.json中再设置一下backgroundColorBottom)
     textColor: "gray", // 文本颜色 (当bgColor配置了颜色,而textColor未配置时,则textColor会默认为白色)
     inited: null, // 初始化完毕的回调
@@ -10401,7 +10401,7 @@ MeScroll.prototype.preventDefault = function (e) {
 
 /***/ }),
 
-/***/ 77:
+/***/ 91:
 /*!********************************************************************************!*\
   !*** F:/project/uni-app/yuntao/components/mescroll-uni/mescroll-uni-option.js ***!
   \********************************************************************************/
@@ -10423,7 +10423,7 @@ var GlobalOption = {
   up: {
     // 其他up的配置参数也可以写,这里只展示了常用的配置:
     textLoading: '加载中 ...', // 加载中的提示文本
-    textNoMore: '-- END --', // 没有更多数据的提示文本
+    textNoMore: '-- 暂无更多 --', // 没有更多数据的提示文本
     offset: 80, // 距底部多远时,触发upCallback
     toTop: {
       // 回到顶部按钮,需配置src才显示
@@ -10445,7 +10445,7 @@ GlobalOption;exports.default = _default;
 
 /***/ }),
 
-/***/ 78:
+/***/ 92:
 /*!***********************************************************************!*\
   !*** F:/project/uni-app/yuntao/components/mescroll-uni/wxs/mixins.js ***!
   \***********************************************************************/

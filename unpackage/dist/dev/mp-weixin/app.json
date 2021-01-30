@@ -6,6 +6,12 @@
   ],
   "subPackages": [
     {
+      "root": "pages/h5",
+      "pages": [
+        "index"
+      ]
+    },
+    {
       "root": "pages/order",
       "pages": [
         "lists"
@@ -15,7 +21,8 @@
       "root": "pages/goods",
       "pages": [
         "search",
-        "lists"
+        "lists",
+        "detail"
       ]
     },
     {
@@ -57,5 +64,5 @@
   "usingComponents": {
     "mescroll-body": "/components/mescroll-uni/mescroll-body"
   },
-  "sitemapLocation": "sitemap77.json"
+  "sitemapLocation": "sitemap23.json"
 }

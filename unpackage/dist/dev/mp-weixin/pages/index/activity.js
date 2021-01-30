@@ -163,13 +163,19 @@ var _default =
   },
   methods: {
     base_init: function base_init() {var _this = this;
-      var params = { type: 1, channel: 'pdd' };
+      var params = {
+        type: 1,
+        channel: 'pdd' };
+
       this.$Http.get('/home/activity', params).then(function (res) {
         _this.activity_lists = res.lists;
       });
     },
     activityInfo: function activityInfo(e) {var _this2 = this;
-      var params = { channel: 'mt', jump_url: e.jump_url };
+      var params = {
+        channel: 'mt',
+        jump_url: e.jump_url };
+
       this.$Http.get('/goods/transform', params).then(function (res) {
         if (res.statusCode === 200) {
           if (res.data.jump_type === 1) {

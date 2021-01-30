@@ -41,6 +41,15 @@
 				deleteView: false,
 				TabCur: 0, 
 				keyword: '',
+				upOption: {
+					page: {
+						size: 10 // 每页数据的数量,默认10
+					},
+					noMoreSize: 5, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
+					empty: {
+						tip: '暂无更多'
+					}
+				},
 				goods_lists: [],
 			}
 		},
@@ -69,18 +78,10 @@
 				this.TabCur = e.currentTarget.dataset.id;
 			},
 			goodsInfo(e) {
-				var params = {type:1,channel:'pdd',goods_id:e.data.goods_id,is_mini:1}
-				this.$Http.get('/goods/transform',params).then(res => {
-					this.navigateTo({
-						appId: res.data.we_app_info.app_id,
-						path: res.data.we_app_info.page_path
-					}, 2);
-				})
-			},
-			searchTap() {
-				this.$Http.get('/goods/lists?type=1&channel=pdd&pageNum='+page.num+'&pageSize='+page.size+'&goods_type=1&keyword=' + this.keyword).then(res => {
-					this.goods_lists = res.lists;
-				})
+				console.log(e)
+				uni.navigateTo({
+					url: "/pages/goods/detail?search_id=" + e.data.search_id + '&goods_sign=' + e.data.goods_sign
+				});
 			},
 		}
 	}

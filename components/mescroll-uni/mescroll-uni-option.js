@@ -12,7 +12,7 @@ const GlobalOption = {
 	up: {
 		// 其他up的配置参数也可以写,这里只展示了常用的配置:
 		textLoading: '加载中 ...', // 加载中的提示文本
-		textNoMore: '-- END --', // 没有更多数据的提示文本
+		textNoMore: '-- 暂无更多 --', // 没有更多数据的提示文本
 		offset: 80, // 距底部多远时,触发upCallback
 		toTop: {
 			// 回到顶部按钮,需配置src才显示
