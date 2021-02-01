@@ -4,7 +4,7 @@
 			<view class="cu-item shadow" @click="activityInfo(item)">
 				<view class="image">
 					<image :src="item.thumb" class="activity_thumb" mode="widthFix"></image>
-					<view class="cu-tag bg-blue">美团</view>
+					<view class="cu-tag bg-blue">{{item.type === 1 ? '美团' : '饿了么'}}</view>
 				</view>
 				<view class="cu-list">
 					<view class="cu-item flex flex-wrap justify-between align-center padding">
@@ -44,26 +44,40 @@
 					channel: 'mt',
 					jump_url: e.jump_url
 				}
-				this.$Http.get('/goods/transform', params).then(res => {
-					if (res.statusCode === 200) {
-						if (res.data.jump_type === 1) {
-							this.navigateTo({
-								url: res.data.jump_url
-							}, res.data.jump_type);
-						}
-						if (res.data.jump_type === 2) {
-							this.navigateTo({
-								appId: res.data.appId,
-								path: res.data.path,
-							}, res.data.jump_type);
-						}
-					} else {
-						uni.showToast({
-							title: '请求异常！',
-							icon: 'none'
-						});
-					}
-				})
+				// if(e.type === 1){
+				// 	this.$Http.get('/goods/transform', params).then(res => {
+				// 		if (res.statusCode === 200) {
+				// 			if (res.data.jump_type === 1) {
+				// 				this.navigateTo({
+				// 					url: res.data.jump_url
+				// 				}, res.data.jump_type);
+				// 			}
+				// 			if (res.data.jump_type === 2) {
+				// 				this.navigateTo({
+				// 					appId: res.data.appId,
+				// 					path: res.data.path,
+				// 				}, res.data.jump_type);
+				// 			}
+				// 		} else {
+				// 			uni.showToast({
+				// 				title: '请求异常！',
+				// 				icon: 'none'
+				// 			});
+				// 		}
+				// 	})				
+				// }
+				
+				if (e.jump_type === 1) {
+					this.navigateTo({
+						url: e.jump_url
+					}, e.jump_type);
+				}
+				if (e.jump_type === 2) {
+					this.navigateTo({
+						appId: e.app_id,
+						path: e.jump_url,
+					}, e.jump_type);
+				}
 			},
 		}
 	}

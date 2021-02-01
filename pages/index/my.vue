@@ -23,7 +23,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="cu-card case user_info_box">
+				<view class="cu-card case user_info_box animation-slide-top" @tap="Toggle">
 					<view class="cu-item shadow">
 						<view class="cu-item">
 							<view class="content flex-sub padding bg-orange flex justify-between" style="height: 120px;">
@@ -47,7 +47,7 @@
 				</view>
 			</view>
 			<view class="cu-list grid col-4 no-border">
-				<view class="cu-item" v-for="(item,index) in orderTypes" :key="index">
+				<view class="cu-item" v-for="(item,index) in orderTypes" :key="index" @click="orderTap(index)">
 					<view :class="['cuIcon-' + item.icon,'text-' + item.color]">
 						<view class="cu-tag badge" v-if="item.number!=0">
 							<block v-if="item.number!=1">{{item.number>99?'99+':item.number}}</block>
@@ -97,6 +97,7 @@
 	export default {
 		data() {
 			return {
+				anmiaton:'',
 				orderTypes: [
 					{
 						label: "待付款",
@@ -148,9 +149,16 @@
 			
 		},
 		methods: {
-			orderTap() {
+			Toggle(e) {
+				var anmiaton = e.currentTarget.dataset.class;
+				this.animation= anmiaton;
+				setTimeout(()=>{
+					this.animation= '';
+				}, 1000)
+			},
+			orderTap(index = 0) {
 				uni.navigateTo({
-					url: "/pages/order/lists"
+					url: "/pages/order/lists?TabCur=" + index
 				});
 			},
 			// 退出登录

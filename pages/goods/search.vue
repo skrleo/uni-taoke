@@ -14,33 +14,24 @@
 		<!--搜索区域-->
 		<view class="padding ui-search-list-view bg-white" v-if="!deleteView">
 			<!--搜索记录-->
-			<view class="search-list-view">
+			<view class="search-list-view" v-if="history.length > 0">
 				<view class="search-bar-view">
 					<text class="text-black">历史搜索</text>
 					<text class="cuIcon-delete text-gray icon-right" @tap="deleteTap"/>
 				</view>
+			
 				<view class="btn-view">
-					<button class="cu-btn round" @click="searchWord('耳机')">耳机</button>
-					<button class="cu-btn round" @click="searchWord('苹果手机')">苹果手机</button>
-					<button class="cu-btn round" @click="searchWord('电动车')">电动车</button>
+					<button class="cu-btn round" v-for="(item,index) in history" :key="index" @click="searchWord(item)">{{item}}</button>
 				</view>
 			</view>
 			
 			<!--推荐搜索-->
-			<view class="search-list-view">
+			<view class="search-list-view" v-if="suggest.length > 0">
 				<view class="search-bar-view">
 					<text class="text-black">推荐搜索</text>
 				</view>
 				<view class="btn-view">
-					<button class="cu-btn round" @click="searchWord('耳机')">耳机</button>
-					<button class="cu-btn round" @click="searchWord('苹果手机')">苹果手机</button>
-					<button class="cu-btn round" @click="searchWord('电动车')">电动车</button>
-					<button class="cu-btn round" @click="searchWord('笔记本')">笔记本</button>
-					<button class="cu-btn round" @click="searchWord('衣柜')">衣柜</button>
-					<button class="cu-btn round" @click="searchWord('平板电脑')">平板电脑</button>
-					<button class="cu-btn round" @click="searchWord('华为手机')">华为手机</button>
-					<button class="cu-btn round" @click="searchWord('小米')">小米</button>
-					<button class="cu-btn round" @click="searchWord('三星')">三星</button>
+					<button class="cu-btn round" v-for="(item,index) in suggest" :key="index" @click="searchWord(item.value)">{{item.value}}</button>
 				</view>
 			</view>
 		</view>
@@ -52,21 +43,13 @@
 				<view class="search-bar-view">
 					<text class="text-black">历史搜索</text>
 					<view class="text-sm text-right">
-						<text class="text-gray">全部删除</text>
+						<text class="text-gray" @click="delTap()">全部删除</text>
 						<text class="text-red" @tap="logTap">完成</text>
 					</view>
 				</view>
 				<view class="btn-view">
-					<button class="cu-btn round">
-						<text>耳机</text>
-						<text class="cuIcon-roundclosefill close-icon"/>
-					</button>
-					<button class="cu-btn round">
-						<text>苹果手机</text>
-						<text class="cuIcon-roundclosefill close-icon"/>
-					</button>
-					<button class="cu-btn round">
-						<text>电动车</text>
+					<button class="cu-btn round" v-for="(item,index) in history" :key="index" @click="delTap(item)">
+						<text>{{item}}</text>
 						<text class="cuIcon-roundclosefill close-icon"/>
 					</button>
 				</view>
@@ -81,6 +64,8 @@
 	export default {
 		data() {
 			return {
+				history:[],
+				suggest:[],
 				keyword:'',
 				search_close: false, 
 				searchKey: '', 
@@ -88,7 +73,7 @@
 			}
 		},
 		onLoad() {
-			
+			this.base_init();
 		},
 		onReady() {
 			_tool.setBarColor(true);
@@ -98,13 +83,40 @@
 			});
 		},
 		methods: {
+			base_init() {
+				this.$Http.get('/search/lists').then(res => {
+					this.history = res.data.history;
+					this.suggest = res.data.suggest;
+				})
+			},
 			searchWord(keyword) {
 				this.keyword = keyword;
 				if(this.keyword !== ''){
-					uni.navigateTo({
-						url: "/pages/goods/lists?keyword=" + this.keyword
-					});
+					var params = {keyword:this.keyword};
+					this.$Http.post('/search/store',params).then(res => {
+						if(res.statusCode === 200){
+							uni.navigateTo({
+								url: "/pages/goods/lists?keyword=" + this.keyword
+							});
+						}
+					})
 				}
+			},
+			delTap(val = ''){
+				var params = {};
+				if(val !== ''){
+					params.keyword = val;
+				}
+				this.$Http.get('/search/destroy',params).then(res => {
+					if(res.statusCode === 200){
+						uni.showToast({
+							title: '删除成功!',
+							icon: 'none'
+						});
+						this.deleteView = false;
+						this.base_init();
+					}
+				})
 			},
 			searchInput(event) {
 				let value = event.detail.value;
@@ -133,9 +145,14 @@
 					});
 					return false;
 				}
-				uni.navigateTo({
-					url: "/pages/goods/lists?keyword=" + this.keyword
-				});
+				var params = {keyword:this.keyword};
+				this.$Http.post('/search/store',params).then(res => {
+					if(res.statusCode === 200){
+						uni.navigateTo({
+							url: "/pages/goods/lists?keyword=" + this.keyword
+						});
+					}
+				})
 			}
 		}
 	}

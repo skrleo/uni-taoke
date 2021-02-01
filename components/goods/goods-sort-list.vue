@@ -18,7 +18,7 @@
 							</view>
 							<view class="flex-sub text-right">
 								<text class="cu-tag line-orange text-sm sm radius" v-if='item.has_coupon'>券</text>
-								<text class="cu-tag light bg-red radius text-sm sm">返<text class="text-price">{{item.commission_price}}</text></text>
+								<text class="cu-tag light bg-red radius text-sm sm" v-if='item.commission_price > 0'>返<text class="text-price">{{item.commission_price}}</text></text>
 							</view>
 						</view>
 					</view>

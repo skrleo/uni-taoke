@@ -104,7 +104,7 @@
 										<view class="flex-sub">
 											<view class="flex flex-wrap user-info">
 												<view class="basis-xs">
-													<view class="cu-avatar sm round" :style="{'background-color': item.platform_logo}"></view>
+													<image class="cu-avatar sm round" :src="item.platform_logo" mode="widthFix" />
 												</view>
 												<!-- <view class="basis-xl text-cut line-height">
 													<text class="text-sm">xx</text>
@@ -144,7 +144,7 @@
 										<view class="flex-sub">
 											<view class="flex flex-wrap user-info">
 												<view class="basis-xs">
-													<view class="cu-avatar sm round" :style="{'background-color': item.platform_logo}"></view>
+													<image class="cu-avatar sm round" :src="item.platform_logo" mode="widthFix" />
 												</view>
 												<!-- <view class="basis-xl text-cut line-height">
 													<text class="text-sm">xx</text>

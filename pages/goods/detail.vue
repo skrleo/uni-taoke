@@ -28,33 +28,35 @@
 				<text class="cuIcon-refresharrow text-red icon-text" />
 				<text class="text-gray margin-left-xs">比同型号商品便宜3%，值得入手!</text>
 			</view>
-		</view>
-		<!--商品券-->
-		<view class="ui-sponsored-card-view"  v-if="goodsInfo.has_coupon">
-			<view class="card-price-view">
-				<view class="text-red price-left-view">
-					<text class="text-sm">￥</text>
-					<text class="price">{{goodsInfo.coupon_discount}}</text>
+			
+			<!--商品券-->
+			<view class="ui-sponsored-card-view bg-white"  v-if="goodsInfo.has_coupon">
+				<view class="card-price-view bg-white">
+					<view class="text-red price-left-view">
+						<text class="text-sm">￥</text>
+						<text class="price">{{goodsInfo.coupon_discount}}</text>
+					</view>
+					<view class="name-content-view">
+						<view class="text-cut text-red">有效期限</view>
+						<view class="text-xs">{{goodsInfo.coupon_start_time}} - {{goodsInfo.coupon_end_time}}</view>
+					</view>
+					<view class="btn-right-view">
+						<button class="cu-btn bg-red round sm" @click="getCoupon(goodsInfo.coupon_link)">立即领券</button>
+					</view>
 				</view>
-				<view class="name-content-view">
-					<view class="text-cut text-red">有效期限</view>
-					<view class="text-xs">{{goodsInfo.coupon_start_time}} - {{goodsInfo.coupon_end_time}}</view>
-				</view>
-				<view class="btn-right-view">
-					<button class="cu-btn bg-red round sm" @click="getCoupon(goodsInfo.coupon_link)">立即领券</button>
+				<view class="card-num-view bg-white">
+					<view class="text-xs" v-if="goodsInfo.coupon_quota">满{{goodsInfo.coupon_quota}}可用</view>
+					<view class="text-xs" v-else>可用</view>
 				</view>
 			</view>
-			<view class="card-num-view">
-				<view class="text-xs" v-if="goodsInfo.coupon_quota">满{{goodsInfo.coupon_quota}}可用</view>
-				<view class="text-xs" v-else>可用</view>
-			</view>
 		</view>
+
 		<!--关于卖家-->
 		<view class="margin-top bg-white ui-selll-user-view-box">
 			<view class="padding text-black text-lg">关于卖家</view>
 			<view class="cu-list menu-avatar">
 				<view class="cu-item">
-					<view class="cu-avatar round" :style="{'background-color': item.mall_logo}"/>
+					<image class="cu-avatar round" :src="goodsInfo.mall_logo" mode="widthFix" />
 					<view class="content">
 						<view class="text-black">
 							<view class="text-cut">{{goodsInfo.mall_name}}</view>
@@ -107,21 +109,26 @@
 		
 		<!-- 底部操作栏 -->
 		<view class="bg-white ui-tabbar-view-box">
-			<view class="cu-bar tabbar border shop">
-				<button class="action" open-type="contact">
-					<view class="cuIcon-service text-green">
-						<view class="cu-tag badge"></view>
-					</view>
-					客服
-				</button>
-<!-- 				<view class="action">
-					<view class="cuIcon-cart">
-						<view class="cu-tag badge">99</view>
-					</view>
-					购物车
-				</view> -->
-				<view class="bg-orange submit">分享</view>
-				<view class="bg-red submit" @tap='buyGoods'>立即购买</view>
+			<view class="flex mb-sm">
+				<view class="flex-sub justify-between cu-bar tabbar">
+					<button class="action" open-type="contact">
+						<view class="cuIcon-service text-black">
+						</view>
+						客服
+					</button>
+					<button class="action">
+						<!-- <view class="cuIcon-cart text-black">
+						</view>
+						购物车 -->
+						<view class="cuIcon-favor text-black">
+						</view>
+						收藏
+					</button>
+				</view>
+				<view class="flex-twice justify-between margin-sm ">
+					<button class="cu-btn lines-black margin-lr-sm">分享赚<text class="text-red">￥{{goodsInfo.original_price}}</text></button>
+					<button class="cu-btn bg-black margin-left-xs" @click="buyGoods()">立即购买</button>
+				</view>
 			</view>
 		</view>
 	</page>

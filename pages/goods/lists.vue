@@ -1,16 +1,27 @@
 <template>
 	<view>
-		<view class="cu-bar search bg-white">
-			<view class="search-form round">
-				<text class="cuIcon-search"></text>
-				<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search"></input>
+		<view class="bg-white search grid col-1">
+			<view class="cu-bar">
+				<view class="search-form round">
+					<text class="cuIcon-search"></text>
+					<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search"></input>
+				</view>
+				
+				<view class="action" @tap="searchTap">
+					<text class="text-red">搜索</text>
+				</view>
 			</view>
-			
-			<view class="action" @tap="searchTap">
-				<text class="text-red">搜索</text>
+			<view>
+				<view class="grid text-center text-black"  :class="'col-' + fields.length">
+					<view class="padding-bottom" v-for="(item,index) in fields" :key="index">{{item.label}}
+						<text v-if="item.order === 'desc'" class="cuIcon-triangledownfill"></text>
+						<text v-if="item.order === 'asc'" class="cuIcon-triangleupfill"></text>
+						<text v-if="item.order === 'filter'" class="cuIcon-filter"></text>
+					</view>
+				</view>
 			</view>
 		</view>
-		
+
 		<view class="goods-list-box">
 			<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
 				<scroll-view scroll-y="true" class="sv" style="height:100%">
@@ -36,6 +47,28 @@
 		},
 		data() {
 			return {
+				fields: [
+					{
+						label: "综合",
+						value: "score",
+						order: ""
+					},
+					{
+						label: "销量",
+						value: "sales",
+						order: "desc"
+					},
+					{
+						label: "价格",
+						value: "price",
+						order: "asc"
+					},
+					{
+						label: "其他",
+						value: "other",
+						order: "filter"
+					},
+				],
 				search_close: false, 
 				searchKey: '', 
 				deleteView: false,
@@ -95,7 +128,7 @@
 		z-index: 9999;
 	}
 	.goods-list-box {
-		margin-top: 100upx;
+		margin-top: 170upx;
 	}
 	@import "../../static/style/sort_list.scss";
 </style>
