@@ -27,7 +27,7 @@
 					<view class="cu-item shadow">
 						<view class="cu-item">
 							<view class="content flex-sub padding bg-orange flex justify-between" style="height: 120px;">
-								<view class="text-black">正义天使 凯尔</view>
+								<view class="text-black">账号权益</view>
 								<view class="margin-tb-sm text-center">
 									<button class="cu-btn round sm shadow bg-black">查看钱包</button>
 								</view>

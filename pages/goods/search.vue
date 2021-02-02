@@ -31,7 +31,7 @@
 					<text class="text-black">推荐搜索</text>
 				</view>
 				<view class="btn-view">
-					<button class="cu-btn round" v-for="(item,index) in suggest" :key="index" @click="searchWord(item.value)">{{item.value}}</button>
+					<button class="cu-btn round" v-for="(item,index) in suggest" :key="index" @click="searchWord(item.value)">{{item.name}}</button>
 				</view>
 			</view>
 		</view>

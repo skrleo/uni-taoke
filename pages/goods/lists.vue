@@ -13,7 +13,8 @@
 			</view>
 			<view>
 				<view class="grid text-center text-black"  :class="'col-' + fields.length">
-					<view class="padding-bottom" v-for="(item,index) in fields" :key="index">{{item.label}}
+					<view class="padding-bottom" v-for="(item,index) in fields" :key="index">
+						{{item.label}}
 						<text v-if="item.order === 'desc'" class="cuIcon-triangledownfill"></text>
 						<text v-if="item.order === 'asc'" class="cuIcon-triangleupfill"></text>
 						<text v-if="item.order === 'filter'" class="cuIcon-filter"></text>

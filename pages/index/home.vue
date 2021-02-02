@@ -34,7 +34,7 @@
 					:style="{
 						'background-color': recommend_list[0].bgcolor
 					}" 
-					@click="jumpTap(item)"
+					@click="jumpTap(recommend_list[0])"
 				>
 					<text class="recommend-item__title">{{ recommend_list[0].name }}</text>
 					<text class="recommend-item__desc">{{ recommend_list[0].description }}</text>
@@ -49,7 +49,7 @@
 					:style="{
 						'background-color': recommend_list[1].bgcolor
 					}"
-					@click="jumpTap(item)"
+					@click="jumpTap(recommend_list[1])"
 				>
 					<text class="recommend-item__title">{{ recommend_list[1].name }}</text>
 					<text class="recommend-item__desc">{{ recommend_list[1].description }}</text>
@@ -62,7 +62,7 @@
 					:style="{
 						'background-color': recommend_list[2].bgcolor
 					}"
-					@click="jumpTap(item)"
+					@click="jumpTap(recommend_list[2])"
 				>
 					<text class="recommend-item__title">{{ recommend_list[2].name }}</text>
 					<text class="recommend-item__desc">{{ recommend_list[2].description }}</text>
@@ -252,6 +252,7 @@
 				});
 			},
 			goodsInfo(e) {
+				console.log("/pages/goods/detail?search_id=" + e.search_id + '&goods_sign=' + e.goods_sign)
 				uni.navigateTo({
 					url: "/pages/goods/detail?search_id=" + e.search_id + '&goods_sign=' + e.goods_sign
 				});

@@ -5,8 +5,8 @@
 				<view class="cu-item" @tap="listTap(item,index)">
 					<view class="cu-avatar radius lg" :style="[{backgroundImage:'url('+ item.goods_thumb +')'}]"></view>
 					<view class="content">
-						<view class="text-black">
-							<text class="text-cut-2 text-l text-black margin-bottom-xs">
+						<view class="text-black" style="height: 78px;">
+							<text class="text-cut-2 text-l text-black">
 								<text class="cu-tag bg-red radius sm">拼多多</text>
 								<text>{{item.goods_name}}</text>
 							</text>
@@ -14,7 +14,7 @@
 						<view class="flex">
 							<view class="flex-sub">
 								<text class="text-red text-price text-xl">{{item.goods_price}}</text>
-								<text class="text-gray through" v-if="item.goods_price">￥{{item.goods_price}}</text>
+								<text class="text-gray through" v-if="item.original_price">￥{{item.original_price}}</text>
 							</view>
 							<view class="flex-sub text-right">
 								<text class="cu-tag line-orange text-sm sm radius" v-if='item.has_coupon'>券</text>
