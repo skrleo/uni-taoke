@@ -111,11 +111,14 @@
 				this.TabCur = e.currentTarget.dataset.id;
 			},
 			goodsInfo(e) {
-				console.log(e)
 				uni.navigateTo({
 					url: "/pages/goods/detail?search_id=" + e.data.search_id + '&goods_sign=' + e.data.goods_sign
 				});
 			},
+			searchTap(){
+				this.goods_lists = []
+				this.mescroll.resetUpScroll()
+			}
 		}
 	}
 </script>

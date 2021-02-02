@@ -39,19 +39,11 @@ Vue.prototype.checkAuth = (callback,checkPhone = true)=>{
 
 // 权限验证跳转
 Vue.prototype.navigateTo = (options,type = 1)=>{
-	// 权限验证
-	if (!store.state.loginStatus) {
-		uni.showToast({
-			title: '请先登录',
-			icon: 'none'
-		});
-		return uni.navigateTo({
-			url: '/pages/login/index'
-		});
-	}
-	
+
 	if(type === 1){
-		uni.navigateTo(options);
+		uni.navigateTo({
+			url: options.url
+		});
 		return false;
 	}
 	
@@ -60,6 +52,12 @@ Vue.prototype.navigateTo = (options,type = 1)=>{
 		return false;
 	}
 	
+	if(type === 3){
+		uni.navigateTo({
+			url: "/pages/h5/index?web_url=" + options.url
+		});
+		return false;
+	}
 }
 
 App.mpType = 'app'

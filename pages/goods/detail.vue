@@ -161,18 +161,36 @@
 					this.goodsInfo = res.data;
 				})
 			},
+			getCoupon() {
+				this.checkAuth(()=>{
+					var params = {
+						type:1,
+						channel:'pdd',
+						goods_sign:this.goodsInfo.goods_sign,
+						is_mini:1,
+					}
+					this.$Http.get('/goods/transform',params).then(res => {
+						this.navigateTo({
+							appId: res.data.we_app_info.app_id,
+							path: res.data.we_app_info.page_path
+						}, 2);
+					})
+				})
+			},
 			buyGoods() {
-				var params = {
-					type:1,
-					channel:'pdd',
-					goods_sign:this.goodsInfo.goods_sign,
-					is_mini:1,
-				}
-				this.$Http.get('/goods/transform',params).then(res => {
-					this.navigateTo({
-						appId: res.data.we_app_info.app_id,
-						path: res.data.we_app_info.page_path
-					}, 2);
+				this.checkAuth(()=>{
+					var params = {
+						type:1,
+						channel:'pdd',
+						goods_sign:this.goodsInfo.goods_sign,
+						is_mini:1,
+					}
+					this.$Http.get('/goods/transform',params).then(res => {
+						this.navigateTo({
+							appId: res.data.we_app_info.app_id,
+							path: res.data.we_app_info.page_path
+						}, 2);
+					})
 				})
 			},
 			DotStyle(e) {

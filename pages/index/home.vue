@@ -11,7 +11,7 @@
 		 :autoplay="true" interval="5000" duration="500" @change="cardSwiper" indicator-color="#8799a3"
 		 indicator-active-color="#0081ff">
 			<swiper-item v-for="(item,index) in banner_list" :key="index">
-				<view class="swiper-item" @click="bannerInfo(item)">
+				<view class="swiper-item" @click="jumpTap(item)">
 					<image :src="item.thumb" mode="aspectFill"></image>
 				</view>
 			</swiper-item>
@@ -34,7 +34,7 @@
 					:style="{
 						'background-color': recommend_list[0].bgcolor
 					}" 
-					@click="bannerInfo(item)"
+					@click="jumpTap(item)"
 				>
 					<text class="recommend-item__title">{{ recommend_list[0].name }}</text>
 					<text class="recommend-item__desc">{{ recommend_list[0].description }}</text>
@@ -49,7 +49,7 @@
 					:style="{
 						'background-color': recommend_list[1].bgcolor
 					}"
-					@click="bannerInfo(item)"
+					@click="jumpTap(item)"
 				>
 					<text class="recommend-item__title">{{ recommend_list[1].name }}</text>
 					<text class="recommend-item__desc">{{ recommend_list[1].description }}</text>
@@ -62,7 +62,7 @@
 					:style="{
 						'background-color': recommend_list[2].bgcolor
 					}"
-					@click="bannerInfo(item)"
+					@click="jumpTap(item)"
 				>
 					<text class="recommend-item__title">{{ recommend_list[2].name }}</text>
 					<text class="recommend-item__desc">{{ recommend_list[2].description }}</text>
@@ -206,15 +206,23 @@
 					url: "/pages/goods/search"
 				});
 			},
-			bannerInfo() {
-				this.navigateTo({
-					appId: 'wxa918198f16869201',
-					path: '/pages/web/web?specialUrl=1&src=https%3A%2F%2Fmobile.yangkeduo.com%2Fduo_transfer_channel.html%3FresourceType%3D4%26pid%3D9569620_187098373%26cpsSign%3DCE_210130_9569620_187098373_40a2cf2b046fd12c0c2ed1745a91b728%26duoduo_type%3D2'
-				},2)
-				// var web_url = 'https://mobile.yangkeduo.com/duo_transfer_channel.html?resourceType=4&pid=9569620_187098373&cpsSign=CE_210130_9569620_187098373_40a2cf2b046fd12c0c2ed1745a91b728&duoduo_type=2';
-				// uni.navigateTo({
-				// 	url: "/pages/h5/index?web_url=" + web_url
-				// });
+			jumpTap(item) {
+				var options = {};
+				if(item.jump_type !== 2){
+					options = {url:item.jump_url}
+				}else{
+					options = {
+						app_id:item.app_id,
+						path:item.jump_url,
+					}
+				}
+				if(item.is_login){
+					this.checkAuth(()=>{
+						this.navigateTo(options, item.jump_type);
+					});
+				}else{
+					this.navigateTo(options, item.jump_type);
+				}
 			},
 			downCallback() {
 				this.mescroll.resetUpScroll();
