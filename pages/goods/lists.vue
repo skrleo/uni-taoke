@@ -113,7 +113,7 @@
 			},
 			goodsInfo(e) {
 				uni.navigateTo({
-					url: "/pages/goods/detail?search_id=" + e.data.search_id + '&goods_sign=' + e.data.goods_sign
+					url: "/pages/goods/detail?goods_sign=" + e.data.goods_sign
 				});
 			},
 			searchTap(){

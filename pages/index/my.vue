@@ -12,7 +12,7 @@
 							</view>
 						</view>
 					</view>
-					<view class="flex-sub padding-sm margin-xs">
+					<view class="flex-sub padding-sm margin-xs" v-if="user.invite_code">
 						<view class="cu-capsule round fr" v-if="user.invite_code">
 							<view class='cu-tag bg-orange'>
 								邀请码
@@ -23,12 +23,12 @@
 						</view>
 					</view>
 				</view>
-				<view class="cu-card case user_info_box animation-slide-top" @tap="Toggle">
+				<view class="cu-card case user_info_box animation-slide-top">
 					<view class="cu-item shadow">
 						<view class="cu-item">
 							<view class="content flex-sub padding bg-orange flex justify-between" style="height: 120px;">
 								<view class="text-black">账号权益</view>
-								<view class="margin-tb-sm text-center">
+								<view class="margin-tb-sm text-center" @tap="walletTap">
 									<button class="cu-btn round sm shadow bg-black">查看钱包</button>
 								</view>
 							</view>
@@ -42,7 +42,7 @@
 				<view class="content">
 					<text class="text-grey">我的订单</text>
 				</view>
-				<view class="action" @tap="orderTap">
+				<view class="action" @click="orderTap(0)">
 					<text class="text-grey text-sm">查看全部订单</text>
 				</view>
 			</view>
@@ -62,13 +62,13 @@
 			<view class="cu-item arrow">
 				<view class="content">
 					<text class="cuIcon-ticket text-grey"></text>
-					<text class="text-grey">优惠券</text>
+					<text class="text-grey">联系客服</text>
 				</view>
 			</view>
 			<view class="cu-item arrow">
-				<navigator class="content" hover-class="none" url="../list/list" open-type="redirect">
+				<navigator class="content" hover-class="none" url="../lists/lists" open-type="redirect">
 					<text class="cuIcon-form text-grey"></text>
-					<text class="text-grey">地址管理</text>
+					<text class="text-grey">关于我们</text>
 				</navigator>
 			</view>
 			<view class="cu-item arrow">
@@ -103,7 +103,7 @@
 						label: "待付款",
 						icon: "present",
 						value: 0,
-						number: 10
+						number: 0
 					},
 					{
 						label: "待发货",
@@ -117,7 +117,7 @@
 						icon: "deliver",
 						color: '7A7E83',
 						value: 2,
-						number: 1000
+						number: 0
 					},
 					{
 						label: "退款/售后",
@@ -149,12 +149,10 @@
 			
 		},
 		methods: {
-			Toggle(e) {
-				var anmiaton = e.currentTarget.dataset.class;
-				this.animation= anmiaton;
-				setTimeout(()=>{
-					this.animation= '';
-				}, 1000)
+			walletTap() {
+				uni.navigateTo({
+					url: "/pages/wallet/index"
+				});
 			},
 			orderTap(index = 0) {
 				uni.navigateTo({
@@ -213,7 +211,6 @@
 	  width: 100%;
 	  height: 160px;
 	  position: relative;
-	  z-index: -9999;
 	  overflow: hidden;
 	}
 	.pure_top_box{

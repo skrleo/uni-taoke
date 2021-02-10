@@ -1,6 +1,6 @@
 <template>
 	<page>
-		<view class="swiper-top">
+		<view class="swiper-top" v-if="goodsInfo.thumb_urls.length > 0">
 			<swiper class="screen-swiper round-dot" :indicator-dots="true" :circular="true" :autoplay="true" interval="5000"
 			 duration="500">
 				<swiper-item v-for="(item,index) in goodsInfo.thumb_urls" :key="index">
@@ -13,11 +13,11 @@
 		<view class="bg-white padding ui-goods-synopsis-view">
 			<view class="margin-tb-sm price-view flex">
 				<view class="flex-sub">
-					<text class="text-price text-red text-xxl">{{goodsInfo.goods_price}}</text>
-					<text class="text-through text-gray text-sm padding-left-xs">原价￥{{goodsInfo.original_price}}</text>
+					<text class="text-price text-red text-xxl">{{goodsInfo.goods_price || 0}}</text>
+					<text class="text-through text-gray text-sm padding-left-xs">原价￥{{goodsInfo.original_price || 0}}</text>
 				</view>
 				<view class="flex-sub text-right">
-					<text class="text-black text-gray text-right">销量 {{goodsInfo.sales_num}}</text>
+					<text class="text-black text-gray text-right">销量 {{goodsInfo.sales_num || 0}}</text>
 				</view>
 			</view>
 			<view class="text-black">
@@ -93,17 +93,10 @@
 		
 		<!--商品详情-->
 		<view class="margin-top padding bg-white ui-details-view-box">
-			<view class="ui-img-box">
+			<view class="ui-img-box" v-if="goodsInfo.gallery_urls.length > 0">
 				<image :src="item" v-for="(item,index) in goodsInfo.gallery_urls" :key="index" mode="widthFix"/>
 			</view>
-			
-			
-			<view class="text-right text-gray margin-top text-sm">
-				<text>1068人想要</text>
-				<text class="cuIcon-titles margin-lr-xs"/>
-				<text>10600次浏览</text>
-			</view>
-
+	
 			<view class="ui-border-view margin-bottom-xl"/>
 		</view>
 		
@@ -126,15 +119,19 @@
 					</button>
 				</view>
 				<view class="flex-twice justify-between margin-sm ">
-					<button class="cu-btn lines-black margin-lr-sm">分享赚<text class="text-red">￥{{goodsInfo.original_price}}</text></button>
-					<button class="cu-btn bg-black margin-left-xs" @click="buyGoods()">立即购买</button>
+					<button class="cu-btn lines-black margin-lr-sm" @click="sharePoster(goodsInfo)">分享赚<text class="text-red">￥{{goodsInfo.commission_price || '0.00' }}</text></button>
+					<button class="cu-btn bg-black margin-left-xs" @click="buyGoods(goodsInfo)">立即购买</button>
 				</view>
 			</view>
 		</view>
+		
+		// 海报分享
+		<qrcode-poster ref="poster" :title="goodsInfo.goods_name" :subTitle="goodsInfo.goods_name" :headerImg="goodsInfo.thumb_urls[0].url" :price="goodsInfo.goods_price"></qrcode-poster>
 	</page>
 </template>
 
 <script>
+	import qrcodePoster from '@/components/poster/poster'
 	export default {
 		data() {
 			return {
@@ -142,12 +139,16 @@
 				dotStyle: false,
 				towerStart: 0,
 				direction: '',
-				goodsInfo:[]
+				goodsInfo:[],
+				is_show_model:false
 			};
+		},
+		components: {
+			qrcodePoster,
 		},
 		onLoad(e) {
 			this.getGoodsInfo(e);
-			this.TowerSwiper('swiperList');
+			// this.TowerSwiper('swiperList');
 		},
 		methods: {
 			getGoodsInfo(e) {
@@ -161,6 +162,13 @@
 					this.goodsInfo = res.data;
 				})
 			},
+			//分享海报
+			sharePoster(){
+				this.checkAuth(()=>{
+					this.is_show_model = false
+					this.$refs.poster.showCanvas('https://img.17wangku.com/taoke/qrcode.jpg')
+				})
+			},
 			getCoupon() {
 				this.checkAuth(()=>{
 					var params = {
@@ -170,26 +178,60 @@
 						is_mini:1,
 					}
 					this.$Http.get('/goods/transform',params).then(res => {
-						this.navigateTo({
-							appId: res.data.we_app_info.app_id,
-							path: res.data.we_app_info.page_path
-						}, 2);
+						var app_id = res.data.we_app_info.app_id;
+						var page_path = res.data.we_app_info.page_path;
+						if(res.data.is_authority === 1){
+							this.navigateTo({
+								appId: app_id,
+								path: page_path
+							}, 2);
+						} else {
+							uni.showModal({
+								title: '授权提示',
+								content: '首次下单需要平台授权，才能绑定您的收益！',
+								success: (res) => {
+									if (res.confirm) {
+										this.navigateTo({
+											appId: app_id,
+											path: page_path
+										}, 2);
+									}
+								}
+							});
+						}
 					})
 				})
 			},
-			buyGoods() {
+			buyGoods(item) {
 				this.checkAuth(()=>{
 					var params = {
 						type:1,
 						channel:'pdd',
-						goods_sign:this.goodsInfo.goods_sign,
+						goods_sign:item.goods_sign,
 						is_mini:1,
 					}
 					this.$Http.get('/goods/transform',params).then(res => {
-						this.navigateTo({
-							appId: res.data.we_app_info.app_id,
-							path: res.data.we_app_info.page_path
-						}, 2);
+						var app_id = res.data.we_app_info.app_id;
+						var page_path = res.data.we_app_info.page_path;
+						if(res.data.is_authority === 1){
+							this.navigateTo({
+								appId: app_id,
+								path: page_path
+							}, 2);
+						} else {
+							uni.showModal({
+								title: '授权提示',
+								content: '首次下单需要平台授权，才能绑定您的收益！',
+								success: (res) => {
+									if (res.confirm) {
+										this.navigateTo({
+											appId: app_id,
+											path: page_path
+										}, 2);
+									}
+								}
+							});
+						}
 					})
 				})
 			},

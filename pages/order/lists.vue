@@ -11,23 +11,23 @@
 					<view class="cu-item shadow">
 						<view class="flex justify-between padding">
 							<view class="text-cut">订单号： {{item.order_sn}}</view>
-							<view class="text-cut">{{item.statusName}}</view>
+							<view class="text-cut">{{item.status_name}}</view>
 						</view>
-						<view class="content">
+						<view class="content padding-bottom">
 							<image :src="item.thumb_url"></image>
 							<view class="desc">
 								<view class="text-content"> 
 									<text>{{item.goods_name}}</text>
-									<view>
-										<view class="cu-tag bg-red light sm round">正义天使</view>
-										<view class="cu-tag bg-green light sm round">史诗</view>
-									</view>
 								</view>
 								<view class="flex justify-between">
 									<text class="text-red through">￥{{item.goods_price}}</text>
 									<text class="text-gray">x{{item.buy_num}}</text>
 								</view>
 							</view>
+						</view>
+						<view class="flex justify-between padding-lr margin-top-lg">
+							<text class="text-red through">预计佣金：￥{{item.promotion_amount}}</text>
+							<text class="text-black">实付金额：￥<text class="text-xl">{{item.order_amount}}</text></text>
 						</view>
 					</view>
 				</view>
@@ -69,7 +69,6 @@
 				this.mescroll.resetUpScroll();
 			},
 			upCallback(page) {
-				console.log(this.TabCur)
 				this.$Http.get('/order/lists?status=' + this.TabCur).then(res => {
 					if(page.num == 1) this.order_lists = [];
 					this.order_lists=this.order_lists.concat(res.lists);

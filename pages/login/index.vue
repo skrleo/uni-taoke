@@ -46,6 +46,7 @@
 
 
 <script>
+	import { mapState } from 'vuex'
 	export default {
 		data() {
 			return {
@@ -54,11 +55,20 @@
 				openid: ''
 			}
 		},
+		computed: {
+			...mapState({
+				loginStatus:state=>state.loginStatus,
+				user:state=>state.user,
+			})
+		},
 		onLoad() {
-			this.checkAuth();
+			if (this.loginStatus) {
+				uni.navigateBack({
+					delta: 1
+				}); 
+			}
 		},
 		methods: {
-			// https://blog.csdn.net/cheng2290/article/details/102550829/
 			getUserInfo: function(){
 				// #ifdef MP-WEIXIN
 				uni.getProvider({
@@ -109,8 +119,6 @@
 			},
 		    getPhoneNumber: function(e) {
 				if(e.detail.errMsg=="getPhoneNumber:ok"){
-			        console.log('用户点击了接受');
-					console.log(e)
 					uni.getUserInfo({
 						provider: 'weixin',
 						success: (info) => {
@@ -150,7 +158,10 @@
 						}
 					})
 			    }else{
-			        console.log('用户点击了拒绝') ;  
+			        // 提示和跳转
+			        uni.navigateBack({
+			        	delta: 1
+			        }); 
 			    }
 			}
 		}

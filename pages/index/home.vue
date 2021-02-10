@@ -252,9 +252,8 @@
 				});
 			},
 			goodsInfo(e) {
-				console.log("/pages/goods/detail?search_id=" + e.search_id + '&goods_sign=' + e.goods_sign)
 				uni.navigateTo({
-					url: "/pages/goods/detail?search_id=" + e.search_id + '&goods_sign=' + e.goods_sign
+					url: "/pages/goods/detail?goods_sign=" + e.goods_sign
 				});
 			},
 			DotStyle(e) {

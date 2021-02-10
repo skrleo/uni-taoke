@@ -21,7 +21,7 @@ Vue.prototype.checkAuth = (callback,checkPhone = true)=>{
 	// 权限验证
 	if (!store.state.loginStatus) {
 		return uni.navigateTo({
-			url: '/pages/login'
+			url: '/pages/login/index'
 		});
 	}
 	// 验证是否绑定手机号
@@ -31,7 +31,7 @@ Vue.prototype.checkAuth = (callback,checkPhone = true)=>{
 			icon: 'none'
 		});
 		return uni.navigateTo({
-			url: '/pages/login'
+			url: '/pages/login/index'
 		});
 	}
 	callback()
