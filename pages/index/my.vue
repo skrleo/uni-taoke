@@ -23,11 +23,12 @@
 						</view>
 					</view>
 				</view>
+				<!-- http://17wangku.oss-cn-shenzhen.aliyuncs.com/taoke/5fcf63bba8e29.jpg -->
 				<view class="cu-card case user_info_box animation-slide-top">
 					<view class="cu-item shadow">
 						<view class="cu-item">
-							<view class="content flex-sub padding bg-orange flex justify-between" style="height: 120px;">
-								<view class="text-black">账号权益</view>
+							<view class="content flex-sub padding bg-orange flex justify-between" style="background-image: url(https://img.17wangku.com/taoke/5fcf63bba8e29.jpg);height: 120px;background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+								<view class="text-white">账号权益</view>
 								<view class="margin-tb-sm text-center" @tap="walletTap">
 									<button class="cu-btn round sm shadow bg-black">查看钱包</button>
 								</view>
@@ -76,7 +77,7 @@
 					<text class="cuIcon-question text-grey"></text>
 					<text class="text-grey">清除缓存</text>
 				</view>
-				<view class="action">
+				<view class="action" @tap="clearTap">
 					<text class="text-grey text-sm">0.0MB</text>
 				</view>
 			</view>
@@ -157,6 +158,12 @@
 			orderTap(index = 0) {
 				uni.navigateTo({
 					url: "/pages/order/lists?TabCur=" + index
+				});
+			},
+			clearTap() {
+				uni.showToast({
+					title: '清除缓存成功',
+					icon: 'none'
 				});
 			},
 			// 退出登录

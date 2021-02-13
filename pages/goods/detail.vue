@@ -125,7 +125,7 @@
 			</view>
 		</view>
 		
-		// 海报分享
+		<!-- 海报分享 -->
 		<qrcode-poster ref="poster" :title="goodsInfo.goods_name" :subTitle="goodsInfo.goods_name" :headerImg="goodsInfo.thumb_urls[0].url" :price="goodsInfo.goods_price"></qrcode-poster>
 	</page>
 </template>
@@ -153,10 +153,7 @@
 		methods: {
 			getGoodsInfo(e) {
 				var params = {
-					type: 1,
-					channel: 'pdd',
-					goods_sign: e.goods_sign,
-					search_id: e.search_id,
+					sign_key: e.sign_key,
 				}
 				this.$Http.get('/goods/detail', params).then(res => {
 					this.goodsInfo = res.data;
@@ -165,8 +162,12 @@
 			//分享海报
 			sharePoster(){
 				this.checkAuth(()=>{
-					this.is_show_model = false
-					this.$refs.poster.showCanvas('https://img.17wangku.com/taoke/qrcode.jpg')
+					this.$Http.get('/goods/detail', params).then(res => {
+						if(res.statusCode == 200){
+							this.$refs.poster.showCanvas(res.data.path_url);
+							this.is_show_model = false
+						}
+					})
 				})
 			},
 			getCoupon() {

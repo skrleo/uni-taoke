@@ -76,7 +76,7 @@
 				var temp = "";
 				var row = [];
 				for (var a = 0; a < chr.length; a++) {
-				  if (this.ctx.measureText(temp).width < 180) {
+				  if (this.ctx.measureText(temp).width < 170) {
 					temp += chr[a];
 				  }
 				  else {

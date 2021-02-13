@@ -253,7 +253,7 @@
 			},
 			goodsInfo(e) {
 				uni.navigateTo({
-					url: "/pages/goods/detail?goods_sign=" + e.goods_sign
+					url: "/pages/goods/detail?sign=" + e.sign_key +"&c=" . e.platform_type
 				});
 			},
 			DotStyle(e) {
