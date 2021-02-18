@@ -7,7 +7,7 @@
 		</view>
 		<view class="order_lists_box">
 			<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
-				<view class="cu-card article" v-for="(item,index) in order_lists" :key="index">
+				<view class="cu-card article" v-for="(item,index) in order_lists" :key="index" @click="detailTap(item)">
 					<view class="cu-item shadow">
 						<view class="flex justify-between padding">
 							<view class="text-cut">订单号： {{item.order_sn}}</view>
@@ -81,6 +81,11 @@
 			tabSelect(e) {
 				this.TabCur = e.currentTarget.dataset.id;
 				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
+			},
+			detailTap(e) {
+				uni.navigateTo({
+					url: '/pages/order/detail?order_sn=' + e.order_sn + '&platform_type=' + e.platform_type
+				});
 			}
 		}
 	}

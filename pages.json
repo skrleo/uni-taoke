@@ -41,6 +41,14 @@
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "我的钱包"
 					}
+				},
+				{
+					"path": "extract",
+					"style": {
+						"navigationBarTextStyle": "#fff",
+						"navigationBarBackgroundColor": "#2B2E3D",
+						"navigationBarTitleText": "余额提现"
+					}
 				}
 			]
 		},
@@ -66,6 +74,14 @@
 						"navigationBarTextStyle": "#fff",
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "我的订单"
+					}
+				},
+				{
+					"path": "detail",
+					"style": {
+						"navigationBarTextStyle": "#fff",
+						"navigationBarBackgroundColor": "#2B2E3D",
+						"navigationBarTitleText": "订单详情"
 					}
 				}
 			]

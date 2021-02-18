@@ -153,7 +153,8 @@
 		methods: {
 			getGoodsInfo(e) {
 				var params = {
-					sign_key: e.sign_key,
+					g: e.g,
+					c: e.c
 				}
 				this.$Http.get('/goods/detail', params).then(res => {
 					this.goodsInfo = res.data;
@@ -162,7 +163,11 @@
 			//分享海报
 			sharePoster(){
 				this.checkAuth(()=>{
-					this.$Http.get('/goods/detail', params).then(res => {
+					var params = {
+						channel: this.goodsInfo.channel,
+						sign_key: this.goodsInfo.sign_key
+					}
+					this.$Http.get('/goods/poster', params).then(res => {
 						if(res.statusCode == 200){
 							this.$refs.poster.showCanvas(res.data.path_url);
 							this.is_show_model = false
@@ -173,7 +178,6 @@
 			getCoupon() {
 				this.checkAuth(()=>{
 					var params = {
-						type:1,
 						channel:'pdd',
 						goods_sign:this.goodsInfo.goods_sign,
 						is_mini:1,

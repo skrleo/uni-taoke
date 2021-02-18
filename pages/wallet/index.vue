@@ -19,7 +19,7 @@
 									<view>
 										<text class="text-xxl margin-right">{{ wallet.balance_fee || 0.00 }}</text>
 									</view>
-									<button class="cu-btn bg-orange shadow sm">提现</button>
+									<button class="cu-btn bg-orange shadow sm" @tap="extractTap">提现</button>
 								</view>
 							</view>
 							<view class="text-orange text-sm">
@@ -68,7 +68,7 @@
 			</view>
 		</view>
 		
-		<view class="cu-list menu sm-border margin-bottom-xs">
+		<!-- <view class="cu-list menu sm-border margin-bottom-xs">
 			<view class="cu-item">
 				<view class="content">
 					<text class="text-grey">推广效果(近7天、30天含今日)</text>
@@ -124,7 +124,7 @@
 					</view>
 				</view>
 			</view>
-		</view>
+		</view> -->
 	</page>
 </template>
 
@@ -159,12 +159,24 @@
 		methods: {
 			base_init() {
 				this.$Http.get('/wallet/detail').then(res => {
+					if(res.statusCode !== 200){
+						uni.showToast({
+							title: res.message,
+							icon: 'none'
+						});
+						return false;
+					}
 					this.wallet = res.data;
 				})
 			},
 			orderTap() {
 				uni.navigateTo({
 					url: '../order/lists'
+				});
+			},
+			extractTap() {
+				uni.navigateTo({
+					url: '/pages/wallet/extract'
 				});
 			}
 		}
