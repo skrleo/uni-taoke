@@ -118,7 +118,7 @@
 						收藏
 					</button>
 				</view>
-				<view class="flex-twice justify-between margin-sm ">
+				<view class="flex-twice justify-between margin-sm">
 					<button class="cu-btn lines-black margin-lr-sm" @click="sharePoster(goodsInfo)">分享赚<text class="text-red">￥{{goodsInfo.commission_price || '0.00' }}</text></button>
 					<button class="cu-btn bg-black margin-left-xs" @click="buyGoods(goodsInfo)">立即购买</button>
 				</view>

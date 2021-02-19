@@ -6,7 +6,7 @@
 					<view class="flex justify-start">
 						<view class="cu-avatar round lg align-center" v-bind:style="{ 'background-image': 'url('+ user.avatar_url +')'}"></view>
 						<view class="content flex-sub padding-left-xs margin-top-xs">
-							<view class="text-grey">{{user.nickname}}</view>
+							<view class="text-grey">{{user.nickname}}<text class="cuIcon-refresh margin-left-sm" @tap="refreshTap"></text></view>
 							<view class="text-gray text-sm flex justify-between">
 								手机号：{{user.phone}}
 							</view>
@@ -150,6 +150,9 @@
 			
 		},
 		methods: {
+			refreshTap() {
+				console.log("更新用户信息");
+			},
 			walletTap() {
 				uni.navigateTo({
 					url: "/pages/wallet/index"

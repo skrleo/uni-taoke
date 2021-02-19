@@ -47,7 +47,7 @@
 		<view class="cu-list menu sm-border">
 			<view class="cu-item">
 				<view class="content">
-					<text class="text-grey">收益概览(推广收益，不含今日)</text>
+					<text class="text-grey"><text class="text-black">收益概览</text>(推广收益，不含今日)</text>
 				</view>
 			</view>
 			<view class="cu-item">
@@ -68,55 +68,52 @@
 			</view>
 		</view>
 		
-		<!-- <view class="cu-list menu sm-border margin-bottom-xs">
+		<view class="cu-list menu sm-border margin-bottom-xs">
 			<view class="cu-item">
 				<view class="content">
-					<text class="text-grey">推广效果(近7天、30天含今日)</text>
+					<text class="text-grey"><text class="text-black">推广效果</text>(近7天、30天含今日)</text>
 				</view>
 				
 				<view class="action">
 					<text class="text-grey text-sm" @tap="orderTap">订单详情<text class="cuIcon-right"></text></text>
 				</view>
 			</view>
-			<view class="cu-item grid col-4">
-				<view class="margin-tb-sm text-center">
-					<button class="cu-btn round lines-red sm">今日</button>
+			<view class="cu-item grid col-1">
+				<view class="grid col-4">
+					<view class="margin-tb-sm text-center">
+						<button class="cu-btn round lines-red sm">今日</button>
+					</view>
+					<view class="margin-tb-sm text-center">
+						<button class="cu-btn round lines-gray sm">昨日</button>
+					</view>
+					<view class="margin-tb-sm text-center">
+						<button class="cu-btn round lines-gray sm">近7天</button>
+					</view>
+					<view class="margin-tb-sm text-center">
+						<button class="cu-btn round lines-gray sm">近30天</button>
+					</view>
 				</view>
-				<view class="margin-tb-sm text-center">
-					<button class="cu-btn round lines-gray sm">昨日</button>
-				</view>
-				<view class="margin-tb-sm text-center">
-					<button class="cu-btn round lines-gray sm">近7天</button>
-				</view>
-				<view class="margin-tb-sm text-center">
-					<button class="cu-btn round lines-gray sm">近30天</button>
-				</view>
-			</view>
-			<view class="cu-item no-border">
-				<view class="content padding-tb-sm grid">
-					<view style="display: block;width: 50%;">
+				
+				<view class="grid col-2 bg-gray padding radius margin-bottom-sm">
+					<view style="display: block;width: 50%;text-align: center;">
 						<view>订单笔数(元)<text class="cuIcon-question"></text></view>
-						<view class="text-sm margin-top-sm">
+						<view class="text-sm margin-tb-sm">
 							<text class="text-xl text-black">0.00</text>
 						</view>
 					</view>
-					<view style="display: block;width: 50%;">
+					<view style="display: block;width: 50%;text-align: center;">
 						<view>订单金额(元)<text class="cuIcon-question"></text></view>
-						<view class="text-sm margin-top-sm">
+						<view class="text-sm margin-tb-sm">
 							<text class="text-xl text-black">0.00</text>
 						</view>
 					</view>
-				</view>
-			</view>
-			<view class="cu-item no-border">
-				<view class="content padding-tb-sm grid">
-					<view style="display: block;width: 50%;">
+					<view style="display: block;width: 50%;text-align: center;">
 						<view>成团笔数(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
 							<text class="text-xl text-black">0.00</text>
 						</view>
 					</view>
-					<view style="display: block;width: 50%;">
+					<view style="display: block;width: 50%;text-align: center;">
 						<view>预估金额(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
 							<text class="text-xl text-black">0.00</text>
@@ -124,7 +121,7 @@
 					</view>
 				</view>
 			</view>
-		</view> -->
+		</view>
 	</page>
 </template>
 
