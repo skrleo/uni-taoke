@@ -160,6 +160,12 @@
 					c: e.c
 				}
 				this.$Http.get('/goods/detail', params).then(res => {
+					if(res.statusCode !== 200){
+						uni.navigateTo({
+							url: '/pages/index/home'
+						});
+						return false;
+					}
 					this.goodsInfo = res.data;
 				})
 			},

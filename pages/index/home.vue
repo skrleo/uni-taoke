@@ -203,7 +203,7 @@
 		methods: {
 			searchTap() {
 				uni.navigateTo({
-					url: "/pages/goods/search"
+					url: "/pages/goods/history"
 				});
 			},
 			jumpTap(item) {

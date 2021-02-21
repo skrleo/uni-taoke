@@ -23,11 +23,10 @@
 						</view>
 					</view>
 				</view>
-				<!-- http://17wangku.oss-cn-shenzhen.aliyuncs.com/taoke/5fcf63bba8e29.jpg -->
 				<view class="cu-card case user_info_box animation-slide-top">
 					<view class="cu-item shadow">
 						<view class="cu-item">
-							<view class="content flex-sub padding bg-orange flex justify-between" style="background-image: url(https://img.17wangku.com/taoke/5fcf63bba8e29.jpg);height: 120px;background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+							<view class="content flex-sub padding bg-orange flex justify-between" style="height: 120px;">
 								<view class="text-white">账号权益</view>
 								<view class="margin-tb-sm text-center" @tap="walletTap">
 									<button class="cu-btn round sm shadow bg-black">查看钱包</button>
@@ -151,7 +150,28 @@
 		},
 		methods: {
 			refreshTap() {
-				console.log("更新用户信息");
+				// 获取用户信息
+				uni.getUserInfo({
+					provider: 'weixin',
+					success: info => {
+						var params = {
+							avatar_url : info.userInfo.avatarUrl,
+							nickname : info.userInfo.nickName,
+							sex : info.userInfo.gender,
+							country : info.userInfo.country,
+							province : info.userInfo.province,
+							city : info.userInfo.city,
+						}
+						this.$Http.post('/wx/sync',params).then(res => {
+							if(res.statusCode == 200){
+								// 更新用户资料
+								this.$store.commit('sync',params)
+							}else{
+								uni.showToast({title:"更新资料失败",icon:"none"});
+							}
+						})
+					}
+				});
 			},
 			walletTap() {
 				uni.navigateTo({
@@ -226,7 +246,7 @@
 	.pure_top_box{
 		content: '';
 		width: 120%;
-		height: 160px;
+		height: 148px;
 		position: absolute;
 		left: -10%; 
 		top: 0;

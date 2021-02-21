@@ -1,238 +1,236 @@
 <template>
 	<view>
-		<view class="cu-bar search bg-white">
-			<view class="search-form round">
-				<text class="cuIcon-search"></text>
-				<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search"></input>
-			</view>
-			
-			<view class="action" @tap="searchTap">
-				<text class="text-red">搜索</text>
-			</view>
-		</view>
-		
-		<!--搜索区域-->
-		<view class="padding ui-search-list-view bg-white" v-if="!deleteView">
-			<!--搜索记录-->
-			<view class="search-list-view" v-if="history.length > 0">
-				<view class="search-bar-view">
-					<text class="text-black">历史搜索</text>
-					<text class="cuIcon-delete text-gray icon-right" @tap="deleteTap"/>
+		<view class="bg-white search grid col-1">
+			<view class="cu-bar">
+				<view class="search-form round">
+					<text class="cuIcon-search"></text>
+					<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search"></input>
 				</view>
-			
-				<view class="btn-view">
-					<button class="cu-btn round" v-for="(item,index) in history" :key="index" @click="searchWord(item)">{{item}}</button>
+				
+				<view class="action" @tap="searchTap">
+					<text class="text-red">搜索</text>
 				</view>
 			</view>
-			
-			<!--推荐搜索-->
-			<view class="search-list-view" v-if="suggest.length > 0">
-				<view class="search-bar-view">
-					<text class="text-black">推荐搜索</text>
-				</view>
-				<view class="btn-view">
-					<button class="cu-btn round" v-for="(item,index) in suggest" :key="index" @click="searchWord(item.value)">{{item.name}}</button>
-				</view>
-			</view>
-		</view>
-		
-		<!--处理历史记录-->
-		<view class="padding ui-search-list-view bg-white" v-if="deleteView">
-			<!--搜索记录-->
-			<view class="search-list-view">
-				<view class="search-bar-view">
-					<text class="text-black">历史搜索</text>
-					<view class="text-sm text-right">
-						<text class="text-gray" @click="delTap()">全部删除</text>
-						<text class="text-red" @tap="logTap">完成</text>
+			<view>
+				<view class="flex p-xs margin-bottom-sm mb-sm">
+					<view class="flex-twice flex justify-around">
+						<view @click="sortBy('score')">
+							<text>综合</text>
+						</view>
+						<view @click="sortBy('sales', sales_icon)">
+							<text>销量</text><text :class="'cuIcon-' + sales_icon"></text>
+						</view>
+					</view>
+					<view class="flex-sub flex justify-around">
+						<view style="padding-top: 5upx;" @click="sortBy('deploy', deploy_icon)">
+							<text :class="'cuIcon-' + deploy_icon"></text>
+						</view>
+						|
+						<view @click="sortBy('filter')">
+							<text>筛选</text><text class="cuIcon-filter"></text>
+						</view>
 					</view>
 				</view>
-				<view class="btn-view">
-					<button class="cu-btn round" v-for="(item,index) in history" :key="index" @click="delTap(item)">
-						<text>{{item}}</text>
-						<text class="cuIcon-roundclosefill close-icon"/>
-					</button>
-				</view>
 			</view>
 		</view>
 		
+		<!-- 右边抽屉 -->
+		<view class="cu-modal drawer-modal justify-end" :class="icon_type=='filter'?'show':''" @tap="hideModal">
+			<view class="cu-dialog basis-lg" @tap.stop="" :style="[{top:CustomBar+'px',height:'calc(100vh - ' + CustomBar + 'px)'}]">
+				<view class="cu-list menu text-left bg-white" style="height: 100%;width: 100%;">
+					<form>
+						<view style="margin-top: 188upx;height: 100%;width: 100%;padding-left: 21upx;">
+							<view class="title text-black margin-bottom padding-left-xs">价格区间</view>
+							<view class="flex justify-center margin-bottom-sm">
+								<input placeholder="最低价" class="sm-border radius roud-input" name="input"></input>
+								<text style="line-height: 58upx;height: 58upx;" class="padding-lr">-</text>
+								<input placeholder="最高价" class="sm-border radius roud-input" name="input"></input>
+							</view>
+						</view>
+					</form>
+						
+					<view class="ui-tabbar-view-box flex justify-center margin-bottom-xl">
+						<button class="cu-btn lines-gray margin-lr-sm padding-lr-xl">重置</button>
+						<button class="cu-btn bg-black margin-left-xs padding-lr-xl">确定</button>
+					</view>
+				</view>
+			</view>
+		</view>
+
+		<view class="goods-list-box">
+			<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
+				<scroll-view scroll-y="true" class="sv" style="height:100%">
+					<!--商品列表-->
+					<view class="bg-white ui-search-list-view">
+						<goods-sort-list :list_data="goods_lists" @listTap="goodsInfo" v-if="deploy_icon == 'apps'"></goods-sort-list>
+						<goods-grid-list :list_data="goods_lists" @listTap="goodsInfo" v-if="deploy_icon == 'list'"></goods-grid-list>
+					</view>
+				</scroll-view>
+			</mescroll-body>
+		</view>
 	</view>
 </template>
 
 <script>
+	import goodsSortList from '@/components/goods/goods-sort-list';
+	import goodsGridList from '@/components/goods/goods-grid-list';
+	
+	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import _tool from '@/utils/tools.js';	//工具函数
 	export default {
+		mixins: [MescrollMixin],
+		components: {
+			goodsSortList,
+			goodsGridList,
+		},
 		data() {
 			return {
-				history:[],
-				suggest:[],
-				keyword:'',
+				deploy_icon: 'apps',
+				sales_icon: 'triangledownfill',
+				icon_type:'',
+				CustomBar: this.CustomBar,
+				fields: [
+					{
+						label: "综合",
+						is_icon: 0,
+						icon_o:'',
+						icon:''
+					},
+					{
+						label: "销量",
+						is_icon: 0,
+						icon_o:'triangledownfill',
+						icon:'triangleupfill'
+					},
+					{
+						label: "宫格",
+						is_icon: 0,
+						icon_o:'apps',
+						icon:'list'
+					},
+					{
+						label: "筛选",
+						is_icon: 0,
+						icon_o:'filter',
+						icon:'filter',
+					},
+				],
 				search_close: false, 
 				searchKey: '', 
 				deleteView: false,
+				TabCur: 0, 
+				keyword: '',
+				upOption: {
+					page: {
+						size: 10 // 每页数据的数量,默认10
+					},
+					noMoreSize: 5, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
+					empty: {
+						tip: '暂无更多'
+					}
+				},
+				goods_lists: [],
 			}
 		},
-		onLoad() {
-			this.base_init();
-		},
-		onReady() {
-			_tool.setBarColor(true);
-			uni.pageScrollTo({
-			    scrollTop: 0,
-			    duration: 0
-			});
+		onLoad(option) {
+			this.keyword = option.keyword;
 		},
 		methods: {
-			base_init() {
-				this.$Http.get('/search/lists').then(res => {
-					this.history = res.data.history;
-					this.suggest = res.data.suggest;
-				})
-			},
-			searchWord(keyword) {
-				this.keyword = keyword;
-				if(this.keyword !== ''){
-					var params = {keyword:this.keyword};
-					this.$Http.post('/search/store',params).then(res => {
-						if(res.statusCode === 200){
-							uni.navigateTo({
-								url: "/pages/goods/lists?keyword=" + this.keyword
-							});
-						}
-					})
-				}
-			},
-			delTap(val = ''){
-				var params = {};
-				if(val !== ''){
-					params.keyword = val;
-				}
-				this.$Http.get('/search/destroy',params).then(res => {
-					if(res.statusCode === 200){
-						uni.showToast({
-							title: '删除成功!',
-							icon: 'none'
-						});
-						this.deleteView = false;
-						this.base_init();
+			sortBy(type, sort = '') {
+				if(type == 'filter'){
+					if(this.icon_type == 'filter') {
+						this.icon_type = '';
+					}else{
+						this.icon_type = 'filter';
 					}
-				})
-			},
-			searchInput(event) {
-				let value = event.detail.value;
-				this.searchKey = value;
-				if(value) {
-					this.search_close = true;
-				} else {
-					this.search_close = false;
-				}
-			},
-			closeInput() {
-				this.searchKey = '';
-				this.search_close = false;
-			},
-			deleteTap() {
-				this.deleteView = true;
-			},
-			logTap() {
-				this.deleteView = false;
-			},
-			searchTap() {
-				if(this.keyword == ''){
-					uni.showToast({
-						title: '搜索内容不能为空！',
-						icon: 'none'
-					});
 					return false;
 				}
-				var params = {keyword:this.keyword};
-				this.$Http.post('/search/store',params).then(res => {
-					if(res.statusCode === 200){
-						uni.navigateTo({
-							url: "/pages/goods/lists?keyword=" + this.keyword
-						});
+				
+				if(type == 'sales'){
+					if(sort == 'triangledownfill'){
+						this.sales_icon = 'triangleupfill';
+					}else{
+						this.sales_icon = 'triangledownfill';
 					}
+					return false;
+				}
+				
+				if(type == 'score'){
+					
+					return false;
+				}
+				
+				if(type == 'deploy'){
+					if(sort == 'apps'){
+						this.deploy_icon = 'list';
+					}else{
+						this.deploy_icon = 'apps';
+					}
+					return false;
+				}
+					
+			},
+			hideModal(e) {
+				this.icon_type = null
+			},
+			/*下拉刷新的回调 */
+			downCallback() {
+				this.mescroll.resetUpScroll()
+			},
+			upCallback(page) {
+				this.$Http.get('/goods/lists?type=1&channel=pdd&pageNum='+page.num+'&pageSize='+page.size+'&goods_type=1&keyword=' + this.keyword).then(res => {
+					if(page.num == 1) this.goods_lists = [];
+					this.goods_lists=this.goods_lists.concat(res.lists);
+					this.mescroll.endSuccess(res.lists.length);
+				}).catch(()=>{
+					//联网失败, 结束加载
+					this.mescroll.endErr();
 				})
+			},
+			BackPage() {
+				uni.navigateBack();
+			},
+			tabSelect(e) {
+				this.TabCur = e.currentTarget.dataset.id;
+			},
+			goodsInfo(e) {
+				uni.navigateTo({
+					url: "/pages/goods/detail?g=" + e.data.sign_key +"&c=" + e.data.platform_type
+				});
+			},
+			searchTap(){
+				this.goods_lists = []
+				this.mescroll.resetUpScroll()
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.ui-bar-search-title-box {
-	    .cu-bar {
-	        padding-top: var(--status-bar-height);
-	        min-height: calc(var(--status-bar-height) + 101rpx);
-	        .content {
-	            top: var(--status-bar-height);
-	            width: calc(100% - 181.81rpx);
-	        }
-	        .search-form [class*="cuIcon-"] {
-	            margin: 0 0.8em 0 0.8em;
-	        }
-	        .search-form {
-	            /* #ifdef MP */
-	            margin-right: 181.81rpx;
-	            /* #endif */
-	            margin-left: 9.09rpx;
-	            .close-icon {
-	                font-size: 29.09rpx;
-	            }
-	        }
-	    }
-	    .cu-bar.fixed.no-shadow {
-	        box-shadow: inherit;
-	    }
-	    .cu-bar.bg-white {
-	        color: #333333;
-	    }
-	    .ui-seat-height {
-	        width: 100%;
-	        height: calc(var(--status-bar-height) + 101rpx);
-	    }
+	.search {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 9999;
+	}
+	.goods-list-box {
+		margin-top: 170upx;
 	}
 	
-	.ui-search-list-view {
-	    position: relative;
-	    width: 100%;
-	    .search-list-view {
-	        .search-bar-view {
-	            position: relative;
-	            margin-bottom: 18.18rpx;
-	            width: 100%;
-	            .icon-right {
-	                position: absolute;
-	                right: 0;
-	                top: 5.45rpx;
-	            }
-	            .text-right {
-	                position: absolute;
-	                right: 0;
-	                top: 4rpx;
-	                text+text {
-	                    margin-left: 27.27rpx;
-	                }
-	            }
-	        }
-	        .btn-view {
-	            position: relative;
-	            padding-bottom: 36.36rpx;
-	            width: 100%;
-	            .cu-btn {
-	                color: #333333;
-	                height: 54.54rpx;
-	                font-size: 23.63rpx;
-	                margin-right: 27.27rpx;
-	                margin-bottom: 18.18rpx;
-	                .close-icon {
-	                    top: 0;
-	                    color: #9c9797;
-	                    right: -9.09rpx;
-	                    position: absolute;
-	                    font-size: 27.27rpx;
-	                }
-	            }
-	        }
-	    }
+	.roud-input {
+		width: 185upx;
+		border: 3upx solid #e6e6e6;
+		border-radius:38upx;
+		height: 58upx;
+		padding: 3upx 26upx;
+		line-height: 58upx;
 	}
+	
+	.ui-tabbar-view-box{
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+	}
+	@import "../../static/style/sort_list.scss";
 </style>

@@ -89,6 +89,15 @@
 			"root": "pages/goods",
 			"pages": [
 				{
+					"path": "history",
+					"style": {
+						"disableScroll": true,
+						"navigationBarTextStyle": "black",
+						"navigationBarBackgroundColor": "#fff",
+						"navigationBarTitleText": ""
+					}
+				},
+				{
 					"path": "search",
 					"style": {
 						"disableScroll": true,
@@ -100,9 +109,9 @@
 				{
 					"path": "lists",
 					"style": {
-						"navigationBarTextStyle": "black",
-						"navigationBarBackgroundColor": "#fff",
-						"navigationBarTitleText": ""
+						"navigationBarTextStyle": "#fff",
+						"navigationBarBackgroundColor": "#2B2E3D",
+						"navigationBarTitleText": "好货精选"
 					}
 				},
 				{
