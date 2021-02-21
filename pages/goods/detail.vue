@@ -146,8 +146,11 @@
 		components: {
 			qrcodePoster,
 		},
-		onLoad(e) {
-			this.getGoodsInfo(e);
+		onLoad(options) {
+			if(options.scene !== undefined){
+				options = this.$Tool.getJson(decodeURIComponent(options.scene).split('&'));
+			}
+			this.getGoodsInfo(options);
 			// this.TowerSwiper('swiperList');
 		},
 		methods: {

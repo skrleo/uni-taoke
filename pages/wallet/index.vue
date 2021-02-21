@@ -17,7 +17,7 @@
 							<view class="text-gray text-sm" style="height: 48px;display: table-cell;vertical-align:middle">
 								<view class="text-orange line-height grid">
 									<view>
-										<text class="text-xxl margin-right">{{ wallet.balance_fee || 0.00 }}</text>
+										<text class="text-xxl margin-right">{{ this.$Tool.toMoney(wallet.balance_fee) || 0.00 }}</text>
 									</view>
 									<button class="cu-btn bg-orange shadow sm" @tap="extractTap">提现</button>
 								</view>
@@ -35,7 +35,7 @@
 							</view>
 							<view class="text-gray text-sm" style="height: 38px;display: table-cell;vertical-align:middle">
 								<view class="text-orange line-height">
-								<text class="text-xl margin-right">{{ wallet.wallet_outcome || 0.00 }}</text>
+								<text class="text-xl margin-right">{{ this.$Tool.toMoney(wallet.wallet_outcome) || 0.00 }}</text>
 								</view>
 							</view>
 						</view>
@@ -62,6 +62,74 @@
 						<view>上月预估收益(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
 							<text class="text-xl text-black">{{ wallet.current_month_income || 0.00 }}</text>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		
+		<view class="cu-list menu sm-border margin-bottom-xs">
+			<view class="cu-item">
+				<view class="content">
+					<text class="text-black">推广渠道</text>
+				</view>
+				
+				<view class="action">
+					<text class="text-grey text-sm" @tap="orderTap">订单详情<text class="cuIcon-right"></text></text>
+				</view>
+			</view>
+			<view class="cu-item grid col-1">
+				
+				<scroll-view scroll-x class="bg-white nav text-center">
+					<view class="cu-item" :class="0==TabCur?'text-red':''" @tap="tabSelect" data-id="0">
+						<text class="cuIcon-camerafill"></text> 拼多多
+					</view>
+					<view class="cu-item" :class="1==TabCur?'text-red':''" @tap="tabSelect" data-id="1">
+						<text class="cuIcon-upstagefill"></text> 京东
+					</view>
+					<view class="cu-item" :class="2==TabCur?'text-red':''" @tap="tabSelect" data-id="2">
+						<text class="cuIcon-clothesfill"></text> 唯品会
+					</view>
+				</scroll-view>
+				
+<!-- 				<view class="grid col-3">
+					<view class="margin-tb-sm text-center">
+						<button class="cu-btn round lines-red sm">拼多多</button>
+					</view>
+					<view class="margin-tb-sm text-center">
+						<button class="cu-btn round lines-gray sm">京东</button>
+					</view>
+					<view class="margin-tb-sm text-center">
+						<button class="cu-btn round lines-gray sm">唯品会</button>
+					</view>
+					<view class="margin-tb-sm text-center">
+						<button class="cu-btn round lines-gray sm">近30天</button>
+					</view>
+				</view> -->
+				
+				<view class="grid col-2 bg-gray padding radius margin-bottom-sm">
+					<view style="display: block;width: 50%;text-align: center;">
+						<view>订单笔数(元)<text class="cuIcon-question"></text></view>
+						<view class="text-sm margin-tb-sm">
+							<text class="text-xl text-black">0.00</text>
+						</view>
+					</view>
+					<view style="display: block;width: 50%;text-align: center;">
+						<view>订单金额(元)<text class="cuIcon-question"></text></view>
+						<view class="text-sm margin-tb-sm">
+							<text class="text-xl text-black">0.00</text>
+						</view>
+					</view>
+					<view style="display: block;width: 50%;text-align: center;">
+						<view>成团笔数(元)<text class="cuIcon-question"></text></view>
+						<view class="text-sm margin-top-sm">
+							<text class="text-xl text-black">0.00</text>
+						</view>
+					</view>
+					<view style="display: block;width: 50%;text-align: center;">
+						<view>预估金额(元)<text class="cuIcon-question"></text></view>
+						<view class="text-sm margin-top-sm">
+							<text class="text-xl text-black">0.00</text>
 						</view>
 					</view>
 				</view>
@@ -130,6 +198,8 @@
 	export default {
 		data() {
 			return {
+				TabCur: 0,
+				scrollLeft: 0,
 				anmiaton:'',
 				wallet:[],
 				dotStyle: false,
@@ -175,6 +245,10 @@
 				uni.navigateTo({
 					url: '/pages/wallet/extract'
 				});
+			},
+			tabSelect(e) {
+				this.TabCur = e.currentTarget.dataset.id;
+				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
 			}
 		}
 	}

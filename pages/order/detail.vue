@@ -8,15 +8,11 @@
 						<text>{{order.goods_name}}</text>
 					</view>
 					<view class="flex justify-between">
-						<text class="text-red through">￥{{order.goods_price}}</text>
-						<text class="text-gray">x{{order.buy_num}}</text>
+						<text class="text-red through">￥{{order.goods_price || '0.00'}}</text>
+						<text class="text-gray">x{{order.buy_num || 1}}</text>
 					</view>
 				</view>
-			</view><!-- 
-			<view class="flex justify-between padding-lr margin-top-lg">
-				<text class="text-red through">预计佣金：￥{{order.promotion_amount}}</text>
-				<text class="text-black">实付金额：￥<text class="text-xl">{{order.order_amount}}</text></text>
-			</view> -->
+			</view>
 		</view>
 		
 		<view class="cu-list menu sm-border margin-top-sm">
@@ -41,7 +37,7 @@
 					<text class="text-black">下单时间</text>
 				</view>
 				<view class="action">
-					<text class="text-grey">{{order.order_create_time}}</text>
+					<text class="text-grey">{{order.order_create_time || '无'}}</text>
 				</view>
 			</view>
 			<view class="cu-item">
@@ -57,8 +53,8 @@
 		<!-- 底部操作栏 -->
 		<view class="bg-white ui-tabbar-view-box">
 			<view class="flex justify-between padding">
-				<text class="text-red through">预计佣金：￥{{order.promotion_amount}}</text>
-				<text class="text-black">实付金额：￥<text class="text-xl">{{order.order_amount}}</text></text>
+				<text class="text-red through">预计佣金：￥{{order.promotion_amount || '0.00'}}</text>
+				<text class="text-black">实付金额：￥<text class="text-xl">{{order.order_amount || '0.00'}}</text></text>
 			</view>
 		</view>
 	</view>

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="cu-bar order_type_list bg-white">
-			<view class="cu-item flex-sub text-center" :class="index==TabCur?'text-black text-bold':''" v-for="(item,index) in nav_list" :key="index" @tap="tabSelect" :data-id="index">
+			<view class="cu-item flex-sub text-center" :class="index==TabCur?'text-black text-bold cur':''" v-for="(item,index) in nav_list" :key="index" @tap="tabSelect" :data-id="index">
 				{{item}}
 			</view>
 		</view>

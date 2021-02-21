@@ -21,7 +21,7 @@
 				<button class="cu-btn bg-black margin-tb-sm lg" open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo">微信一键登录</button>
 			</view>
 			
-			<view class="cu-modal" :class="showModal==true?'show':''"  style="margin-top: 50upx;">
+			<view class="cu-modal" :class="showModal==true?'show':''" style="margin-top: 50upx;">
 				<view class="cu-dialog">
 					<view class="padding-xl">
 						<view class="margin-top-lg margin-left-lg">
@@ -122,18 +122,17 @@
 					uni.getUserInfo({
 						provider: 'weixin',
 						success: (info) => {
-							console.log(info)
 							var params = {
-								'encrypted': e.detail.encryptedData,
-								'session': this.sessionKey,
-								'iv' : e.detail.iv,
-								'openid' : this.openid,
-								'avatar_url' : info.userInfo.avatarUrl,
-								'nickname' : info.userInfo.nickName,
-								'sex' : info.userInfo.gender,
-								'country' : info.userInfo.country,
-								'province' : info.userInfo.province,
-								'city' : info.userInfo.city,
+								encrypted: e.detail.encryptedData,
+								session: this.sessionKey,
+								iv : e.detail.iv,
+								openid : this.openid,
+								avatar_url : info.userInfo.avatarUrl,
+								nickname : info.userInfo.nickName,
+								sex : info.userInfo.gender,
+								country : info.userInfo.country,
+								province : info.userInfo.province,
+								city : info.userInfo.city,
 							}
 							this.$Http.post('/wx/oauth',params).then(res => {
 								if(res.statusCode == 200){

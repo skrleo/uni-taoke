@@ -9,6 +9,9 @@ Vue.config.productionTip = false
 // 助手函数库
 import $U from '@/utils/util.js';
 Vue.prototype.$U = $U
+// 工具函数库
+import $Tool from '@/utils/tools.js';
+Vue.prototype.$Tool = $Tool
 // 引入请求库
 import $Http from '@/service/http.js';
 Vue.prototype.$Http = $Http

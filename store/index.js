@@ -24,6 +24,15 @@ export default new Vuex.Store({
 			state.token = data.token
 			uni.setStorageSync('user', JSON.stringify(data));
 		},
+		// 更新资料
+		sync(state,obj){
+			if(state.user){
+				state.user.sex = obj.sex
+				state.user.nickname = obj.nickname
+				state.user.avatar_url = obj.avatar_url
+				uni.setStorageSync('user', JSON.stringify(state.user));
+			}
+		},
 		// 退出登录
 		logout(state){
 			state.loginStatus = false
