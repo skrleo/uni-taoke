@@ -79,88 +79,7 @@
 		</view>
 		
 		<view class="ui-goods-list-box" v-if="goods_lists.length > 0">
-			<view class="flex flex-wrap">
-				<view class="basis-df padding-sm">
-					<block v-for="(item,index) in goods_lists" :key="index" v-if="index%2==0">
-						<view class="bg-white margin-bottom-sm list-radius" @click='goodsInfo(item)'>
-							<view class="goods-img">
-								<image :src="item.goods_thumb" mode="widthFix" lazy-load/>
-							</view>
-							<view class="padding-xs">
-								<view class="text-cut-2 text-black">{{item.goods_name}}</view>
-								<view class="margin-top-xs">
-									<view class="flex">
-										<view class="flex-sub">
-											<text class="text-price text-red text-xl text-left">{{item.goods_price}}</text>
-										</view>
-										<view class="flex-sub text-right">
-											<text class="cu-tag line-orange sm radius" v-if="item.has_coupon">券</text>
-											<text class="cu-tag light bg-red radius sm ">返<text class="text-price">{{item.commission_price}}</text></text>
-										</view>
-									</view>
-								</view>
-								<view class="margin-top-sm margin-bottom-xs text-gray user-info-box">
-									<view class="flex">
-										<view class="flex-sub">
-											<view class="flex flex-wrap user-info">
-												<view class="basis-xs">
-													<image class="cu-avatar sm round" :src="item.platform_logo" mode="widthFix" />
-												</view>
-												<!-- <view class="basis-xl text-cut line-height">
-													<text class="text-sm">xx</text>
-												</view> -->
-											</view>
-										</view>
-										<view class="flex-sub text-right">
-											<text class="text-sm">{{item.sale_num}}已购</text>
-										</view>
-									</view>
-								</view>
-							</view>
-						</view>
-					</block>
-				</view>
-				<view class="basis-df padding-sm padding-left-xs">
-					<block v-for="(item,index) in goods_lists" :key="index" v-if="index%2!=0">
-						<view class="bg-white margin-bottom-sm list-radius" @click='goodsInfo(item)'>
-							<view class="goods-img">
-								<image :src="item.goods_thumb" mode="widthFix" lazy-load/>
-							</view>
-							<view class="padding-xs">
-								<view class="text-cut-2 text-black">{{item.goods_name}}</view>
-								<view class="margin-top-xs">
-									<view class="flex">
-										<view class="flex-sub">
-											<text class="text-price text-red text-xl text-left">{{item.goods_price}}</text>
-										</view>
-										<view class="flex-sub text-right">
-											<text class="cu-tag line-orange sm radius" v-if="item.has_coupon">券</text>
-											<text class="cu-tag light bg-red radius sm ">返<text class="text-price">{{item.commission_price}}</text></text>
-										</view>
-									</view>
-								</view>
-								<view class="margin-top-sm margin-bottom-xs text-gray user-info-box">
-									<view class="flex">
-										<view class="flex-sub">
-											<view class="flex flex-wrap user-info">
-												<view class="basis-xs">
-													<image class="cu-avatar sm round" :src="item.platform_logo" mode="widthFix" />
-												</view>
-												<!-- <view class="basis-xl text-cut line-height">
-													<text class="text-sm">xx</text>
-												</view> -->
-											</view>
-										</view>
-										<view class="flex-sub text-right text-center">
-											<text class="text-sm">{{item.sale_num}}已购</text>
-										</view>
-									</view>
-								</view>
-							</view>
-						</view>
-					</block>
-				</view>
-			</view>
+			<goods-grid-list :list_data="goods_lists" @listTap="goodsInfo"></goods-grid-list>
 		</view>
 		</mescroll-body>
 	</view>
@@ -169,10 +88,13 @@
 <script>
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import MescrollBody from "@/components/mescroll-uni/mescroll-body.vue";
+	import goodsGridList from '@/components/goods/goods-grid-list';
+	
 	export default {
 		mixins: [MescrollMixin], // 使用mixin
 		components: {
-			MescrollBody
+			MescrollBody,
+			goodsGridList
 		},
 		data() {
 			return {
@@ -193,12 +115,39 @@
 						tip: '暂无更多'
 					}
 				},
+				share:{
+					title:'甄选好货，购物不仅能省钱还能赚钱',
+					path:'/pages/index/home',
+					imageUrl:'',
+					desc:'',
+					content:''
+				}
 			};
 			InputBottom: 0
 		},
 		onLoad() {
 			this.base_init();
 			this.TowerSwiper('banner_list');
+		},
+		onShareAppMessage(res) {
+			return {
+				title:this.share.title,
+				path:this.share.path,
+				imageUrl:this.share.imageUrl,
+				desc:this.share.desc,
+				content:this.share.content,
+				success(res){
+					uni.showToast({
+						title:'分享成功'
+					})
+				},
+				fail(res){
+					uni.showToast({
+						title:'分享失败',
+						icon:'none'
+					})
+				}
+			}
 		},
 		methods: {
 			searchTap() {
@@ -253,7 +202,7 @@
 			},
 			goodsInfo(e) {
 				uni.navigateTo({
-					url: "/pages/goods/detail?g=" + e.sign_key +"&c=" + e.platform_type
+					url: "/pages/goods/detail?g=" + e.data.sign_key +"&c=" + e.data.platform_type
 				});
 			},
 			DotStyle(e) {

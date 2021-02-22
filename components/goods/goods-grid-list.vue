@@ -22,17 +22,17 @@
 							</view>
 							<view class="margin-top-sm margin-bottom-xs text-gray user-info-box">
 								<view class="flex">
-									<view class="flex-sub">
-										<view class="flex flex-wrap user-info">
+									<view class="flex-sub" style="width: 65%;">
+										<view class="flex justify-start user-info">
 											<view class="basis-xs">
 												<image class="cu-avatar sm round" :src="item.platform_logo" mode="widthFix" />
 											</view>
-											<!-- <view class="basis-xl text-cut line-height">
-												<text class="text-sm">xx</text>
-											</view> -->
+											<view class="basis-xl text-cut line-height" style="padding-top: 10upx;">
+												<text class="text-sm">{{item.mall_name}}</text>
+											</view>
 										</view>
 									</view>
-									<view class="flex-sub text-right">
+									<view class="flex-sub text-right" style="padding-top: 10upx;">
 										<text class="text-sm">{{item.sale_num}}已购</text>
 									</view>
 								</view>
@@ -62,17 +62,17 @@
 							</view>
 							<view class="margin-top-sm margin-bottom-xs text-gray user-info-box">
 								<view class="flex">
-									<view class="flex-sub">
-										<view class="flex flex-wrap user-info">
+									<view class="flex-sub" style="width: 65%;">
+										<view class="flex justify-start user-info">
 											<view class="basis-xs">
 												<image class="cu-avatar sm round" :src="item.platform_logo" mode="widthFix" />
 											</view>
-											<!-- <view class="basis-xl text-cut line-height">
-												<text class="text-sm">xx</text>
-											</view> -->
+											<view class="basis-xl text-cut line-height" style="padding-top: 10upx;">
+												<text class="text-sm">{{item.mall_name}}</text>
+											</view>
 										</view>
 									</view>
-									<view class="flex-sub text-right text-center">
+									<view class="flex-sub text-right" style="padding-top: 10upx;">
 										<text class="text-sm">{{item.sale_num}}已购</text>
 									</view>
 								</view>

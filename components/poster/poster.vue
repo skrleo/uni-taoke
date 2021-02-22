@@ -1,7 +1,7 @@
 <template>
 	<view class="content" v-if="isShow" @click.stop="isShow=false">
 		<canvas @click.stop="" :style="{ width: canvasW + 'px', height: canvasH + 'px' }" canvas-id="my-canvas"></canvas>
-		<view class="save-btn" @click.stop="saveImage">保存图片</view>
+		<view class="save-btn" @click.stop="saveImage" v-if="showSaveBtn">保存图片</view>
 	</view>
 </template>
 
@@ -31,7 +31,8 @@
 				canvasH: 0,
 				ctx: null,
 				isShow: false,
-				qrcode: ''
+				qrcode: '',
+				showSaveBtn: false
 			}
 		},
 		methods:{
@@ -125,6 +126,7 @@
 				setTimeout(()=>{
 					this.ctx.draw(true,()=>{
 						uni.hideLoading()
+						this.showSaveBtn = true;
 					})
 				},500)
 			},
@@ -195,64 +197,70 @@
 						src: imgSrc,
 						success: (image) => {
 							resolve(image);
-							console.log('获取图片成功',image)
 						},
 						fail: (err) => {
 							reject(err);
-							console.log('获取图片失败',err)
+							this.ctx.draw(true,()=>{
+								uni.hideLoading()
+								this.isShow = false
+							})
+							uni.showModal({
+								content: '海报合成失败！',
+								showCancel: false
+							})
 						}
 					});
 				});
 			},
 			//保存图片到相册
 			saveImage(){
-				//判断用户授权
-				uni.getSetting({
-				   success(res) {
-				      console.log('获取用户权限',res.authSetting)
-					  if(Object.keys(res.authSetting).length>0){
-						  //判断是否有相册权限
-						  if(res.authSetting['scope.writePhotosAlbum']==undefined){
-							  //打开设置权限
-							  uni.openSetting({
-							    success(res) {
-							      console.log('设置权限',res.authSetting)
-							    }
-							  })
-						  }else{
-							  if(!res.authSetting['scope.writePhotosAlbum']){
-								  //打开设置权限
-								  uni.openSetting({
-								    success(res) {
-								      console.log('设置权限',res.authSetting)
-								    }
-								  })
-							  }
-						  }
-					  }else{
-						  return
-					  }
-				   }
-				})
 				var that = this
 				uni.canvasToTempFilePath({
 					canvasId: 'my-canvas',
 					quality: 1,
 					complete: (res) => {
-						console.log('保存到相册',res);
 						uni.saveImageToPhotosAlbum({
 							filePath: res.tempFilePath,
-							success(res) {
-								uni.showToast({
-									title: '已保存到相册',
-									icon: 'success',
-									duration: 2000
+							success: function(res) {
+								uni.showModal({
+									content: '已保存至相册',
+									showCancel: false
 								})
 								setTimeout(()=>{
 									that.isShow = false
 								},2000)
+							},
+							fail(e) {
+								uni.authorize({
+									scope: 'scope.writePhotosAlbum',
+									success: (res) => {
+										// console.log('11111');
+									},
+									fail: (res) => {
+										uni.showModal({
+											content: '检测到您没打开获取信息功能权限，是否去设置打开？',
+											confirmText: "确认",
+											cancelText: '取消',
+											success: (res) => {
+												if (res.confirm) {
+													uni.openSetting({
+														success: (res) => {
+															console.log(res);
+														}
+													})
+												} else {
+													console.log('取消');
+												}
+											}
+										})
+									}
+								})
+								// console.error('saveImageToPhotosAlbum', e)
+							},
+							complete() {
+								// uni.hideLoading()
 							}
-						})
+						});
 					}
 				},this);
 			}

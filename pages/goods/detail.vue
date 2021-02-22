@@ -153,6 +153,26 @@
 			this.getGoodsInfo(options);
 			// this.TowerSwiper('swiperList');
 		},
+		onShareAppMessage(res) {
+			return {
+				title:this.goodsInfo.goods_name,
+				path:'/pages/goods/detail?g=' + e.goodsInfo.sign_key +"&c=" + e.goodsInfo.platform_type,
+				imageUrl:this.goodsInfo.thumb_urls[0].url,
+				desc:this.goodsInfo.goods_name,
+				content:this.goodsInfo.goods_name,
+				success(res){
+					uni.showToast({
+						title:'分享成功'
+					})
+				},
+				fail(res){
+					uni.showToast({
+						title:'分享失败',
+						icon:'none'
+					})
+				}
+			}
+		},
 		methods: {
 			getGoodsInfo(e) {
 				var params = {
