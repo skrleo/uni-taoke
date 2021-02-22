@@ -86,8 +86,10 @@
 		},
 		methods: {
 			base_init(e) {
-				console.log(e)
-				var params = {order_sn:e.order_sn}
+				var params = {
+					order_sn:e.order_sn,
+					channel:e.platform_type
+				}
 				this.$Http.get('/order/detail',params).then(res => {
 					if(res.statusCode !== 200){
 						uni.showToast({

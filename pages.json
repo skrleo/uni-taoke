@@ -53,14 +53,25 @@
 			]
 		},
 		{
+			"root": "pages/rich",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTextStyle": "black",
+						"navigationBarBackgroundColor": "#fff"
+					}
+				}
+			]
+		},
+		{
 			"root": "pages/h5",
 			"pages": [
 				{
 					"path": "index",
 					"style": {
 						"navigationBarTextStyle": "black",
-						"navigationBarBackgroundColor": "#fff",
-						"navigationBarTitleText": ""
+						"navigationBarBackgroundColor": "#fff"
 					}
 				}
 			]
@@ -85,7 +96,8 @@
 					}
 				}
 			]
-		},{
+		},
+		{
 			"root": "pages/goods",
 			"pages": [
 				{
@@ -110,8 +122,7 @@
 					"path": "lists",
 					"style": {
 						"navigationBarTextStyle": "#fff",
-						"navigationBarBackgroundColor": "#2B2E3D",
-						"navigationBarTitleText": "好货精选"
+						"navigationBarBackgroundColor": "#2B2E3D"
 					}
 				},
 				{

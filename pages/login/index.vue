@@ -38,7 +38,7 @@
 			</view>
 			
 			<view class="flex align-center justify-center text-muted protocol bg-white">
-				注册即代表同意<text class="text-red">《用户协议》</text>
+				注册即代表同意<text class="text-red" @tap="protocolTap">《用户协议》</text>
 			</view>
 		</view>
 	</page>
@@ -69,6 +69,11 @@
 			}
 		},
 		methods: {
+			protocolTap: function(){
+				uni.navigateTo({
+					url: "../rich/index?type=1"
+				});
+			},
 			getUserInfo: function(){
 				// #ifdef MP-WEIXIN
 				uni.getProvider({

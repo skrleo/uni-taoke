@@ -28,6 +28,26 @@
 		},
 		onLoad() {
 			this.base_init();
+		},		
+		onShareAppMessage(res) {
+			return {
+				title: '点外卖领券还可以省钱,美食外卖红包天天领！',
+				path:'/pages/index/activity',
+				imageUrl:'',
+				desc:'',
+				content:'',
+				success(res){
+					uni.showToast({
+						title:'分享成功'
+					})
+				},
+				fail(res){
+					uni.showToast({
+						title:'分享失败',
+						icon:'none'
+					})
+				}
+			}
 		},
 		methods: {
 			base_init() {

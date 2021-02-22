@@ -85,8 +85,10 @@
 		methods: {
 			base_init() {
 				this.$Http.get('/search/lists').then(res => {
-					this.history = res.data.history;
-					this.suggest = res.data.suggest;
+					if(res.statusCode == 200){
+						this.history = res.data.history;
+						this.suggest = res.data.suggest;
+					}
 				})
 			},
 			searchWord(keyword) {
