@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<view class="bg-white goods-list-bg" :style="{
+		<!-- <view class="bg-white goods-list-bg" :style="{
 						'background-image': 'url(' + goods_top_bg + ')'
 					}">
-		</view>
+		</view> -->
 
 		<view class="goods-list-box">
 			<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
@@ -100,7 +100,7 @@
 	}
 	
 	.goods-list-box {
-		margin-top: 100px;
+		// margin-top: 100px;
 	}
 	
 	.ui-tabbar-view-box{

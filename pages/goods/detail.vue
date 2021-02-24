@@ -141,6 +141,7 @@
 				direction: '',
 				goodsInfo:[],
 				is_show_model:false
+				is_show_model:false,
 			};
 		},
 		components: {
@@ -154,9 +155,10 @@
 			// this.TowerSwiper('swiperList');
 		},
 		onShareAppMessage(res) {
+			console.log(res);
 			return {
-				title:this.goodsInfo.goods_name,
-				path:'/pages/goods/detail?g=' + e.goodsInfo.sign_key +"&c=" + e.goodsInfo.platform_type,
+				title: this.goodsInfo.goods_name,
+				path:'/pages/goods/detail?g=' + this.goodsInfo.sign_key +"&c=" + this.goodsInfo.platform_type,
 				imageUrl:this.goodsInfo.thumb_urls[0].url,
 				desc:this.goodsInfo.goods_name,
 				content:this.goodsInfo.goods_name,
