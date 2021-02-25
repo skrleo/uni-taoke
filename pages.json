@@ -49,6 +49,14 @@
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "余额提现"
 					}
+				},
+				{
+					"path": "extractlog",
+					"style": {
+						"navigationBarTextStyle": "#fff",
+						"navigationBarBackgroundColor": "#2B2E3D",
+						"navigationBarTitleText": "提现记录"
+					}
 				}
 			]
 		},

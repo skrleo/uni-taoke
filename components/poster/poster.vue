@@ -204,10 +204,7 @@
 								uni.hideLoading()
 								this.isShow = false
 							})
-							uni.showModal({
-								content: '海报合成失败！',
-								showCancel: false
-							})
+							uni.showToast({title:"海报合成失败！",icon:"none"});
 						}
 					});
 				});

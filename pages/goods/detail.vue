@@ -126,7 +126,7 @@
 		</view>
 		
 		<!-- 海报分享 -->
-		<qrcode-poster ref="poster" :title="goodsInfo.goods_name" :subTitle="goodsInfo.goods_name" :headerImg="goodsInfo.thumb_urls[0].url" :price="goodsInfo.goods_price"></qrcode-poster>
+		<qrcode-poster ref="poster" :title="goodsInfo.goods_name" @touchmove.stop.prevent="moveHandle" :subTitle="goodsInfo.goods_name" :headerImg="goodsInfo.thumb_urls[0].url" :price="goodsInfo.goods_price"></qrcode-poster>
 	</page>
 </template>
 
@@ -140,7 +140,6 @@
 				towerStart: 0,
 				direction: '',
 				goodsInfo:[],
-				is_show_model:false
 				is_show_model:false,
 			};
 		},
@@ -155,7 +154,6 @@
 			// this.TowerSwiper('swiperList');
 		},
 		onShareAppMessage(res) {
-			console.log(res);
 			return {
 				title: this.goodsInfo.goods_name,
 				path:'/pages/goods/detail?g=' + this.goodsInfo.sign_key +"&c=" + this.goodsInfo.platform_type,
@@ -195,7 +193,7 @@
 			sharePoster(){
 				this.checkAuth(()=>{
 					var params = {
-						channel: this.goodsInfo.channel,
+						channel: this.goodsInfo.platform_type,
 						sign_key: this.goodsInfo.sign_key
 					}
 					this.$Http.get('/goods/poster', params).then(res => {
@@ -209,8 +207,8 @@
 			getCoupon() {
 				this.checkAuth(()=>{
 					var params = {
-						channel:'pdd',
-						goods_sign:this.goodsInfo.goods_sign,
+						channel: this.goodsInfo.platform_type,
+						goods_sign: this.goodsInfo.goods_sign,
 						is_mini:1,
 					}
 					this.$Http.get('/goods/transform',params).then(res => {
@@ -241,8 +239,7 @@
 			buyGoods(item) {
 				this.checkAuth(()=>{
 					var params = {
-						type:1,
-						channel:'pdd',
+						channel: item.platform_type,
 						goods_sign:item.goods_sign,
 						is_mini:1,
 					}
@@ -274,7 +271,6 @@
 			DotStyle(e) {
 				this.dotStyle = e.detail.value
 			},
-			// cardSwiper
 			cardSwiper(e) {
 				this.cardCur = e.detail.current
 			},

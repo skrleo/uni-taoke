@@ -80,7 +80,9 @@
 			},
 			tabSelect(e) {
 				this.TabCur = e.currentTarget.dataset.id;
-				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
+				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60;
+				this.order_lists = []; // 先清空列表,显示加载进度
+				this.mescroll.resetUpScroll();
 			},
 			detailTap(e) {
 				uni.navigateTo({
