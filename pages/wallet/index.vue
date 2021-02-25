@@ -11,7 +11,7 @@
 							<view class="content flex-sub">
 								<view class="text-gray text-sm flex justify-between">
 									<text>待提现余额(元)</text>
-									<text>提现记录<text class="cuIcon-right"></text></text>
+									<text @click="recordTap(1)">提现记录<text class="cuIcon-right"></text></text>
 								</view>
 							</view>
 							<view class="text-gray text-sm" style="height: 48px;display: table-cell;vertical-align:middle">
@@ -23,14 +23,14 @@
 								</view>
 							</view>
 							<view class="text-orange text-sm">
-								<text>待提现金额满100元即可提现</text>
+								<text>待提现金额满10元即可提现</text>
 							</view>
 						</view>
 						<view class="content padding-tb-sm">
 							<view class="content flex-sub">
 								<view class="text-gray text-sm flex justify-between">
 									<text>已经结算金额(元) <text class="cuIcon-question"></text></text>
-									<text>结算明细<text class="cuIcon-right"></text></text>
+									<text @click="recordTap(2)">结算明细<text class="cuIcon-right"></text></text>
 								</view>
 							</view>
 							<view class="text-gray text-sm" style="height: 38px;display: table-cell;vertical-align:middle">
@@ -81,31 +81,16 @@
 			<view class="cu-item grid col-1">
 				
 				<scroll-view scroll-x class="bg-white nav text-center">
-					<view class="cu-item" :class="0==TabCur?'text-red':''" @tap="tabSelect" data-id="0">
+					<view class="cu-item" :class="0==platformCur?'text-red':''" @tap="platformType" data-id="0">
 						<text class="cuIcon-camerafill"></text> 拼多多
 					</view>
-					<view class="cu-item" :class="1==TabCur?'text-red':''" @tap="tabSelect" data-id="1">
+					<view class="cu-item" :class="1==platformCur?'text-red':''" @tap="platformType" data-id="1">
 						<text class="cuIcon-upstagefill"></text> 京东
 					</view>
-					<view class="cu-item" :class="2==TabCur?'text-red':''" @tap="tabSelect" data-id="2">
+					<view class="cu-item" :class="2==platformCur?'text-red':''" @tap="platformType" data-id="2">
 						<text class="cuIcon-clothesfill"></text> 唯品会
 					</view>
 				</scroll-view>
-				
-<!-- 				<view class="grid col-3">
-					<view class="margin-tb-sm text-center">
-						<button class="cu-btn round lines-red sm">拼多多</button>
-					</view>
-					<view class="margin-tb-sm text-center">
-						<button class="cu-btn round lines-gray sm">京东</button>
-					</view>
-					<view class="margin-tb-sm text-center">
-						<button class="cu-btn round lines-gray sm">唯品会</button>
-					</view>
-					<view class="margin-tb-sm text-center">
-						<button class="cu-btn round lines-gray sm">近30天</button>
-					</view>
-				</view> -->
 				
 				<view class="grid col-2 bg-gray padding radius margin-bottom-sm">
 					<view style="display: block;width: 50%;text-align: center;">
@@ -149,16 +134,16 @@
 			<view class="cu-item grid col-1">
 				<view class="grid col-4">
 					<view class="margin-tb-sm text-center">
-						<button class="cu-btn round lines-red sm">今日</button>
+						<button class="cu-btn round sm" :class="0==dateRangeCur?'lines-red':'lines-gray'" @tap="dateRangeType" data-id="0">今日</button>
 					</view>
 					<view class="margin-tb-sm text-center">
-						<button class="cu-btn round lines-gray sm">昨日</button>
+						<button class="cu-btn round sm" :class="1==dateRangeCur?'lines-red':'lines-gray'" @tap="dateRangeType" data-id="1">昨日</button>
 					</view>
 					<view class="margin-tb-sm text-center">
-						<button class="cu-btn round lines-gray sm">近7天</button>
+						<button class="cu-btn round sm" :class="2==dateRangeCur?'lines-red':'lines-gray'" @tap="dateRangeType" data-id="2">近7天</button>
 					</view>
 					<view class="margin-tb-sm text-center">
-						<button class="cu-btn round lines-gray sm">近30天</button>
+						<button class="cu-btn round sm" :class="3==dateRangeCur?'lines-red':'lines-gray'" @tap="dateRangeType" data-id="3">近30天</button>
 					</view>
 				</view>
 				
@@ -198,7 +183,8 @@
 	export default {
 		data() {
 			return {
-				TabCur: 0,
+				platformCur: 0,
+				dateRangeCur: 0,
 				scrollLeft: 0,
 				anmiaton:'',
 				wallet:[],
@@ -219,6 +205,8 @@
 					url: '../login/index'
 				});
 			}
+			this.wallet = [];
+			this.base_init();
 		},
 		onLoad(e) {
 			this.base_init();
@@ -236,6 +224,11 @@
 					this.wallet = res.data;
 				})
 			},
+			recordTap(type) {
+				uni.navigateTo({
+					url: '/pages/wallet/record?type=' + type
+				});
+			},
 			orderTap() {
 				uni.navigateTo({
 					url: '../order/lists'
@@ -246,9 +239,12 @@
 					url: '/pages/wallet/extract'
 				});
 			},
-			tabSelect(e) {
-				this.TabCur = e.currentTarget.dataset.id;
+			platformType(e) {
+				this.platformCur = e.currentTarget.dataset.id;
 				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
+			},
+			dateRangeType(e) {
+				this.dateRangeCur = e.currentTarget.dataset.id;
 			}
 		}
 	}

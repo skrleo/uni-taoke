@@ -33,7 +33,7 @@
 										</view>
 									</view>
 									<view class="flex-sub text-right" style="padding-top: 10upx;">
-										<text class="text-sm">{{item.sale_num}}已购</text>
+										<text class="text-sm">{{item.sale_num}}已付款</text>
 									</view>
 								</view>
 							</view>
@@ -73,7 +73,7 @@
 										</view>
 									</view>
 									<view class="flex-sub text-right" style="padding-top: 10upx;">
-										<text class="text-sm">{{item.sale_num}}已购</text>
+										<text class="text-sm">{{item.sale_num}}已付款</text>
 									</view>
 								</view>
 							</view>

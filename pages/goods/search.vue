@@ -11,7 +11,7 @@
 					<text class="text-red">搜索</text>
 				</view>
 			</view>
-			<view>
+			<view class="solid-bottom">
 				<view class="flex p-xs margin-bottom-sm mb-sm">
 					<view class="flex-twice flex justify-around">
 						<view @click="sortBy('score')">
@@ -214,7 +214,7 @@
 		z-index: 9999;
 	}
 	.goods-list-box {
-		margin-top: 170upx;
+		margin-top: 165upx;
 	}
 	
 	.roud-input {

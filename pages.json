@@ -51,7 +51,7 @@
 					}
 				},
 				{
-					"path": "extractlog",
+					"path": "record",
 					"style": {
 						"navigationBarTextStyle": "#fff",
 						"navigationBarBackgroundColor": "#2B2E3D",

@@ -64,9 +64,8 @@
 					this.goods_lists=this.goods_lists.concat(res.lists);
 					if(res.spread !== undefined){
 						uni.setNavigationBarTitle({
-							title: res.spread.barTitle //这是修改后的导航栏文字
+							title: res.spread.barTitle
 						})
-						this.goods_top_bg = res.spread.goodsTopBg;
 					}
 					
 					this.mescroll.endSuccess(res.lists.length);
