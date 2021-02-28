@@ -22,7 +22,7 @@
 							</view>
 							<view class="margin-top-sm margin-bottom-xs text-gray user-info-box">
 								<view class="flex">
-									<view class="flex-sub" style="width: 65%;">
+									<view class="flex-sub" style="width: 55%;">
 										<view class="flex justify-start user-info">
 											<view class="basis-xs">
 												<image class="cu-avatar sm round" :src="item.platform_logo" mode="widthFix" />
@@ -62,7 +62,7 @@
 							</view>
 							<view class="margin-top-sm margin-bottom-xs text-gray user-info-box">
 								<view class="flex">
-									<view class="flex-sub" style="width: 65%;">
+									<view class="flex-sub" style="width: 55%;">
 										<view class="flex justify-start user-info">
 											<view class="basis-xs">
 												<image class="cu-avatar sm round" :src="item.platform_logo" mode="widthFix" />

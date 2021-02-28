@@ -47,7 +47,7 @@
 				</view>
 			</view>
 			<view class="cu-list grid col-4 no-border">
-				<view class="cu-item" v-for="(item,index) in orderTypes" :key="index" @click="orderTap(index)">
+				<view class="cu-item" v-for="(item,index) in orderTypes" :key="index" @click="orderTap(item.value)">
 					<view :class="['cuIcon-' + item.icon,'text-' + item.color]">
 						<view class="cu-tag badge" v-if="item.number!=0">
 							<block v-if="item.number!=1">{{item.number>99?'99+':item.number}}</block>
@@ -102,28 +102,28 @@
 					{
 						label: "待付款",
 						icon: "present",
-						value: 0,
+						value: 1,
 						number: 0
 					},
 					{
 						label: "待发货",
 						icon: "send",
 						color: '7A7E83',
-						value: 1,
+						value: 2,
 						number: 0
 					},
 					{
 						label: "待收货",
 						icon: "deliver",
 						color: '7A7E83',
-						value: 2,
+						value: 3,
 						number: 0
 					},
 					{
 						label: "退款/售后",
 						icon: "refund",
 						color: '7A7E83',
-						value: 3,
+						value: 4,
 						number: 0
 					}
 				],

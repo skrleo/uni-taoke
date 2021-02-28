@@ -5,20 +5,28 @@
 				<view class="cu-item" @tap="listTap(item,index)">
 					<view class="cu-avatar radius lg" :style="[{backgroundImage:'url('+ item.goods_thumb +')'}]"></view>
 					<view class="content">
-						<view class="text-black" style="height: 78px;">
+						<view class="text-black" style="height: 78upx;">
 							<text class="text-cut-2 text-l text-black">
 								<text class="cu-tag bg-red radius sm">拼多多</text>
 								<text>{{item.goods_name}}</text>
 							</text>
 						</view>
-						<view class="flex">
-							<view class="flex-sub">
-								<text class="text-red text-price text-xl">{{item.goods_price}}</text>
-								<text class="text-gray through" v-if="item.original_price">￥{{item.original_price}}</text>
-							</view>
-							<view class="flex-sub text-right">
-								<text class="cu-tag line-orange text-sm sm radius" v-if='item.has_coupon'>券</text>
-								<text class="cu-tag light bg-red radius text-sm sm" v-if='item.commission_price > 0'>返<text class="text-price">{{item.commission_price}}</text></text>
+						
+						<view class="flex" style="margin-top: 8upx;">
+							<text class="text-red text-price text-xl margin-right-sm">{{item.goods_price}}</text>
+							<text class="text-gray through padding-left-xs" v-if="item.original_price">券后价￥{{item.original_price}}</text>
+							<text class="text-sm padding-left-xs margin-right-sm" v-if="item.sale_num">{{item.sale_num}}已付款</text>
+							<text class="cu-tag line-orange text-sm sm radius margin-left-sm" style="margin-top: 9upx;" v-if='item.has_coupon'>券</text>
+							<text class="cu-tag light bg-red radius text-sm sm margin-left-sm" style="margin-top: 9upx;" v-if='item.commission_price > 0'>返<text class="text-price">{{item.commission_price}}</text></text>
+						</view>
+							
+						<view class="margin-bottom-xs text-gray">
+							<view class="flex">
+								<view class="flex-sub">
+									<view class="basis-xl text-cut line-height" style="padding-top: 10upx;">
+										<text class="text-sm"><text class="cuIcon-shop"></text>{{item.mall_name}}</text>
+									</view>
+								</view>
 							</view>
 						</view>
 					</view>

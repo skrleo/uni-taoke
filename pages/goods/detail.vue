@@ -126,7 +126,7 @@
 		</view>
 		
 		<!-- 海报分享 -->
-		<qrcode-poster ref="poster" :title="goodsInfo.goods_name" @touchmove.stop.prevent="moveHandle" :subTitle="goodsInfo.goods_name" :headerImg="goodsInfo.thumb_urls[0].url" :price="goodsInfo.goods_price"></qrcode-poster>
+		<qrcode-poster ref="poster" :title="goodsInfo.goods_name" @touchmove.stop.prevent="moveHandle" :subTitle="goodsInfo.goods_name" :headerImg="goodsInfo.thumb_url" :price="goodsInfo.goods_price"></qrcode-poster>
 	</page>
 </template>
 
@@ -157,7 +157,7 @@
 			return {
 				title: this.goodsInfo.goods_name,
 				path:'/pages/goods/detail?g=' + this.goodsInfo.sign_key +"&c=" + this.goodsInfo.platform_type,
-				imageUrl:this.goodsInfo.thumb_urls[0].url,
+				imageUrl:this.goodsInfo.thumb_url,
 				desc:this.goodsInfo.goods_name,
 				content:this.goodsInfo.goods_name,
 				success(res){

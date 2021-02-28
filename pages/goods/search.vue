@@ -214,7 +214,7 @@
 		z-index: 9999;
 	}
 	.goods-list-box {
-		margin-top: 165upx;
+		margin-top: 150upx;
 	}
 	
 	.roud-input {

@@ -120,10 +120,8 @@
 				{
 					"path": "search",
 					"style": {
-						"disableScroll": true,
 						"navigationBarTextStyle": "black",
-						"navigationBarBackgroundColor": "#fff",
-						"navigationBarTitleText": ""
+						"navigationBarBackgroundColor": "#fff"
 					}
 				},
 				{

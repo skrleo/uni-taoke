@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<view class="cu-bar order_type_list bg-white">
-			<view class="cu-item flex-sub text-center" :class="index==TabCur?'text-black text-bold cur':''" v-for="(item,index) in nav_list" :key="index" @tap="tabSelect" :data-id="index">
-				{{item}}
+			<view class="cu-item flex-sub text-center" :class="index==TabCur?'text-black text-bold cur':''" v-for="(item,index) in nav_list" :key="index" @tap="tabSelect" :data-id="item.value">
+				{{item.name}}
 			</view>
 		</view>
 		<view class="order_lists_box">
@@ -46,11 +46,22 @@
 		},
 		data() {
 			return {
-				nav_list: [
-					'全部',
-					'待付款',
-					'待发货',
-					'待收货',
+				nav_list: [{
+					name: '全部',
+					value: 0,
+				},{
+					name: '待付款',
+					value: 1
+				},{
+					name: '待发货',
+					value: 2
+				},{
+					name: '待收货',
+					value: 3
+				},{
+					name: '退款/售后',
+					value: 4
+				}
 				],
 				TabCur: 0,
 				scrollLeft: 0,
