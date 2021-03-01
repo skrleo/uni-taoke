@@ -12,21 +12,18 @@
 							</text>
 						</view>
 						
-						<view class="flex" style="margin-top: 8upx;">
+						<view class="flex" style="margin-top: 14upx;">
 							<text class="text-red text-price text-xl margin-right-sm">{{item.goods_price}}</text>
 							<text class="text-gray through padding-left-xs" v-if="item.original_price">券后价￥{{item.original_price}}</text>
-							<text class="text-sm padding-left-xs margin-right-sm" v-if="item.sale_num">{{item.sale_num}}已付款</text>
 							<text class="cu-tag line-orange text-sm sm radius margin-left-sm" style="margin-top: 9upx;" v-if='item.has_coupon'>券</text>
 							<text class="cu-tag light bg-red radius text-sm sm margin-left-sm" style="margin-top: 9upx;" v-if='item.commission_price > 0'>返<text class="text-price">{{item.commission_price}}</text></text>
 						</view>
-							
-						<view class="margin-bottom-xs text-gray">
-							<view class="flex">
-								<view class="flex-sub">
-									<view class="basis-xl text-cut line-height" style="padding-top: 10upx;">
-										<text class="text-sm"><text class="cuIcon-shop"></text>{{item.mall_name}}</text>
-									</view>
-								</view>
+						<view class="flex justify-between">
+							<view>
+								<text class="text-sm"><text class="cuIcon-shop"></text>{{item.mall_name}}</text>
+							</view>
+							<view>
+								<text class="text-sm padding-left-xs margin-right-sm" v-if="item.sale_num">{{item.sale_num}}已付款</text>
 							</view>
 						</view>
 					</view>

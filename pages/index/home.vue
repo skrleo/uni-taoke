@@ -82,19 +82,23 @@
 			<goods-grid-list :list_data="goods_lists" @listTap="goodsInfo"></goods-grid-list>
 		</view>
 		</mescroll-body>
+		
+		<modal-confirm :show="modalShow" :content="clipboard" @confirmTap="confirmTap" @closeTap="closeTap"/>
 	</view>
 </template>
 
 <script>
-	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
-	import MescrollBody from "@/components/mescroll-uni/mescroll-body.vue";
 	import goodsGridList from '@/components/goods/goods-grid-list';
+	import modalConfirm from '@/components/basics/modal-confirm';
+	import MescrollBody from "@/components/mescroll-uni/mescroll-body.vue";
+	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	
 	export default {
 		mixins: [MescrollMixin], // 使用mixin
 		components: {
 			MescrollBody,
-			goodsGridList
+			goodsGridList,
+			modalConfirm
 		},
 		data() {
 			return {
@@ -105,7 +109,9 @@
 				grid_list:[],
 				dotStyle: false,
 				towerStart: 0,
+				modalShow: false,
 				direction: '',
+				clipboard: '',
 				upOption: {
 					page: {
 						size: 10 // 每页数据的数量,默认10
@@ -128,6 +134,14 @@
 		onLoad() {
 			this.base_init();
 			this.TowerSwiper('banner_list');
+			uni.getClipboardData({
+				success: (res) => {
+					if(res.data !== ''){
+						this.modalShow = true;
+						this.clipboard = res.data;
+					}
+			　　}
+	　　　　});
 		},
 		onShareAppMessage(res) {
 			return {
@@ -194,6 +208,15 @@
 					this.grid_list = res.data.grid;
 					this.recommend_list = res.data.recommend;
 				})
+			},
+			confirmTap() {
+				this.modalShow = false;
+				uni.navigateTo({
+					url: "/pages/goods/search?keyword=" + this.clipboard
+				});
+			},
+			closeTap() {
+				this.modalShow = false;
 			},
 			swiperInfo(e) {
 				uni.navigateTo({

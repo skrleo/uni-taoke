@@ -92,7 +92,8 @@
 		</view>
 		
 		<!--商品详情-->
-		<view class="margin-top padding bg-white ui-details-view-box">
+		<view class="margin-top bg-white ui-details-view-box">
+			<view class="padding text-black text-lg">商品详情</view>
 			<view class="ui-img-box" v-if="goodsInfo.gallery_urls.length > 0">
 				<image :src="item" v-for="(item,index) in goodsInfo.gallery_urls" :key="index" mode="widthFix"/>
 			</view>

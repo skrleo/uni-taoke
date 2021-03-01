@@ -66,6 +66,9 @@ let _tool = {
 			// num = num.split('.')[1].length < 2 ? '￥' + num + '0' : '￥' + num;
 		}
 		return num;
+	},
+	formatMobile(mobile) {
+		return mobile.replace(/^(.{3}).*(.{4})/, '$1****$2');
 	}
 };
 

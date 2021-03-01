@@ -8,7 +8,7 @@
 						<view class="content flex-sub padding-left-xs margin-top-xs">
 							<view class="text-grey">{{user.nickname}}<text class="cuIcon-refresh margin-left-sm" @tap="refreshTap"></text></view>
 							<view class="text-gray text-sm flex justify-between">
-								手机号：{{user.phone}}
+								手机号：{{ this.$Tool.formatMobile(user.phone)}}
 							</view>
 						</view>
 					</view>
