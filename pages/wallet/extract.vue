@@ -68,7 +68,7 @@
 				this.extract_amount = this.wallet.balance_fee;
 			},
 			submitTap() {
-				if(this.extract_amount > this.wallet.balance_fee){
+				if(parseFloat(this.extract_amount) > parseFloat(this.wallet.balance_fee)){
 					uni.showToast({
 						title: '提现金额不能大于可提现金额',
 						icon: 'none'

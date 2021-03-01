@@ -83,7 +83,7 @@
 						uni.login({
 							provider: 'weixin',
 							success: (res2) => {
-								this.$Http.get('/wx/login?code='+res2.code).then(res => {
+								this.$Http.get('/oauth/login?code='+res2.code).then(res => {
 									if(res.statusCode == 200){
 										if(res.data.is_login){
 											// 修改vuex的state,持久化存储
@@ -139,7 +139,7 @@
 								province : info.userInfo.province,
 								city : info.userInfo.city,
 							}
-							this.$Http.post('/wx/oauth',params).then(res => {
+							this.$Http.post('/oauth/register',params).then(res => {
 								if(res.statusCode == 200){
 									this.showModal=false;
 									// 修改vuex的state,持久化存储

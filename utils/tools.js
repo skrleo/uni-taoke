@@ -53,19 +53,8 @@ let _tool = {
 	    }
 	    return theRequest;
 	},
-	toMoney(num) {
-		num = typeof num == 'string' ? parseFloat(num) : num
-		// num = num.toFixed(2); // 保留两位
-		num = parseFloat(num); // 转成数字
-		num = num.toLocaleString(); // 转成金额显示模式
-		// 判断是否有小数
-		if (num.indexOf('.') === -1) {
-			num = '￥' + num + '.00';
-		} else {
-			// console.log(num.split('.')[1].length)
-			// num = num.split('.')[1].length < 2 ? '￥' + num + '0' : '￥' + num;
-		}
-		return num;
+	toMoney(money) {
+		return parseFloat(money).toLocaleString();
 	},
 	formatMobile(mobile) {
 		return mobile.replace(/^(.{3}).*(.{4})/, '$1****$2');

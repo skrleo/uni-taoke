@@ -131,9 +131,7 @@
 			};
 			InputBottom: 0
 		},
-		onLoad() {
-			this.base_init();
-			this.TowerSwiper('banner_list');
+		onShow() {
 			uni.getClipboardData({
 				success: (res) => {
 					if(res.data !== ''){
@@ -142,6 +140,10 @@
 					}
 			　　}
 	　　　　});
+		},
+		onLoad() {
+			this.base_init();
+			this.TowerSwiper('banner_list');
 		},
 		onShareAppMessage(res) {
 			return {

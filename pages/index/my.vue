@@ -162,7 +162,7 @@
 							province : info.userInfo.province,
 							city : info.userInfo.city,
 						}
-						this.$Http.post('/wx/sync',params).then(res => {
+						this.$Http.post('/oauth/sync',params).then(res => {
 							if(res.statusCode == 200){
 								// 更新用户资料
 								this.$store.commit('sync',params)

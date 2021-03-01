@@ -96,25 +96,25 @@
 					<view style="display: block;width: 50%;text-align: center;">
 						<view>订单笔数(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-tb-sm">
-							<text class="text-xl text-black">0.00</text>
+							<text class="text-xl text-black">{{ analysis.order_number || 0 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
 						<view>订单金额(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-tb-sm">
-							<text class="text-xl text-black">0.00</text>
+							<text class="text-xl text-black">{{ analysis.order_amount || 0.00 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
 						<view>成团笔数(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
-							<text class="text-xl text-black">0.00</text>
+							<text class="text-xl text-black">{{ analysis.order_over || 0.00 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
 						<view>预估金额(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
-							<text class="text-xl text-black">0.00</text>
+							<text class="text-xl text-black">{{ analysis.promotion_amount || 0.00 }}</text>
 						</view>
 					</view>
 				</view>
@@ -151,25 +151,25 @@
 					<view style="display: block;width: 50%;text-align: center;">
 						<view>订单笔数(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-tb-sm">
-							<text class="text-xl text-black">0.00</text>
+							<text class="text-xl text-black">{{ analysis.order_number || 0.00 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
 						<view>订单金额(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-tb-sm">
-							<text class="text-xl text-black">0.00</text>
+							<text class="text-xl text-black">{{ analysis.order_amount || 0.00 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
 						<view>成团笔数(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
-							<text class="text-xl text-black">0.00</text>
+							<text class="text-xl text-black">{{ analysis.order_over || 0.00 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
 						<view>预估金额(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
-							<text class="text-xl text-black">0.00</text>
+							<text class="text-xl text-black">{{ analysis.promotion_amount || 0.00 }}</text>
 						</view>
 					</view>
 				</view>
@@ -190,7 +190,8 @@
 				wallet:[],
 				dotStyle: false,
 				towerStart: 0,
-				direction: ''
+				direction: '',
+				analysis:[]
 			}
 		},
 		computed: {
@@ -222,7 +223,8 @@
 						return false;
 					}
 					this.wallet = res.data;
-				})
+				});
+				this.getOrderAnalysis();
 			},
 			recordTap(type) {
 				uni.navigateTo({
@@ -241,10 +243,28 @@
 			},
 			platformType(e) {
 				this.platformCur = e.currentTarget.dataset.id;
-				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
+				this.getOrderAnalysis();
+				
 			},
 			dateRangeType(e) {
 				this.dateRangeCur = e.currentTarget.dataset.id;
+				this.getOrderAnalysis();
+			},
+			getOrderAnalysis() {
+				var params = {
+					platform_type: this.platformCur,
+					date_range_type: this.dateRangeType,
+				}
+				this.$Http.get('/order/analysis',params).then(res => {
+					if(res.statusCode !== 200){
+						uni.showToast({
+							title: res.message,
+							icon: 'none'
+						});
+						return false;
+					}
+					this.analysis = res.data;
+				})
 			}
 		}
 	}

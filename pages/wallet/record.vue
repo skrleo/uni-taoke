@@ -4,15 +4,15 @@
 			<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
 				<view class="flex solid-bottom padding justify-between" v-for="(item,index) in record_lists" :key="index">
 					<view style="display: block;">
-						<view class="text-lg text-black">{{record_lists.name}}</view>
+						<view class="text-lg text-black">{{item.target_name}}</view>
 						<view class="text-sm" style="padding-top: 3rpx;">
-							<text>{{record_lists.created_at}}</text>
+							<text>{{item.created_at}}</text>
 						</view>
 					</view>
 					<view style="display: block;">
-						<view :class="type == 1?'text-red':''"><text class="text-xl" v-if="type == 1">-</text>{{record_lists.fee}}元</view>
+						<view :class="type == 1?'text-red':''"><text class="text-xl" v-if="type == 1">-</text>{{item.balance_fee}}元</view>
 						<view class="text-sm" style="padding-top: 3rpx;text-align: center;">
-							<text>{{record_lists.status_name}}</text>
+							<text>{{item.status_name}}</text>
 						</view>
 					</view>
 				</view>
