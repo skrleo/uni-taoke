@@ -137,6 +137,21 @@
 					if(res.data !== ''){
 						this.modalShow = true;
 						this.clipboard = res.data;
+						// 剪切内容
+						var self = this;
+						uni.setClipboardData({ 
+							data: '', 
+							success: function() { 
+								uni.hideToast(); 
+								self.clearLoadingTips('复制成功');
+							}
+						}); 
+						setTimeout( _ => { 
+							uni.hideToast(); 
+						}, 1); 
+						this.$nextTick(function() { 
+							uni.hideToast(); 
+						});
 					}
 			　　}
 	　　　　});

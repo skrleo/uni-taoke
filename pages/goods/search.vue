@@ -4,7 +4,7 @@
 			<view class="cu-bar">
 				<view class="search-form round">
 					<text class="cuIcon-search"></text>
-					<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search"></input>
+					<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search" @confirm="searchTap()"></input>
 				</view>
 				
 				<view class="action" @tap="searchTap">
@@ -199,8 +199,20 @@
 				});
 			},
 			searchTap(){
-				this.goods_lists = []
-				this.mescroll.resetUpScroll()
+				if(this.keyword == ''){
+					uni.showToast({
+						title: '搜索内容不能为空！',
+						icon: 'none'
+					});
+					return false;
+				}
+				var params = {keyword:this.keyword};
+				this.$Http.post('/search/store',params).then(res => {
+					if(res.statusCode === 200){
+						this.goods_lists = []
+						this.mescroll.resetUpScroll()
+					}
+				})
 			}
 		}
 	}

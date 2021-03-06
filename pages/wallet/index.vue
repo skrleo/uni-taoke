@@ -19,7 +19,8 @@
 									<view>
 										<text class="text-xxl margin-right">{{ this.$Tool.toMoney(wallet.balance_fee) || 0.00 }}</text>
 									</view>
-									<button class="cu-btn bg-orange shadow sm" @tap="extractTap">提现</button>
+									<button class="cu-btn block bg-orange shadow sm" v-if="wallet.balance_fee > 0" @tap="extractTap">提现</button>
+									<button class="cu-btn block bg-orange shadow sm" v-if="wallet.balance_fee <= 0" disabled type="">提现</button>
 								</view>
 							</view>
 							<view class="text-orange text-sm">
@@ -253,7 +254,7 @@
 			getOrderAnalysis() {
 				var params = {
 					platform_type: this.platformCur,
-					date_range_type: this.dateRangeType,
+					date_type: this.dateRangeCur,
 				}
 				this.$Http.get('/order/analysis',params).then(res => {
 					if(res.statusCode !== 200){

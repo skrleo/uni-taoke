@@ -13,7 +13,8 @@
 				<view class="title">提现金额：￥</view>
 				<input placeholder="0" name="input" type="number" class="text-xxl text-red" v-model="extract_amount"></input>
 			</view>
-			<view class="padding">可提现余额<text class="text-red">￥{{wallet.balance_fee || 0.00}}</text>，<text class="text-blue" @tap="extractTap">全部提现</text></view>
+			<view class="padding-lr padding-top">可提现余额<text class="text-red">￥{{wallet.balance_fee || 0.00}}</text>，<text class="text-blue" @tap="extractTap">全部提现</text></view>
+			<text class="text-xs text-red padding-lr"><radio class="checked" checked="true" value="A"></radio>平台按照提现金额的1%收取提现手续费，预计24小时内到账，节假日顺延</text>
 			<view class="padding flex flex-direction">
 				<button class="cu-btn bg-black margin-tb-sm lg" @click="submitTap">24小时到账，确认提现</button>
 			</view>
@@ -68,6 +69,13 @@
 				this.extract_amount = this.wallet.balance_fee;
 			},
 			submitTap() {
+				if(parseFloat(this.extract_amount) <= 0){
+					uni.showToast({
+						title: '提现金额不能小于等于零',
+						icon: 'none'
+					});
+					return false;
+				}
 				if(parseFloat(this.extract_amount) > parseFloat(this.wallet.balance_fee)){
 					uni.showToast({
 						title: '提现金额不能大于可提现金额',

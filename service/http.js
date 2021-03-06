@@ -42,7 +42,7 @@ export default {
 						return rej(result.data)
 					}
 					
-					if (result.statusCode === 401) {
+					if (result.statusCode == 401) {
 						uni.showToast({
 							title:result.data.message || '登录异常',
 							icon: 'none'

@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<!-- <view class="bg-white goods-list-bg" :style="{
+		<view class="bg-white goods-list-bg" v-if="goods_top_bg" :style="{
 						'background-image': 'url(' + goods_top_bg + ')'
 					}">
-		</view> -->
+		</view>
 
 		<view class="goods-list-box">
 			<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
@@ -34,12 +34,12 @@
 			return {
 				channel:'pdd',
 				goods_type: 2,
-				goods_top_bg: 'https://img.17wangku.com/taoke/5fcf63bba8e29.jpg',
+				goods_top_bg: '',
 				upOption: {
 					page: {
-						size: 10 // 每页数据的数量,默认10
+						size: 10
 					},
-					noMoreSize: 5, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
+					noMoreSize: 5,
 					empty: {
 						tip: '暂无更多'
 					}
@@ -52,8 +52,23 @@
 				this.channel = option.channel;
 				this.goods_type = option.goods_type;
 			}
+			this.base_init();
 		},
 		methods: {
+			base_init() {
+				var params = {
+					channel:this.channel,
+					goods_type:this.goods_type
+				}
+				this.$Http.get('/goods/frequency',params).then(res => {
+					if(res.statusCode == 200){
+						uni.setNavigationBarTitle({
+							title: res.data.title
+						})
+						this.goods_top_bg = res.data.bg_img
+					}
+				})
+			},
 			/*下拉刷新的回调 */
 			downCallback() {
 				this.mescroll.resetUpScroll()
@@ -62,12 +77,6 @@
 				this.$Http.get('/goods/lists?type=1&channel='+this.channel+'&pageNum='+page.num+'&pageSize='+page.size+'&goods_type=' + this.goods_type).then(res => {
 					if(page.num == 1) this.goods_lists = [];
 					this.goods_lists=this.goods_lists.concat(res.lists);
-					if(res.spread !== undefined){
-						uni.setNavigationBarTitle({
-							title: res.spread.barTitle
-						})
-					}
-					
 					this.mescroll.endSuccess(res.lists.length);
 				}).catch(()=>{
 					//联网失败, 结束加载

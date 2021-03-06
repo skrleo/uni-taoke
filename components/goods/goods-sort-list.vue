@@ -14,7 +14,7 @@
 						
 						<view class="flex" style="margin-top: 14upx;">
 							<text class="text-red text-price text-xl margin-right-sm">{{item.goods_price}}</text>
-							<text class="text-gray through padding-left-xs" v-if="item.original_price">券后价￥{{item.original_price}}</text>
+							<text class="text-gray through text-xs margin-right-sm" v-if="item.original_price">原价￥{{item.original_price}}</text>
 							<text class="cu-tag line-orange text-sm sm radius margin-left-sm" style="margin-top: 9upx;" v-if='item.has_coupon'>券</text>
 							<text class="cu-tag light bg-red radius text-sm sm margin-left-sm" style="margin-top: 9upx;" v-if='item.commission_price > 0'>返<text class="text-price">{{item.commission_price}}</text></text>
 						</view>

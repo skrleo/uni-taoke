@@ -14,7 +14,7 @@
 			<view class="margin-tb-sm price-view flex">
 				<view class="flex-sub">
 					<text class="text-price text-red text-xxl">{{goodsInfo.goods_price || 0}}</text>
-					<text class="text-through text-gray text-sm padding-left-xs">原价￥{{goodsInfo.original_price || 0}}</text>
+					<text class="through text-gray text-sm padding-left-xs">原价￥{{goodsInfo.original_price || 0}}</text>
 				</view>
 				<view class="flex-sub text-right">
 					<text class="text-black text-gray text-right">销量 {{goodsInfo.sales_num || 0}}</text>
@@ -247,12 +247,7 @@
 					this.$Http.get('/goods/transform',params).then(res => {
 						var app_id = res.data.we_app_info.app_id;
 						var page_path = res.data.we_app_info.page_path;
-						if(res.data.is_authority === 1){
-							this.navigateTo({
-								appId: app_id,
-								path: page_path
-							}, 2);
-						} else {
+						if(res.data.is_authority !== 1){
 							uni.showModal({
 								title: '授权提示',
 								content: '首次下单需要平台授权，才能绑定您的收益！',
@@ -265,7 +260,15 @@
 									}
 								}
 							});
+							return false;
 						}
+						uni.requestSubscribeMessage({
+							tmplIds: ['hVAFmQd4CLi6MHyiJXfmtKG20GIRpc1Xr3Iz079XDKo','MCQlVChDFA5amZ8R0uqhVDBjaTSxnQEmclJsQpqxTZE','5MXUSoCQBeBZsRnLpeQKeLtxSLc4ZhYAFO_BCl4A7Qo']
+						})
+						this.navigateTo({
+							appId: app_id,
+							path: page_path
+						}, 2);
 					})
 				})
 			},

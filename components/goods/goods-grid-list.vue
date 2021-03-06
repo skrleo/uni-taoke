@@ -27,12 +27,12 @@
 											<view class="basis-xs">
 												<image class="cu-avatar sm round" :src="item.platform_logo" mode="widthFix" />
 											</view>
-											<view class="basis-xl text-cut line-height" style="padding-top: 8upx;">
+											<view class="basis-xl text-cut line-height" style="padding-top: 6upx;">
 												<text class="text-sm">{{item.mall_name}}</text>
 											</view>
 										</view>
 									</view>
-									<view class="flex-sub text-right" style="padding-top: 8upx;">
+									<view class="flex-sub text-right" style="padding-top: 6upx;">
 										<text class="text-sm">{{item.sale_num}}已付款</text>
 									</view>
 								</view>
@@ -67,12 +67,12 @@
 											<view class="basis-xs">
 												<image class="cu-avatar sm round" :src="item.platform_logo" mode="widthFix" />
 											</view>
-											<view class="basis-xl text-cut line-height" style="padding-top: 8upx;">
+											<view class="basis-xl text-cut line-height" style="padding-top: 6upx;">
 												<text class="text-sm">{{item.mall_name}}</text>
 											</view>
 										</view>
 									</view>
-									<view class="flex-sub text-right" style="padding-top: 8upx;">
+									<view class="flex-sub text-right" style="padding-top: 6upx;">
 										<text class="text-sm">{{item.sale_num}}已付款</text>
 									</view>
 								</view>
