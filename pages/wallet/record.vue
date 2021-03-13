@@ -57,7 +57,7 @@
 				this.mescroll.resetUpScroll();
 			},
 			upCallback(page) {
-				this.$Http.get('/extract/record?type=' + this.type).then(res => {
+				this.$Http.get('/extract/record?pageNum='+page.num+'&pageSize='+page.size+'&type=' + this.type).then(res => {
 					if(page.num == 1) this.record_lists = [];
 					this.record_lists=this.record_lists.concat(res.lists);
 					this.mescroll.endSuccess(res.lists.length);

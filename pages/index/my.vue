@@ -27,7 +27,7 @@
 					<view class="cu-item shadow">
 						<view class="cu-item">
 							<view class="content flex-sub padding bg-orange flex justify-between" style="height: 120px;">
-								<view class="text-white">账号权益</view>
+								<view class="text-white">至尊会员享额外特权</view>
 								<view class="margin-tb-sm text-center" @tap="walletTap">
 									<button class="cu-btn round sm shadow bg-black">查看钱包</button>
 								</view>
@@ -66,7 +66,7 @@
 				</view>
 			</view>
 			<view class="cu-item arrow">
-				<navigator class="content" hover-class="none" url="../lists/lists" open-type="redirect">
+				<navigator class="content" @click="jumpTap(2)">
 					<text class="cuIcon-form text-grey"></text>
 					<text class="text-grey">关于我们</text>
 				</navigator>
@@ -138,17 +138,19 @@
 				user:state=>state.user,
 			})
 		},
-		onShow() {
-			if (!this.loginStatus) {
-			  uni.navigateTo({
-				  url: '../login/index'
-			  });
-			}
-		},
-		onLoad(e) {
-			
+		created() {
+		  if (!this.loginStatus) {
+		    uni.navigateTo({
+		  	  url: '../login/index'
+		    });
+		  }
 		},
 		methods: {
+			jumpTap(type) {
+				uni.navigateTo({
+					url: "/pages/rich/index?type=" + type
+				});
+			},
 			refreshTap() {
 				// 获取用户信息
 				uni.getUserInfo({

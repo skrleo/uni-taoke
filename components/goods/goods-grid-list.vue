@@ -8,7 +8,7 @@
 							<image :src="item.goods_thumb" mode="widthFix" lazy-load/>
 						</view>
 						<view class="padding-xs">
-							<view class="text-cut-2 text-black">{{item.goods_name}}</view>
+							<view class="text-cut-2 text-black"><view class='cu-tag line-red radius sm margin-right-sm'>{{item.platform_name || '拼多多'}}</view>{{item.goods_name}}</view>
 							<view class="margin-top-xs">
 								<view class="flex">
 									<view class="flex-sub">
@@ -48,7 +48,7 @@
 							<image :src="item.goods_thumb" mode="widthFix" lazy-load/>
 						</view>
 						<view class="padding-xs">
-							<view class="text-cut-2 text-black">{{item.goods_name}}</view>
+							<view class="text-cut-2 text-black"><view class='cu-tag line-red radius sm margin-right-sm'>{{item.platform_name || '拼多多'}}</view>{{item.goods_name}}</view>
 							<view class="margin-top-xs">
 								<view class="flex">
 									<view class="flex-sub">

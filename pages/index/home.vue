@@ -1,94 +1,98 @@
 <template>
 	<view class="bg-white">
-		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
-		<view class="cu-bar search bg-white">
-			<view class="search-form round" @tap="searchTap">
-				<text class="cuIcon-search"></text>
-				<input :adjust-position="false" type="text" placeholder="搜索商品" confirm-type="search"></input>
-			</view>
-		</view>
-		<swiper class="card-swiper square-dot" :indicator-dots="true" :circular="true" style="margin-top: -28px;"
-		 :autoplay="true" interval="5000" duration="500" @change="cardSwiper" indicator-color="#8799a3"
-		 indicator-active-color="#0081ff">
-			<swiper-item v-for="(item,index) in banner_list" :key="index">
-				<view class="swiper-item" @click="jumpTap(item)">
-					<image :src="item.thumb" mode="aspectFill"></image>
-				</view>
-			</swiper-item>
-		</swiper>
-		<view class="cu-list grid col-5 no-border" v-if="grid_list.length > 0">
-			<view class="cu-item" v-for="(item,index) in grid_list" :key="index" @tap='swiperInfo'>
-				<view :class="['cuIcon-' + item.thumb,'text-' + item.bgcolor]">
-					<view class="cu-tag badge" v-if="item.badge!=0">
-						<block v-if="item.badge!=1">{{item.badge>99?'99+':item.badge}}</block>
-					</view>
-				</view>
-				<text>{{item.name}}</text>
-			</view>
-		</view>
-		
-		<view class="recommend" v-if="recommend_list.length > 0">
-			<view class="col-12">
-				<view
-					class="recommend-item"
-					:style="{
-						'background-color': recommend_list[0].bgcolor
-					}" 
-					@click="jumpTap(recommend_list[0])"
-				>
-					<text class="recommend-item__title">{{ recommend_list[0].name }}</text>
-					<text class="recommend-item__desc">{{ recommend_list[0].description }}</text>
-					<view class="recommend-item__cover">
-						<image mode="widthFix" :src="recommend_list[0].thumb" />
-					</view>
+		<!-- <home-skeleton :loading="loading"></home-skeleton> -->
+		<view v-if="!loading">
+			<view class="cu-bar search bg-white">
+				<view class="search-form round" @tap="searchTap">
+					<text class="cuIcon-search"></text>
+					<input :adjust-position="false" type="text" placeholder="搜索商品" confirm-type="search"></input>
 				</view>
 			</view>
-			<view class="col-12">
-				<view
-					class="recommend-item"
-					:style="{
-						'background-color': recommend_list[1].bgcolor
-					}"
-					@click="jumpTap(recommend_list[1])"
-				>
-					<text class="recommend-item__title">{{ recommend_list[1].name }}</text>
-					<text class="recommend-item__desc">{{ recommend_list[1].description }}</text>
-					<view class="recommend-item__cover">
-						<image mode="widthFix" :src="recommend_list[1].thumb" />
+			<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
+			<swiper class="card-swiper square-dot" :indicator-dots="true" :circular="true" style="margin-top: -28px;"
+			 :autoplay="true" interval="5000" duration="500" @change="cardSwiper" indicator-color="#8799a3"
+			 indicator-active-color="#0081ff">
+				<swiper-item v-for="(item,index) in banner_list" :key="index">
+					<view class="swiper-item" @click="jumpTap(item)">
+						<image :src="item.thumb" mode="aspectFill"></image>
+					</view>
+				</swiper-item>
+			</swiper>
+			<view class="cu-list grid col-5 no-border" v-if="grid_list.length > 0">
+				<view class="cu-item" v-for="(item,index) in grid_list" :key="index" @tap='swiperInfo'>
+					<view :class="['cuIcon-' + item.thumb,'text-' + item.bgcolor]">
+						<view class="cu-tag badge" v-if="item.badge!=0">
+							<block v-if="item.badge!=1">{{item.badge>99?'99+':item.badge}}</block>
+						</view>
+					</view>
+					<text>{{item.name}}</text>
+				</view>
+			</view>
+			
+			<view class="recommend" v-if="recommend_list.length > 0">
+				<view class="col-12">
+					<view
+						class="recommend-item"
+						:style="{
+							'background-color': recommend_list[0].bgcolor
+						}" 
+						@click="jumpTap(recommend_list[0])"
+					>
+						<text class="recommend-item__title">{{ recommend_list[0].name }}</text>
+						<text class="recommend-item__desc">{{ recommend_list[0].description }}</text>
+						<view class="recommend-item__cover">
+							<image mode="widthFix" :src="recommend_list[0].thumb" />
+						</view>
 					</view>
 				</view>
-				<view
-					class="recommend-item"
-					:style="{
-						'background-color': recommend_list[2].bgcolor
-					}"
-					@click="jumpTap(recommend_list[2])"
-				>
-					<text class="recommend-item__title">{{ recommend_list[2].name }}</text>
-					<text class="recommend-item__desc">{{ recommend_list[2].description }}</text>
-					<view class="recommend-item__cover">
-						<image mode="widthFix" :src="recommend_list[2].thumb" />
+				<view class="col-12">
+					<view
+						class="recommend-item"
+						:style="{
+							'background-color': recommend_list[1].bgcolor
+						}"
+						@click="jumpTap(recommend_list[1])"
+					>
+						<text class="recommend-item__title">{{ recommend_list[1].name }}</text>
+						<text class="recommend-item__desc">{{ recommend_list[1].description }}</text>
+						<view class="recommend-item__cover">
+							<image mode="widthFix" :src="recommend_list[1].thumb" />
+						</view>
+					</view>
+					<view
+						class="recommend-item"
+						:style="{
+							'background-color': recommend_list[2].bgcolor
+						}"
+						@click="jumpTap(recommend_list[2])"
+					>
+						<text class="recommend-item__title">{{ recommend_list[2].name }}</text>
+						<text class="recommend-item__desc">{{ recommend_list[2].description }}</text>
+						<view class="recommend-item__cover">
+							<image mode="widthFix" :src="recommend_list[2].thumb" />
+						</view>
 					</view>
 				</view>
 			</view>
+			
+			<view class="padding-xs col-1 align-center text-center">
+				<view class="text-lg"><text class="text-black">热门推荐</text></view>
+				<view class="text-xs"><text class="text-ABC">top picks</text></view>
+			</view>
+			
+			<view class="ui-goods-list-box" v-if="goods_lists.length > 0">
+				<goods-grid-list :list_data="goods_lists" @listTap="goodsInfo"></goods-grid-list>
+			</view>
+			</mescroll-body>
+			
+			<modal-confirm :show="modalShow" :content="clipboard" @confirmTap="confirmTap" @closeTap="closeTap"/>
 		</view>
-		
-		<view class="padding-xs col-1 align-center text-center">
-			<view class="text-lg"><text class="text-black">热门推荐</text></view>
-			<view class="text-xs"><text class="text-ABC">top picks</text></view>
-		</view>
-		
-		<view class="ui-goods-list-box" v-if="goods_lists.length > 0">
-			<goods-grid-list :list_data="goods_lists" @listTap="goodsInfo"></goods-grid-list>
-		</view>
-		</mescroll-body>
-		
-		<modal-confirm :show="modalShow" :content="clipboard" @confirmTap="confirmTap" @closeTap="closeTap"/>
 	</view>
 </template>
 
 <script>
 	import goodsGridList from '@/components/goods/goods-grid-list';
+	import homeSkeleton from '@/components/skeleton/home-skeleton.vue';
 	import modalConfirm from '@/components/basics/modal-confirm';
 	import MescrollBody from "@/components/mescroll-uni/mescroll-body.vue";
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
@@ -98,10 +102,12 @@
 		components: {
 			MescrollBody,
 			goodsGridList,
-			modalConfirm
+			modalConfirm,
+			homeSkeleton
 		},
 		data() {
 			return {
+				loading: false,
 				cardCur: 0,
 				goods_lists:[],
 				banner_list: [],
@@ -114,9 +120,9 @@
 				clipboard: '',
 				upOption: {
 					page: {
-						size: 10 // 每页数据的数量,默认10
+						size: 10
 					},
-					noMoreSize: 5, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
+					noMoreSize: 5,
 					empty: {
 						tip: '暂无更多'
 					}
@@ -132,31 +138,20 @@
 			InputBottom: 0
 		},
 		onShow() {
+			
+		},
+		created() {
+		  this.reloadData()
+		},
+		onLoad() {
 			uni.getClipboardData({
 				success: (res) => {
 					if(res.data !== ''){
 						this.modalShow = true;
 						this.clipboard = res.data;
-						// 剪切内容
-						var self = this;
-						uni.setClipboardData({ 
-							data: '', 
-							success: function() { 
-								uni.hideToast(); 
-								self.clearLoadingTips('复制成功');
-							}
-						}); 
-						setTimeout( _ => { 
-							uni.hideToast(); 
-						}, 1); 
-						this.$nextTick(function() { 
-							uni.hideToast(); 
-						});
 					}
 			　　}
 	　　　　});
-		},
-		onLoad() {
 			this.base_init();
 			this.TowerSwiper('banner_list');
 		},
@@ -181,6 +176,12 @@
 			}
 		},
 		methods: {
+			reloadData() {
+				// this.loading = true
+				// setTimeout(() => {
+				// 	this.loading = false
+				// }, 3000)
+			},
 			searchTap() {
 				uni.navigateTo({
 					url: "/pages/goods/history"

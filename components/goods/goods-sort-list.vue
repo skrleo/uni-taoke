@@ -6,10 +6,10 @@
 					<view class="cu-avatar radius lg" :style="[{backgroundImage:'url('+ item.goods_thumb +')'}]"></view>
 					<view class="content">
 						<view class="text-black" style="height: 78upx;">
-							<text class="text-cut-2 text-l text-black">
-								<text class="cu-tag bg-red radius sm">拼多多</text>
+							<view class="text-cut-2 text-l text-black">
+								<view class='cu-tag line-red radius sm'>{{item.platform_name || '拼多多'}}</view>
 								<text>{{item.goods_name}}</text>
-							</text>
+							</view>
 						</view>
 						
 						<view class="flex" style="margin-top: 14upx;">

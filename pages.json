@@ -73,6 +73,19 @@
 			]
 		},
 		{
+			"root": "pages/chat",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTextStyle": "#fff",
+						"navigationBarBackgroundColor": "#2B2E3D",
+						"navigationBarTitleText": "客服"
+					}
+				}
+			]
+		},
+		{
 			"root": "pages/h5",
 			"pages": [
 				{

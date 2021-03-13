@@ -21,6 +21,7 @@
 				</view>
 			</view>
 			<view class="text-black">
+				<view class='cu-tag line-red radius sm margin-right-sm'>{{goodsInfo.platform_name || '自营'}}</view>
 				<!-- <text class="cu-tag bg-red radius sm margin-right-xs">京东</text> -->
 				<text class="text-xl">{{goodsInfo.goods_name}}</text>
 			</view>
@@ -52,7 +53,7 @@
 		</view>
 
 		<!--关于卖家-->
-		<view class="margin-top bg-white ui-selll-user-view-box">
+		<view class="margin-top bg-white ui-selll-user-view-box" v-if="goodsInfo.show_shop">
 			<view class="padding text-black text-lg">关于卖家</view>
 			<view class="cu-list menu-avatar">
 				<view class="cu-item">
@@ -236,6 +237,11 @@
 						}
 					})
 				})
+			},
+			getChat(){
+				uni.navigateTo({
+					url: "/pages/chat/index"
+				});
 			},
 			buyGoods(item) {
 				this.checkAuth(()=>{

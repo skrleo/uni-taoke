@@ -17,7 +17,7 @@
 							<image :src="item.thumb_url"></image>
 							<view class="desc">
 								<view class="text-content"> 
-									<text>{{item.goods_name}}</text>
+									<view class='cu-tag line-red margin-right-sm radius sm'>{{item.platform_name || '自营'}}</view><text>{{item.goods_name}}</text>
 								</view>
 								<view class="flex justify-between">
 									<text class="text-red through">￥{{item.goods_price}}</text>
@@ -80,7 +80,7 @@
 				this.mescroll.resetUpScroll();
 			},
 			upCallback(page) {
-				this.$Http.get('/order/lists?status=' + this.TabCur).then(res => {
+				this.$Http.get('/order/lists?pageNum='+page.num+'&pageSize='+page.size+'&status=' + this.TabCur).then(res => {
 					if(page.num == 1) this.order_lists = [];
 					this.order_lists=this.order_lists.concat(res.lists);
 					this.mescroll.endSuccess(res.lists.length);
