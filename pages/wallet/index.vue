@@ -1,7 +1,9 @@
 <template>
 	<page>
 		<!--提示-->
-		<view class="bg-orange text-sm text-center padding-tb-xs text-white"><text class="cuIcon-infofill margin-right-xs"></text>每月21日系统结算上月的收入，建议22日提现</view>
+		<view class="bg-orange text-sm text-center padding-tb-xs text-white" v-if="wallet.extract_tip">
+			<text class="cuIcon-infofill margin-right-xs"></text>{{wallet.extract_tip}}
+		</view>
 		
 		<view class="cu-card case">
 			<view class="cu-item shadow">
@@ -19,12 +21,12 @@
 									<view>
 										<text class="text-xxl margin-right">{{ this.$Tool.toMoney(wallet.balance_fee) || 0.00 }}</text>
 									</view>
-									<button class="cu-btn block bg-orange shadow sm" v-if="wallet.balance_fee > 0" @tap="extractTap">提现</button>
-									<button class="cu-btn block bg-orange shadow sm" v-if="wallet.balance_fee <= 0" disabled type="">提现</button>
+									<button class="cu-btn block bg-orange shadow sm" v-if="wallet.balance_fee > wallet.can_balance_fee" @tap="extractTap">提现</button>
+									<button class="cu-btn block bg-orange shadow sm" v-if="wallet.balance_fee <= wallet.can_balance_fee" disabled type="">提现</button>
 								</view>
 							</view>
 							<view class="text-orange text-sm">
-								<text>待提现金额满10元即可提现</text>
+								<text>待提现金额满{{wallet.can_balance_fee}}元即可提现</text>
 							</view>
 						</view>
 						<view class="content padding-tb-sm">
@@ -48,7 +50,7 @@
 		<view class="cu-list menu sm-border">
 			<view class="cu-item">
 				<view class="content">
-					<text class="text-grey"><text class="text-black">收益概览</text>(推广收益，不含今日)</text>
+					<text class="text-grey"><text class="text-black">收益概览</text>(推广收益包括失效订单收益在内)</text>
 				</view>
 			</view>
 			<view class="cu-item">
@@ -80,42 +82,37 @@
 				</view>
 			</view>
 			<view class="cu-item grid col-1">
-				
 				<scroll-view scroll-x class="bg-white nav text-center">
-					<view class="cu-item" :class="0==platformCur?'text-red':''" @tap="platformType" data-id="0">
-						<text class="cuIcon-camerafill"></text> 拼多多
-					</view>
-					<view class="cu-item" :class="1==platformCur?'text-red':''" @tap="platformType" data-id="1">
-						<text class="cuIcon-upstagefill"></text> 京东
-					</view>
-					<view class="cu-item" :class="2==platformCur?'text-red':''" @tap="platformType" data-id="2">
-						<text class="cuIcon-clothesfill"></text> 唯品会
-					</view>
+					<block v-for="(item,index) in wallet.platform" :key="index">
+						<view class="cu-item" :class="item.id == platformCur?'text-red':''" @tap="platformType" :data-id="item.id">
+							<text :class="'cuIcon-'+ item.icon"></text>{{item.name}}
+						</view>
+					</block>
 				</scroll-view>
 				
 				<view class="grid col-2 bg-gray padding radius margin-bottom-sm">
 					<view style="display: block;width: 50%;text-align: center;">
 						<view>订单笔数(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-tb-sm">
-							<text class="text-xl text-black">{{ analysis.order_number || 0 }}</text>
+							<text class="text-xl text-black">{{ analysis.platform_order_number || 0 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
-						<view>订单金额(元)<text class="cuIcon-question"></text></view>
+						<view>订单总金额(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-tb-sm">
-							<text class="text-xl text-black">{{ analysis.order_amount || 0.00 }}</text>
+							<text class="text-xl text-black">{{ analysis.platform_total_amount || 0.00 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
-						<view>成团笔数(元)<text class="cuIcon-question"></text></view>
+						<view>有效订单数(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
-							<text class="text-xl text-black">{{ analysis.order_over || 0.00 }}</text>
+							<text class="text-xl text-black">{{ analysis.platform_valid_order || 0.00 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
-						<view>预估金额(元)<text class="cuIcon-question"></text></view>
+						<view>预估佣金(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
-							<text class="text-xl text-black">{{ analysis.promotion_amount || 0.00 }}</text>
+							<text class="text-xl text-black">{{ analysis.platform_promotion_amount || 0.00 }}</text>
 						</view>
 					</view>
 				</view>
@@ -156,19 +153,19 @@
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
-						<view>订单金额(元)<text class="cuIcon-question"></text></view>
+						<view>订单总金额(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-tb-sm">
 							<text class="text-xl text-black">{{ analysis.order_amount || 0.00 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
-						<view>成团笔数(元)<text class="cuIcon-question"></text></view>
+						<view>有效订单数(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
-							<text class="text-xl text-black">{{ analysis.order_over || 0.00 }}</text>
+							<text class="text-xl text-black">{{ analysis.valid_order || 0.00 }}</text>
 						</view>
 					</view>
 					<view style="display: block;width: 50%;text-align: center;">
-						<view>预估金额(元)<text class="cuIcon-question"></text></view>
+						<view>预估佣金(元)<text class="cuIcon-question"></text></view>
 						<view class="text-sm margin-top-sm">
 							<text class="text-xl text-black">{{ analysis.promotion_amount || 0.00 }}</text>
 						</view>
@@ -184,7 +181,7 @@
 	export default {
 		data() {
 			return {
-				platformCur: 0,
+				platformCur: 1,
 				dateRangeCur: 0,
 				scrollLeft: 0,
 				anmiaton:'',
@@ -204,7 +201,7 @@
 		onShow() {
 			if (!this.loginStatus) {
 				uni.navigateTo({
-					url: '../login/index'
+					url: '/pages/login/index'
 				});
 			}
 			this.wallet = [];
@@ -234,7 +231,7 @@
 			},
 			orderTap() {
 				uni.navigateTo({
-					url: '../order/lists'
+					url: '/pages/order/lists'
 				});
 			},
 			extractTap() {

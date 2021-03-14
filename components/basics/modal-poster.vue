@@ -1,7 +1,7 @@
 <template>
 	<view class="modal-box" :class="show?'show':''">
 		<view class="dialog">
-			<image class="img" :src="src" lazy-load mode="widthFix" @tap="imgEvent"></image>
+			<image class="img" :src="src" lazy-load mode="widthFix" @tap="posterEvent"></image>
 			<text class="cuIcon-roundclose close" @tap="closeEvent"></text>
 		</view>
 	</view>
@@ -21,11 +21,11 @@
 			}
 		},
 		methods: {
-			imgEvent() {
-				this.$emit('imgTap');
+			posterEvent() {
+				this.$emit('posterTap');
 			},
 			closeEvent() {
-				this.$emit('closeTap');
+				this.$emit('posterCloseTap');
 			}
 		}
 	}
@@ -39,7 +39,7 @@
 		left: inherit;
 		right: inherit;
 		bottom: inherit;
-		z-index: 99999999;
+		z-index: 999999;
 	    text-align: center;
 	    background: rgba(0, 0, 0, 0.6);
 	    transition: all 0.3s;

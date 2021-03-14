@@ -37,7 +37,7 @@
 				this.$emit('confirmTap');
 			},
 			closeEvent() {
-				this.$emit('closeTap');
+				this.$emit('confirmCloseTap');
 			}
 		}
 	}

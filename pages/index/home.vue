@@ -85,7 +85,11 @@
 			</view>
 			</mescroll-body>
 			
-			<modal-confirm :show="modalShow" :content="clipboard" @confirmTap="confirmTap" @closeTap="closeTap"/>
+			<!-- 复制内容 -->
+			<modal-confirm :show="modalShow" :content="clipboard" @confirmTap="confirmTap" @confirmCloseTap="confirmCloseTap"/>
+			
+			<!--弹出框-->
+			<modal-poster :show="posterShow" :src="poster.thumb" @posterTap="posterTap" @posterCloseTap="posterCloseTap"/>
 		</view>
 	</view>
 </template>
@@ -94,6 +98,7 @@
 	import goodsGridList from '@/components/goods/goods-grid-list';
 	import homeSkeleton from '@/components/skeleton/home-skeleton.vue';
 	import modalConfirm from '@/components/basics/modal-confirm';
+	import modalPoster from '@/components/basics/modal-poster.vue';
 	import MescrollBody from "@/components/mescroll-uni/mescroll-body.vue";
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	
@@ -103,6 +108,7 @@
 			MescrollBody,
 			goodsGridList,
 			modalConfirm,
+			modalPoster,
 			homeSkeleton
 		},
 		data() {
@@ -115,7 +121,9 @@
 				grid_list:[],
 				dotStyle: false,
 				towerStart: 0,
+				poster:[],
 				modalShow: false,
+				posterShow: false,
 				direction: '',
 				clipboard: '',
 				upOption: {
@@ -225,6 +233,10 @@
 					this.banner_list = res.data.banner;
 					this.grid_list = res.data.grid;
 					this.recommend_list = res.data.recommend;
+					if(res.data.poster){
+						this.poster = res.data.poster;
+						this.posterShow = true;
+					}
 				})
 			},
 			confirmTap() {
@@ -233,8 +245,15 @@
 					url: "/pages/goods/search?keyword=" + this.clipboard
 				});
 			},
-			closeTap() {
+			posterTap() {
+				this.posterShow = false;
+				this.jumpTap(this.poster)
+			},
+			confirmCloseTap() {
 				this.modalShow = false;
+			},
+			posterCloseTap() {
+				this.posterShow = false;
 			},
 			swiperInfo(e) {
 				uni.navigateTo({

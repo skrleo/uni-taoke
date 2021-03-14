@@ -20,7 +20,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="flex justify-between bg-white padding-lr padding-bottom">
+		<view class="flex justify-between bg-white padding-lr padding-bottom" v-if="order.original_price">
 			<view class="text-black">
 				<text>原价</text>
 			</view>

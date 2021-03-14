@@ -142,6 +142,7 @@
 				towerStart: 0,
 				direction: '',
 				goodsInfo:[],
+				tmplIds:[],
 				is_show_model:false,
 			};
 		},
@@ -189,6 +190,7 @@
 						return false;
 					}
 					this.goodsInfo = res.data;
+					this.tmplIds = res.data.tmplIds;
 				})
 			},
 			//分享海报
@@ -268,9 +270,9 @@
 							});
 							return false;
 						}
-						uni.requestSubscribeMessage({
-							tmplIds: ['hVAFmQd4CLi6MHyiJXfmtKG20GIRpc1Xr3Iz079XDKo','MCQlVChDFA5amZ8R0uqhVDBjaTSxnQEmclJsQpqxTZE','5MXUSoCQBeBZsRnLpeQKeLtxSLc4ZhYAFO_BCl4A7Qo']
-						})
+						if(this.tmplIds.length > 0){
+							var subscribe = this.$U.requestSubscribe(this.tmplIds);
+						}
 						this.navigateTo({
 							appId: app_id,
 							path: page_path
