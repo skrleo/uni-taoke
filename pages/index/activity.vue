@@ -23,19 +23,30 @@
 	export default {
 		data() {
 			return {
+				shareTitle: '点外卖领券还可以省钱,美食外卖红包天天领！',
+				shareImage: '',
+				sharePath: '/pages/index/activity',
 				activity_lists: []
 			}
 		},
 		onLoad() {
 			this.base_init();
+			var params = {
+				page_type: 'activity'
+			}
+			this.$Http.get('/page/share', params).then(res => {
+				if (res.statusCode == 200 && res.data) {
+					this.shareTitle = res.data.name;
+					this.shareImage = res.data.thumb;
+					this.sharePath = res.data.path;
+				}
+			});
 		},		
 		onShareAppMessage(res) {
 			return {
-				title: '点外卖领券还可以省钱,美食外卖红包天天领！',
-				path:'/pages/index/activity',
-				imageUrl:'',
-				desc:'',
-				content:'',
+				title: this.shareTitle,
+				path: this.sharePath,
+				imageUrl: this.shareImage,
 				success(res){
 					uni.showToast({
 						title:'分享成功'
@@ -51,11 +62,7 @@
 		},
 		methods: {
 			base_init() {
-				var params = {
-					type: 1,
-					channel: 'pdd'
-				}
-				this.$Http.get('/home/activity', params).then(res => {
+				this.$Http.get('/home/activity').then(res => {
 					this.activity_lists = res.lists;
 				})
 			},
@@ -64,28 +71,6 @@
 					channel: 'mt',
 					jump_url: e.jump_url
 				}
-				// if(e.type === 1){
-				// 	this.$Http.get('/goods/transform', params).then(res => {
-				// 		if (res.statusCode === 200) {
-				// 			if (res.data.jump_type === 1) {
-				// 				this.navigateTo({
-				// 					url: res.data.jump_url
-				// 				}, res.data.jump_type);
-				// 			}
-				// 			if (res.data.jump_type === 2) {
-				// 				this.navigateTo({
-				// 					appId: res.data.appId,
-				// 					path: res.data.path,
-				// 				}, res.data.jump_type);
-				// 			}
-				// 		} else {
-				// 			uni.showToast({
-				// 				title: '请求异常！',
-				// 				icon: 'none'
-				// 			});
-				// 		}
-				// 	})				
-				// }
 				
 				if (e.jump_type === 1) {
 					this.navigateTo({

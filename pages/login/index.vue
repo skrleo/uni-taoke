@@ -20,7 +20,7 @@
 			<view class="padding flex flex-direction">
 				<button class="cu-btn bg-black margin-tb-sm lg" open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo">微信一键登录</button>
 			</view>
-			
+
 			<view class="cu-modal" :class="showModal==true?'show':''" style="margin-top: 50upx;">
 				<view class="cu-dialog">
 					<view class="padding-xl">
@@ -31,12 +31,13 @@
 							请先绑定手机号在进行此操作
 						</view>
 						<view class="padding flex flex-direction">
-							<button class="cu-btn bg-green margin-tb-sm lg round" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" withCredentials="true">微信用户一键绑定</button>
+							<button class="cu-btn bg-green margin-tb-sm lg round" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber"
+							 withCredentials="true">微信用户一键绑定</button>
 						</view>
 					</view>
 				</view>
 			</view>
-			
+
 			<view class="flex align-center justify-center text-muted protocol bg-white">
 				注册即代表同意<text class="text-red" @tap="protocolTap">《用户协议》</text>
 			</view>
@@ -46,127 +47,141 @@
 
 
 <script>
-	import { mapState } from 'vuex'
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				showModal:false,
+				showModal: false,
 				sessionKey: '',
 				openid: ''
 			}
 		},
 		computed: {
 			...mapState({
-				loginStatus:state=>state.loginStatus,
-				user:state=>state.user,
+				loginStatus: state => state.loginStatus,
+				user: state => state.user,
 			})
 		},
 		onLoad() {
 			if (this.loginStatus) {
 				uni.navigateBack({
 					delta: 1
-				}); 
+				});
 			}
 		},
 		methods: {
-			protocolTap: function(){
+			protocolTap: function() {
 				uni.navigateTo({
 					url: "../rich/index?type=1"
 				});
 			},
-			getUserInfo: function(){
+			getUserInfo: function() {
 				// #ifdef MP-WEIXIN
 				uni.getProvider({
-				  service: 'oauth',
-				  success: (res) => {
-					if (~res.provider.indexOf('weixin')) {
-						uni.login({
-							provider: 'weixin',
-							success: (res2) => {
-								this.$Http.get('/oauth/login?code='+res2.code).then(res => {
-									if(res.statusCode == 200){
-										if(res.data.is_login){
-											// 修改vuex的state,持久化存储
-											this.$store.commit('login',res.data)
-											// 提示和跳转
-											uni.navigateBack({
-												delta: 1
-											}); 
+					service: 'oauth',
+					success: (res) => {
+						if (~res.provider.indexOf('weixin')) {
+							uni.login({
+								provider: 'weixin',
+								success: (res2) => {
+									this.$Http.get('/oauth/login?code=' + res2.code).then(res => {
+										if (res.statusCode == 200) {
+											if (res.data.is_login) {
+												// 修改vuex的state,持久化存储
+												this.$store.commit('login', res.data)
+												// 提示和跳转
+												uni.navigateBack({
+													delta: 1
+												});
+												uni.showToast({
+													title: '登录成功',
+													icon: 'none'
+												});
+											} else {
+												this.openid = res.data.openid;
+												this.sessionKey = res.data.session_key;
+												this.showModal = true;
+											}
+										} else {
+											//联网失败, 结束加载
 											uni.showToast({
-												title: '登录成功',
-												icon: 'none'
+												title: "请求异常，请稍后再试！",
+												icon: "none"
 											});
-										}else{
-											this.openid = res.data.openid;
-											this.sessionKey = res.data.session_key;
-											this.showModal=true;
 										}
-									}else{
-										//联网失败, 结束加载
-										uni.showToast({title:"请求异常，请稍后再试！",icon:"none"});
-									}
-								})
-							},
-							fail: () => {
-								uni.showToast({title:"微信登录授权失败",icon:"none"});
-							}
-						})
-						
-					}else{
-						uni.showToast({
-							title: '请先安装微信或升级版本',
-							icon:"none"
-						});
+									})
+								},
+								fail: () => {
+									uni.showToast({
+										title: "微信登录授权失败",
+										icon: "none"
+									});
+								}
+							})
+
+						} else {
+							uni.showToast({
+								title: '请先安装微信或升级版本',
+								icon: "none"
+							});
+						}
 					}
-				  }
 				});
 				//#endif
 			},
-		    getPhoneNumber: function(e) {
-				if(e.detail.errMsg=="getPhoneNumber:ok"){
+			getPhoneNumber: function(e) {
+				if (e.detail.errMsg == "getPhoneNumber:ok") {
 					uni.getUserInfo({
 						provider: 'weixin',
 						success: (info) => {
 							var params = {
 								encrypted: e.detail.encryptedData,
 								session: this.sessionKey,
-								iv : e.detail.iv,
-								openid : this.openid,
-								avatar_url : info.userInfo.avatarUrl,
-								nickname : info.userInfo.nickName,
-								sex : info.userInfo.gender,
-								country : info.userInfo.country,
-								province : info.userInfo.province,
-								city : info.userInfo.city,
+								iv: e.detail.iv,
+								openid: this.openid,
+								avatar_url: info.userInfo.avatarUrl,
+								nickname: info.userInfo.nickName,
+								sex: info.userInfo.gender,
+								country: info.userInfo.country,
+								province: info.userInfo.province,
+								city: info.userInfo.city,
 							}
-							this.$Http.post('/oauth/register',params).then(res => {
-								if(res.statusCode == 200){
-									this.showModal=false;
+							this.$Http.post('/oauth/register', params).then(res => {
+								if (res.statusCode == 200) {
+									this.showModal = false;
 									// 修改vuex的state,持久化存储
-									this.$store.commit('login',res.data)
+									this.$store.commit('login', res.data)
 									// 提示和跳转
 									uni.navigateBack({
 										delta: 1
-									}); 
+									});
 									uni.showToast({
 										title: '登录成功',
 										icon: 'none'
 									});
-								}else{
-									uni.showToast({title:"微信登录授权失败",icon:"none"});
+								} else {
+									uni.showToast({
+										title: "微信登录授权失败",
+										icon: "none"
+									});
 								}
 							})
 						},
 						fail: () => {
-							uni.showToast({title:"微信登录授权失败",icon:"none"});
+							uni.showToast({
+								title: "微信登录授权失败",
+								icon: "none"
+							});
 						}
 					})
-			    }else{
-			        // 提示和跳转
-			        uni.navigateBack({
-			        	delta: 1
-			        }); 
-			    }
+				} else {
+					// 提示和跳转
+					uni.navigateBack({
+						delta: 1
+					});
+				}
 			}
 		}
 	}
@@ -174,18 +189,17 @@
 
 
 <style lang="scss" scoped>
-
 	.login {
-		position:absolute;
+		position: absolute;
 		height: 100%;
 		width: 100%;
 		margin: 0 auto;
-		.protocol{
+
+		.protocol {
 			margin-top: 220upx;
-		    bottom:0;
-		    width:100%;
-		    height:160upx;
+			bottom: 0;
+			width: 100%;
+			height: 160upx;
 		}
 	}
 </style>
-

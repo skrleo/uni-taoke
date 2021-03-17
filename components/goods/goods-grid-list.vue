@@ -32,7 +32,7 @@
 											</view>
 										</view>
 									</view>
-									<view class="flex-sub text-right" style="padding-top: 6upx;">
+									<view class="flex-sub text-right" style="padding-top: 6upx;" v-if="item.sale_num">
 										<text class="text-sm">{{item.sale_num}}已付款</text>
 									</view>
 								</view>
@@ -72,7 +72,7 @@
 											</view>
 										</view>
 									</view>
-									<view class="flex-sub text-right" style="padding-top: 6upx;">
+									<view class="flex-sub text-right" style="padding-top: 6upx;" v-if="item.sale_num">
 										<text class="text-sm">{{item.sale_num}}已付款</text>
 									</view>
 								</view>

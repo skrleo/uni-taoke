@@ -57,16 +57,16 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="cu-list menu sm-border card-menu margin-top">
-			<view class="cu-item arrow">
+			<view class="cu-item arrow" @click="jumpTap(1)">
 				<view class="content">
 					<text class="cuIcon-ticket text-grey"></text>
-					<text class="text-grey">联系客服</text>
+					<text class="text-grey">常见问题</text>
 				</view>
 			</view>
-			<view class="cu-item arrow">
-				<navigator class="content" @click="jumpTap(2)">
+			<view class="cu-item arrow" @click="jumpTap(1)">
+				<navigator class="content">
 					<text class="cuIcon-form text-grey"></text>
 					<text class="text-grey">关于我们</text>
 				</navigator>
@@ -81,7 +81,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="cu-list menu sm-border card-menu margin-top">
 			<view class="cu-item text-center" @click="logout">
 				<view class="content">
@@ -93,13 +93,14 @@
 </template>
 
 <script>
-	import { mapState } from 'vuex'
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				anmiaton:'',
-				orderTypes: [
-					{
+				anmiaton: '',
+				orderTypes: [{
 						label: "待付款",
 						icon: "present",
 						value: 1,
@@ -129,21 +130,54 @@
 				],
 				dotStyle: false,
 				towerStart: 0,
-				direction: ''
+				direction: '',
+				shareTitle: '邀请您加入云淘荟买，更多优惠等你来淘！',
+				shareImage: '',
+				sharePath: '/pages/index/home',
 			}
 		},
 		computed: {
 			...mapState({
-				loginStatus:state=>state.loginStatus,
-				user:state=>state.user,
+				loginStatus: state => state.loginStatus,
+				user: state => state.user,
 			})
 		},
 		created() {
-		  if (!this.loginStatus) {
-		    uni.navigateTo({
-		  	  url: '../login/index'
-		    });
-		  }
+			if (!this.loginStatus) {
+				uni.navigateTo({
+					url: '../login/index'
+				});
+			}
+		},
+		onLoad(e) {
+			var params = {
+				page_type: 'my'
+			}
+			this.$Http.get('/page/share', params).then(res => {
+				if (res.statusCode == 200 && res.data) {
+					this.shareTitle = res.data.name;
+					this.shareImage = res.data.thumb;
+					this.sharePath = res.data.path;
+				}
+			});
+		},
+		onShareAppMessage(res) {
+			return {
+				title: this.shareTitle,
+				path: this.sharePath,
+				imageUrl: this.shareImage,
+				success(res) {
+					uni.showToast({
+						title: '分享成功'
+					})
+				},
+				fail(res) {
+					uni.showToast({
+						title: '分享失败',
+						icon: 'none'
+					})
+				}
+			}
 		},
 		methods: {
 			jumpTap(type) {
@@ -157,19 +191,22 @@
 					provider: 'weixin',
 					success: info => {
 						var params = {
-							avatar_url : info.userInfo.avatarUrl,
-							nickname : info.userInfo.nickName,
-							sex : info.userInfo.gender,
-							country : info.userInfo.country,
-							province : info.userInfo.province,
-							city : info.userInfo.city,
+							avatar_url: info.userInfo.avatarUrl,
+							nickname: info.userInfo.nickName,
+							sex: info.userInfo.gender,
+							country: info.userInfo.country,
+							province: info.userInfo.province,
+							city: info.userInfo.city,
 						}
-						this.$Http.post('/oauth/sync',params).then(res => {
-							if(res.statusCode == 200){
+						this.$Http.post('/oauth/sync', params).then(res => {
+							if (res.statusCode == 200) {
 								// 更新用户资料
-								this.$store.commit('sync',params)
-							}else{
-								uni.showToast({title:"更新资料失败",icon:"none"});
+								this.$store.commit('sync', params)
+							} else {
+								uni.showToast({
+									title: "更新资料失败",
+									icon: "none"
+								});
 							}
 						})
 					}
@@ -192,10 +229,10 @@
 				});
 			},
 			// 退出登录
-			logout(){
+			logout() {
 				uni.showModal({
 					content: '是否要退出登录',
-					success: (res)=> {
+					success: (res) => {
 						if (res.confirm) {
 							this.$store.commit('logout')
 							uni.navigateTo({
@@ -205,7 +242,7 @@
 								title: '退出登录成功',
 								icon: 'none'
 							});
-						} 
+						}
 					}
 				});
 			}
@@ -238,25 +275,27 @@
 	.switch-music::before {
 		content: "\e6db";
 	}
-	
+
 	.pure_top {
-	  width: 100%;
-	  height: 160px;
-	  position: relative;
-	  overflow: hidden;
+		width: 100%;
+		height: 160px;
+		position: relative;
+		overflow: hidden;
 	}
-	.pure_top_box{
+
+	.pure_top_box {
 		content: '';
 		width: 120%;
 		height: 148px;
 		position: absolute;
-		left: -10%; 
+		left: -10%;
 		top: 0;
 		overflow: hidden;
 		border-radius: 0 0 50% 50%;
 		background-color: #2B2E3D;
 	}
-	.user_info_box{
+
+	.user_info_box {
 		width: 80%;
 		margin: 0 auto;
 	}

@@ -5,7 +5,7 @@
 		</view>
 		<view class="cu-item shadow">
 			<view class="content flex padding-bottom margin-top-lg">
-				<image :src="order.thumb_url" mode="widthFix" ></image>
+				<image :src="order.thumb_url" mode="widthFix"></image>
 				<view class="desc">
 					<view>
 						<view class="padding-bottom-xs text-black">
@@ -39,7 +39,7 @@
 		<view class="bg-white text-black text-right padding-lr padding-bottom">
 			<text class="text-black through">实付款:</text><text class="text-red text-lg">￥{{order.goods_price || '0.00'}}</text>
 		</view>
-		
+
 		<view class="cu-list menu sm-border margin-top-sm no-border">
 			<view class="cu-item">
 				<view class="content">
@@ -90,7 +90,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!-- 底部操作栏 -->
 		<view class="bg-white ui-tabbar-view-box" style="height: 138rpx;">
 			<view class="padding">
@@ -101,17 +101,19 @@
 </template>
 
 <script>
-	import { mapState } from 'vuex'
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				order:[]
+				order: []
 			};
 		},
 		computed: {
 			...mapState({
-				loginStatus:state=>state.loginStatus,
-				user:state=>state.user,
+				loginStatus: state => state.loginStatus,
+				user: state => state.user,
 			})
 		},
 		onShow() {
@@ -127,11 +129,11 @@
 		methods: {
 			base_init(e) {
 				var params = {
-					order_sn:e.order_sn,
-					channel:e.platform_type
+					order_sn: e.order_sn,
+					channel: e.platform_type
 				}
-				this.$Http.get('/order/detail',params).then(res => {
-					if(res.statusCode !== 200){
+				this.$Http.get('/order/detail', params).then(res => {
+					if (res.statusCode !== 200) {
 						uni.showToast({
 							title: res.message,
 							icon: 'none'
@@ -146,7 +148,7 @@
 </script>
 
 <style lang='scss'>
-	.ui-tabbar-view-box{
+	.ui-tabbar-view-box {
 		position: fixed;
 		bottom: 0;
 		left: 0;

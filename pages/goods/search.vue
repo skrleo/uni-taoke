@@ -6,7 +6,7 @@
 					<text class="cuIcon-search"></text>
 					<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search" @confirm="searchTap()"></input>
 				</view>
-				
+
 				<view class="action" @tap="searchTap">
 					<text class="text-red">搜索</text>
 				</view>
@@ -33,7 +33,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!-- 右边抽屉 -->
 		<view class="cu-modal drawer-modal justify-end" :class="icon_type=='filter'?'show':''" @tap="hideModal">
 			<view class="cu-dialog basis-lg" @tap.stop="" :style="[{top:CustomBar+'px',height:'calc(100vh - ' + CustomBar + 'px)'}]">
@@ -48,7 +48,7 @@
 							</view>
 						</view>
 					</form>
-						
+
 					<view class="ui-tabbar-view-box flex justify-center margin-bottom-xl">
 						<button class="cu-btn lines-gray margin-lr-sm padding-lr-xl">重置</button>
 						<button class="cu-btn bg-black margin-left-xs padding-lr-xl">确定</button>
@@ -74,9 +74,9 @@
 <script>
 	import goodsSortList from '@/components/goods/goods-sort-list';
 	import goodsGridList from '@/components/goods/goods-grid-list';
-	
+
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
-	import _tool from '@/utils/tools.js';	//工具函数
+	import _tool from '@/utils/tools.js'; //工具函数
 	export default {
 		mixins: [MescrollMixin],
 		components: {
@@ -87,38 +87,41 @@
 			return {
 				deploy_icon: 'apps',
 				sales_icon: 'triangledownfill',
-				icon_type:'',
+				icon_type: '',
+				shareTitle: '',
+				shareImage: '',
+				sharePath: '/pages/goods/lists',
 				CustomBar: this.CustomBar,
-				fields: [
-					{
+				channel: 'pdd',
+				fields: [{
 						label: "综合",
 						is_icon: 0,
-						icon_o:'',
-						icon:''
+						icon_o: '',
+						icon: ''
 					},
 					{
 						label: "销量",
 						is_icon: 0,
-						icon_o:'triangledownfill',
-						icon:'triangleupfill'
+						icon_o: 'triangledownfill',
+						icon: 'triangleupfill'
 					},
 					{
 						label: "宫格",
 						is_icon: 0,
-						icon_o:'apps',
-						icon:'list'
+						icon_o: 'apps',
+						icon: 'list'
 					},
 					{
 						label: "筛选",
 						is_icon: 0,
-						icon_o:'filter',
-						icon:'filter',
+						icon_o: 'filter',
+						icon: 'filter',
 					},
 				],
-				search_close: false, 
-				searchKey: '', 
+				search_close: false,
+				searchKey: '',
 				deleteView: false,
-				TabCur: 0, 
+				TabCur: 0,
 				keyword: '',
 				upOption: {
 					page: {
@@ -134,41 +137,71 @@
 		},
 		onLoad(option) {
 			this.keyword = option.keyword;
+			var params = {
+				page_type: 'search',
+				channel: this.channel,
+				keyword: this.keyword
+			}
+			this.$Http.get('/page/share', params).then(res => {
+				if (res.statusCode == 200 && res.data) {
+					this.shareTitle = res.data.name;
+					this.shareImage = res.data.thumb;
+					this.sharePath = res.data.path;
+				}
+			});
+		},
+		onShareAppMessage(res) {
+			return {
+				title: this.shareTitle,
+				path: this.sharePath,
+				imageUrl: this.shareImage,
+				success(res) {
+					uni.showToast({
+						title: '分享成功'
+					})
+				},
+				fail(res) {
+					uni.showToast({
+						title: '分享失败',
+						icon: 'none'
+					})
+				}
+			}
 		},
 		methods: {
 			sortBy(type, sort = '') {
-				if(type == 'filter'){
-					if(this.icon_type == 'filter') {
+				if (type == 'filter') {
+					if (this.icon_type == 'filter') {
 						this.icon_type = '';
-					}else{
+					} else {
 						this.icon_type = 'filter';
 					}
 					return false;
 				}
-				
-				if(type == 'sales'){
-					if(sort == 'triangledownfill'){
+
+				if (type == 'sales') {
+					if (sort == 'triangledownfill') {
 						this.sales_icon = 'triangleupfill';
-					}else{
+					} else {
 						this.sales_icon = 'triangledownfill';
 					}
 					return false;
 				}
-				
-				if(type == 'score'){
-					
+
+				if (type == 'score') {
+
 					return false;
 				}
-				
-				if(type == 'deploy'){
-					if(sort == 'apps'){
+
+				if (type == 'deploy') {
+					if (sort == 'apps') {
 						this.deploy_icon = 'list';
-					}else{
+					} else {
 						this.deploy_icon = 'apps';
 					}
 					return false;
 				}
-					
+
 			},
 			hideModal(e) {
 				this.icon_type = null
@@ -178,11 +211,12 @@
 				this.mescroll.resetUpScroll()
 			},
 			upCallback(page) {
-				this.$Http.get('/goods/lists?type=1&channel=pdd&pageNum='+page.num+'&pageSize='+page.size+'&goods_type=1&keyword=' + this.keyword).then(res => {
-					if(page.num == 1) this.goods_lists = [];
-					this.goods_lists=this.goods_lists.concat(res.lists);
+				this.$Http.get('/goods/lists?type=1&channel=' + this.channel + '&pageNum=' + page.num + '&pageSize=' + page.size +
+					'&goods_type=1&keyword=' + this.keyword).then(res => {
+					if (page.num == 1) this.goods_lists = [];
+					this.goods_lists = this.goods_lists.concat(res.lists);
 					this.mescroll.endSuccess(res.lists.length);
-				}).catch(()=>{
+				}).catch(() => {
 					//联网失败, 结束加载
 					this.mescroll.endErr();
 				})
@@ -195,20 +229,22 @@
 			},
 			goodsInfo(e) {
 				uni.navigateTo({
-					url: "/pages/goods/detail?g=" + e.data.sign_key +"&c=" + e.data.platform_type
+					url: "/pages/goods/detail?g=" + e.data.sign_key + "&c=" + e.data.platform_type
 				});
 			},
-			searchTap(){
-				if(this.keyword == ''){
+			searchTap() {
+				if (this.keyword == '') {
 					uni.showToast({
 						title: '搜索内容不能为空！',
 						icon: 'none'
 					});
 					return false;
 				}
-				var params = {keyword:this.keyword};
-				this.$Http.post('/search/store',params).then(res => {
-					if(res.statusCode === 200){
+				var params = {
+					keyword: this.keyword
+				};
+				this.$Http.post('/search/store', params).then(res => {
+					if (res.statusCode === 200) {
 						this.goods_lists = []
 						this.mescroll.resetUpScroll()
 					}
@@ -225,24 +261,26 @@
 		width: 100%;
 		z-index: 9999;
 	}
+
 	.goods-list-box {
 		margin-top: 152upx;
 	}
-	
+
 	.roud-input {
 		width: 185upx;
 		border: 3upx solid #e6e6e6;
-		border-radius:38upx;
+		border-radius: 38upx;
 		height: 58upx;
 		padding: 3upx 26upx;
 		line-height: 58upx;
 	}
-	
-	.ui-tabbar-view-box{
+
+	.ui-tabbar-view-box {
 		position: fixed;
 		bottom: 0;
 		left: 0;
 		width: 100%;
 	}
+
 	@import "../../static/style/sort_list.scss";
 </style>
