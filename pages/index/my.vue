@@ -3,11 +3,11 @@
 		<view class="pure_top">
 			<view class="pure_top_box">
 				<view class="user_info_box padding-lr flex justify-between">
-					<view class="flex justify-start">
+					<view class="flex justify-start" v-if="user">
 						<view class="cu-avatar round lg align-center" v-bind:style="{ 'background-image': 'url('+ user.avatar_url +')'}"></view>
 						<view class="content flex-sub padding-left-xs margin-top-xs">
 							<view class="text-grey">{{user.nickname}}<text class="cuIcon-refresh margin-left-sm" @tap="refreshTap"></text></view>
-							<view class="text-gray text-sm flex justify-between">
+							<view class="text-gray text-sm flex justify-between" v-if="user.phone">
 								手机号：{{ this.$Tool.formatMobile(user.phone)}}
 							</view>
 						</view>
@@ -59,24 +59,30 @@
 		</view>
 
 		<view class="cu-list menu sm-border card-menu margin-top">
-			<view class="cu-item arrow" @click="jumpTap(1)">
-				<view class="content">
-					<text class="cuIcon-ticket text-grey"></text>
+			<view class="cu-item arrow">
+				<navigator hover-class="none" class="content" url="/pages/help/index" open-type="redirect">
+					<text class="cuIcon-question text-grey"></text>
 					<text class="text-grey">常见问题</text>
-				</view>
-			</view>
-			<view class="cu-item arrow" @click="jumpTap(1)">
-				<navigator class="content">
-					<text class="cuIcon-form text-grey"></text>
-					<text class="text-grey">关于我们</text>
 				</navigator>
 			</view>
 			<view class="cu-item arrow">
+				<button class="cu-btn content" open-type="feedback">
+					<text class="cuIcon-edit text-grey"></text>
+					<text class="text-grey">意见反馈</text>
+				</button>
+			</view>
+			<view class="cu-item arrow">
+				<navigator hover-class="none" class="content" url="/pages/about/index" open-type="redirect">
+					<text class="cuIcon-addressbook text-grey"></text>
+					<text class="text-grey">关于我们</text>
+				</navigator>
+			</view>
+			<view class="cu-item arrow" @tap="clearTap">
 				<view class="content">
-					<text class="cuIcon-question text-grey"></text>
+					<text class="cuIcon-delete text-grey"></text>
 					<text class="text-grey">清除缓存</text>
 				</view>
-				<view class="action" @tap="clearTap">
+				<view class="action">
 					<text class="text-grey text-sm">0.0MB</text>
 				</view>
 			</view>
@@ -147,6 +153,7 @@
 				uni.navigateTo({
 					url: '../login/index'
 				});
+				return false;
 			}
 		},
 		onLoad(e) {

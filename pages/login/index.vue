@@ -177,9 +177,12 @@
 						}
 					})
 				} else {
-					// 提示和跳转
-					uni.navigateBack({
-						delta: 1
+					uni.showToast({
+						title: "用户取消登录",
+						icon: "none"
+					});
+					uni.navigateTo({
+						url: "/pages/index/home"
 					});
 				}
 			}
