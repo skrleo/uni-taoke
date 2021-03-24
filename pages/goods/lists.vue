@@ -44,7 +44,7 @@
 					},
 					noMoreSize: 5,
 					empty: {
-						tip: '暂无更多'
+						tip: '我是有底线的'
 					}
 				},
 				goods_lists: [],

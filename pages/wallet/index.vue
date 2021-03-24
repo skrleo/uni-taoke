@@ -51,7 +51,7 @@
 		<view class="cu-list menu sm-border">
 			<view class="cu-item">
 				<view class="content">
-					<text class="text-grey"><text class="text-black">收益概览</text>(推广收益包括失效订单收益在内)</text>
+					<text class="text-black">收益概览<text class="text-sm">(推广收益包括失效订单收益在内)</text></text>
 				</view>
 			</view>
 			<view class="cu-item">
@@ -75,7 +75,7 @@
 		<view class="cu-list menu sm-border margin-bottom-xs">
 			<view class="cu-item">
 				<view class="content">
-					<text class="text-grey"><text class="text-black">推广效果</text>(近7天、30天含今日)</text>
+					<text class="text-black">推广效果<text class="text-sm">(近7天、30天含今日)</text></text>
 				</view>
 
 				<view class="action">

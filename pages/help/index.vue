@@ -3,7 +3,7 @@
 		<view class="course">
 			<view class="fold-list margin" v-for="(item,index) in help_lists" :key="index">
 				<view class="fold-title padding flex justify-between solid-bottom" @click="changeContent(index)">
-					<view class="text-black">
+					<view class="text-black text-bold">
 						{{item.title}}
 					</view>
 					<view class="text-black">
@@ -26,7 +26,6 @@
 				help_lists: []
 			}
 		},
-		
 		onLoad(options) {
 			this.base_init(options);
 		},

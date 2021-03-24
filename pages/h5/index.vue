@@ -19,9 +19,9 @@
 		},
 		onLoad(option) {
 			this.web_url = option.web_url;
-			if(option.title !== undefined){
+			if(option.title){
 				uni.setNavigationBarTitle({
-					title: res.data.title
+					title: option.title
 				})
 			}
 		}

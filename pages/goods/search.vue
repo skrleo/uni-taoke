@@ -129,7 +129,7 @@
 					},
 					noMoreSize: 5, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
 					empty: {
-						tip: '暂无更多'
+						tip: '我是有底线的'
 					}
 				},
 				goods_lists: [],

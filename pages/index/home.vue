@@ -119,7 +119,7 @@
 					},
 					noMoreSize: 5,
 					empty: {
-						tip: '暂无更多'
+						tip: '我是有底线的'
 					}
 				},
 				shareTitle: '甄选好货，购物不仅能省钱还能赚钱！',
@@ -134,7 +134,7 @@
 		onLoad() {
 			uni.getClipboardData({
 				success: (res) => {
-					if (res.data !== '') {
+					if (res.data) {
 						this.modalShow = true;
 						this.clipboard = res.data;
 					}
