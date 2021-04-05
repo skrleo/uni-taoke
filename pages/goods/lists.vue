@@ -5,7 +5,7 @@
 					}">
 		</view>
 
-		<view class="goods-list-box">
+		<view class="goods-list-box" :class="goods_top_bg ? 'goods_banner_top' : ''">
 			<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
 				<scroll-view scroll-y="true" class="sv" style="height:100%">
 					<!--商品列表-->
@@ -44,7 +44,7 @@
 					},
 					noMoreSize: 5,
 					empty: {
-						tip: '我是有底线的'
+						tip: '-我是有底线的-'
 					}
 				},
 				goods_lists: [],
@@ -56,7 +56,7 @@
 				this.channel = option.channel;
 				this.goods_type = option.goods_type;
 				params = {
-					page_type: 'lists',
+					page_type: 'goods_lists',
 					channel: option.channel,
 					goods_type: option.goods_type,
 				}
@@ -66,7 +66,7 @@
 				if (res.statusCode == 200 && res.data) {
 					this.shareTitle = res.data.name;
 					this.shareImage = res.data.thumb;
-					this.sharePath = res.data.path;
+					this.sharePath = res.data.jump_url;
 				}
 			});
 		},
@@ -142,8 +142,8 @@
 		-moz-background-size: 100% 100%;
 	}
 
-	.goods-list-box {
-		// margin-top: 100px;
+	.goods_banner_top{
+		margin-top: 100px;
 	}
 
 	.ui-tabbar-view-box {

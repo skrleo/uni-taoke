@@ -1,9 +1,18 @@
 <template>
 	<view class="cu-card article no-card">
-		<view class="padding" style="background-color: #2B2E3D;">
-			<text class="text-white">{{order.order_status_desc}}</text>
+		<view class="padding flex justify-between" style="background-color: #2B2E3D;">
+			<view class="flex justify-between"  style="margin-top: 6rpx;">
+				<view class='cu-tag line-red radius sm margin-right-sm'>{{order.platform_name || '自营'}}</view>
+				<view class="text-white" v-if="order.mall_name">
+					<text class="text-sm"><text class="cuIcon-shop"></text>{{order.mall_name}}</text>
+					<text class="text-white"></text>
+				</view>
+			</view>
+			<view class="text-white" v-if="order.status_name">
+				{{order.status_name}}
+			</view>
 		</view>
-		<view class="cu-item shadow">
+		<view class="cu-item shadow" v-if="!order.goods_info">
 			<view class="content flex padding-bottom margin-top-lg">
 				<image :src="order.thumb_url" mode="widthFix"></image>
 				<view class="desc">
@@ -11,11 +20,29 @@
 						<view class="padding-bottom-xs text-black">
 							<text>{{order.goods_name}}</text>
 						</view>
-						<view class='cu-tag line-red radius sm'>{{order.platform_name || '自营'}}</view>
 					</view>
 					<view class="flex justify-between text-gray">
 						<text class="through">￥{{order.goods_price || '0.00'}}</text>
 						<text>x{{order.buy_num || 1}}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="cu-item shadow" v-for="(goods,index) in order.goods_info" :key="index" v-if="order.goods_info">
+			<view class="content flex padding-bottom margin-top-lg">
+				<image :src="goods.thumb_url" mode="widthFix"></image>
+				<view class="desc">
+					<view>
+						<view class="padding-bottom-xs text-black">
+							<text>{{goods.goods_name}}</text>
+						</view>
+					</view>
+					<view class="flex justify-between text-gray" v-if="goods.goods_price > 0">
+						<text class="through">￥{{goods.goods_price || '0.00'}}</text>
+						<text>x{{goods.buy_num || 1}}</text>
+					</view>
+					<view class="flex justify-between text-gray" v-if="goods.goods_price <= 0">
+						<view class='cu-tag line-black radius sm'>赠品</view>
 					</view>
 				</view>
 			</view>
@@ -92,7 +119,7 @@
 		</view>
 
 		<!-- 底部操作栏 -->
-		<view class="bg-white ui-tabbar-view-box" style="height: 138rpx;">
+		<view class="bg-white ui-tabbar-view-box solid-top" style="height: 138rpx;">
 			<view class="padding">
 				<text class="text-black through">预计可赚佣金:</text><text class="text-red through text-lg">￥{{order.promotion_amount || '0.00'}}</text>
 			</view>

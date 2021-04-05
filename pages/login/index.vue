@@ -181,7 +181,7 @@
 						title: "用户取消登录",
 						icon: "none"
 					});
-					uni.navigateTo({
+					uni.switchTab({
 						url: "/pages/index/home"
 					});
 				}

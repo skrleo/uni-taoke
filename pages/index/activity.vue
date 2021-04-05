@@ -32,13 +32,13 @@
 		onLoad() {
 			this.base_init();
 			var params = {
-				page_type: 'activity'
+				page_type: 'activity_lists'
 			}
 			this.$Http.get('/page/share', params).then(res => {
 				if (res.statusCode == 200 && res.data) {
 					this.shareTitle = res.data.name;
 					this.shareImage = res.data.thumb;
-					this.sharePath = res.data.path;
+					this.sharePath = res.data.jump_url;
 				}
 			});
 		},		

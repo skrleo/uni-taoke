@@ -10,20 +10,27 @@
 				<view class="cu-card article" v-for="(item,index) in order_lists" :key="index" @click="detailTap(item)">
 					<view class="cu-item shadow">
 						<view class="flex justify-between padding">
-							<view class="text-cut">订单号： {{item.order_sn}}</view>
+							<view class="text-cut"><view class='cu-tag line-red margin-right-sm radius sm'>{{item.platform_name || '自营'}}</view>订单号： {{item.order_sn}}</view>
 							<view class="text-cut">{{item.status_name}}</view>
 						</view>
-						<view class="content padding-bottom">
+						<view class="content padding-bottom" v-if="item.order_type == 1">
 							<image :src="item.thumb_url"></image>
 							<view class="desc">
 								<view class="text-content"> 
-									<view class='cu-tag line-red margin-right-sm radius sm'>{{item.platform_name || '自营'}}</view><text>{{item.goods_name}}</text>
+									<text>{{item.goods_name}}</text>
 								</view>
 								<view class="flex justify-between">
 									<text class="text-red through">￥{{item.goods_price}}</text>
 									<text class="text-gray">x{{item.buy_num}}</text>
 								</view>
 							</view>
+						</view>
+						<view class="content padding-bottom" v-if="item.order_type == 2">
+							<scroll-view scroll-x class="nav z" scroll-with-animation>
+								<block v-for="(goods,index) in item.goods_info" :key="index">
+									<image :src="goods.thumb_url" mode="widthFix" style="width: 180rpx;"/>
+								</block>
+							</scroll-view>
 						</view>
 						<view class="flex justify-between padding-lr margin-top-lg">
 							<text class="text-red through">预计佣金：￥{{item.promotion_amount}}</text>

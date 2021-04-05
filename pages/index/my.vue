@@ -158,13 +158,13 @@
 		},
 		onLoad(e) {
 			var params = {
-				page_type: 'my'
+				page_type: 'my_detail'
 			}
 			this.$Http.get('/page/share', params).then(res => {
 				if (res.statusCode == 200 && res.data) {
 					this.shareTitle = res.data.name;
 					this.shareImage = res.data.thumb;
-					this.sharePath = res.data.path;
+					this.sharePath = res.data.jump_url;
 				}
 			});
 		},

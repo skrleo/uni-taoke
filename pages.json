@@ -150,17 +150,19 @@
 				{
 					"path": "history",
 					"style": {
-						"disableScroll": true,
+						"backgroundColorTop": "#ffffff",
 						"navigationBarTextStyle": "black",
 						"navigationBarBackgroundColor": "#fff",
-						"navigationBarTitleText": ""
+						"navigationBarTitleText": "搜索"
 					}
 				},
 				{
 					"path": "search",
 					"style": {
+						"backgroundColorTop": "#ffffff",
 						"navigationBarTextStyle": "black",
-						"navigationBarBackgroundColor": "#fff"
+						"navigationBarBackgroundColor": "#fff",
+						"navigationBarTitleText": "搜索"
 					}
 				},
 				{

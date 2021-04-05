@@ -36,7 +36,7 @@ export default {
 					authSetting = {},
 					subscriptionsSetting: { mainSwitch = false, itemSettings = {} } = {}
 				} = res;
-				if (Object.keys(itemSettings).length == 0) {   // 这种情况是普通关闭
+				if (mainSwitch == false) {
 					uni.showModal({
 						title: "温馨提示",
 						content: "检测到您没有开启全部订阅消息的权限，是否去设置？",
@@ -44,7 +44,7 @@ export default {
 							if (res.confirm) {
 								uni.openSetting({
 									success: res => {
-										console.log(res);
+										// console.log(res);
 									}
 								});
 							}
@@ -54,23 +54,7 @@ export default {
 					uni.requestSubscribeMessage({
 						tmplIds: tmplIds,
 						success: res => {
-							console.log(res, "订阅，成功");
-						},
-						fail: res => {
-							if(res.errCode == 20004){
-								uni.showModal({
-									title: "温馨提示",
-									content: "检测到您没有开启全部订阅消息的权限，是否去设置？",
-									success: res => {
-										if (res.confirm) {
-											uni.openSetting({
-												success: res => {}
-											});
-										}
-									}
-								});
-							}
-							console.log(res, "订阅，失败");
+							// console.log(res, "订阅，成功");
 						}
 					})
 				}

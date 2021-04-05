@@ -119,7 +119,7 @@
 					},
 					noMoreSize: 5,
 					empty: {
-						tip: '我是有底线的'
+						tip: '-我是有底线的-'
 					}
 				},
 				shareTitle: '甄选好货，购物不仅能省钱还能赚钱！',
@@ -143,13 +143,13 @@
 			this.base_init();
 			this.TowerSwiper('banner_list');
 			var params = {
-				page_type: 'home'
+				page_type: 'home_lists'
 			}
 			this.$Http.get('/page/share', params).then(res => {
 				if (res.statusCode == 200 && res.data) {
 					this.shareTitle = res.data.name;
 					this.shareImage = res.data.thumb;
-					this.sharePath = res.data.path;
+					this.sharePath = res.data.jump_url;
 				}
 			});
 		},

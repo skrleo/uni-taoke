@@ -1,30 +1,41 @@
 <template>
 	<view>
 		<view class="cu-bar search bg-white">
+			<view class="wrapper bg-white">
+				<view class="tooltip" v-if="tooltip">
+					<view class="solid-bottom" v-for="(item,index) in platform" :key="index" @click="cutoverTap(item)">
+						<view class="padding-sm" :data-id="item.type">{{item.name}}</view>
+					</view>
+				</view>
+				<view class="padding-left-xs" @tap="platformTap">
+					<text :data-id="platform_type">{{platform_name}}</text>
+					<text class="cuIcon-triangledownfill"></text>
+				</view>
+			</view>
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
 				<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search" @confirm="searchTap()"></input>
 			</view>
-			
+
 			<view class="action" @tap="searchTap">
 				<text class="text-red">搜索</text>
 			</view>
 		</view>
-		
+
 		<!--搜索区域-->
 		<view class="padding ui-search-list-view bg-white" v-if="!deleteView">
 			<!--搜索记录-->
 			<view class="search-list-view" v-if="history.length > 0">
 				<view class="search-bar-view">
 					<text class="text-black">历史搜索</text>
-					<text class="cuIcon-delete text-gray icon-right" @tap="deleteTap"/>
+					<text class="cuIcon-delete text-gray icon-right" @tap="deleteTap" />
 				</view>
-			
+
 				<view class="btn-view">
 					<button class="cu-btn round" v-for="(item,index) in history" :key="index" @click="searchWord(item)">{{item}}</button>
 				</view>
 			</view>
-			
+
 			<!--推荐搜索-->
 			<view class="search-list-view" v-if="suggest.length > 0">
 				<view class="search-bar-view">
@@ -35,7 +46,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!--处理历史记录-->
 		<view class="padding ui-search-list-view bg-white" v-if="deleteView">
 			<!--搜索记录-->
@@ -50,26 +61,30 @@
 				<view class="btn-view">
 					<button class="cu-btn round" v-for="(item,index) in history" :key="index" @click="delTap(item)">
 						<text>{{item}}</text>
-						<text class="cuIcon-roundclosefill close-icon"/>
+						<text class="cuIcon-roundclosefill close-icon" />
 					</button>
 				</view>
 			</view>
 		</view>
-		
+
 	</view>
 </template>
 
 <script>
-	import _tool from '@/utils/tools.js';	//工具函数
+	import _tool from '@/utils/tools.js'; //工具函数
 	export default {
 		data() {
 			return {
-				history:[],
-				suggest:[],
-				keyword:'',
-				search_close: false, 
-				searchKey: '', 
+				history: [],
+				suggest: [],
+				keyword: '',
+				search_close: false,
+				searchKey: '',
+				tooltip: false,
+				platform_type: 'pdd',
+				platform_name: '拼多多',
 				deleteView: false,
+				platform:[{name: '拼多多',type : 'pdd'},{name: '京东',type : 'jd'},{name: '唯品会',type : 'vip'}]
 			}
 		},
 		onLoad() {
@@ -78,39 +93,42 @@
 		onReady() {
 			_tool.setBarColor(true);
 			uni.pageScrollTo({
-			    scrollTop: 0,
-			    duration: 0
+				scrollTop: 0,
+				duration: 0
 			});
 		},
 		methods: {
 			base_init() {
 				this.$Http.get('/search/lists').then(res => {
-					if(res.statusCode == 200){
+					if (res.statusCode == 200) {
 						this.history = res.data.history;
 						this.suggest = res.data.suggest;
 					}
 				})
 			},
 			searchWord(keyword) {
+				this.tooltip = false;
 				this.keyword = keyword;
-				if(this.keyword !== ''){
-					var params = {keyword:this.keyword};
-					this.$Http.post('/search/store',params).then(res => {
-						if(res.statusCode === 200){
+				if (this.keyword !== '') {
+					var params = {
+						keyword: this.keyword
+					};
+					this.$Http.post('/search/store', params).then(res => {
+						if (res.statusCode === 200) {
 							uni.navigateTo({
-								url: "/pages/goods/search?keyword=" + this.keyword
+								url: "/pages/goods/search?keyword=" + this.keyword + '&channel=' + this.platform_type
 							});
 						}
 					})
 				}
 			},
-			delTap(val = ''){
+			delTap(val = '') {
 				var params = {};
-				if(val !== ''){
+				if (val !== '') {
 					params.keyword = val;
 				}
-				this.$Http.get('/search/destroy',params).then(res => {
-					if(res.statusCode === 200){
+				this.$Http.get('/search/destroy', params).then(res => {
+					if (res.statusCode === 200) {
 						uni.showToast({
 							title: '删除成功!',
 							icon: 'none'
@@ -119,11 +137,13 @@
 						this.base_init();
 					}
 				})
+				this.tooltip = false;
 			},
 			searchInput(event) {
+				this.tooltip = false;
 				let value = event.detail.value;
 				this.searchKey = value;
-				if(value) {
+				if (value) {
 					this.search_close = true;
 				} else {
 					this.search_close = false;
@@ -134,24 +154,37 @@
 				this.search_close = false;
 			},
 			deleteTap() {
+				this.tooltip = false;
 				this.deleteView = true;
 			},
 			logTap() {
+				this.tooltip = false;
 				this.deleteView = false;
 			},
+			cutoverTap(e){
+				this.tooltip = false;
+				this.platform_type = e.type;
+				this.platform_name = e.name;
+			},
+			platformTap(){
+				this.tooltip = true;
+			},
 			searchTap() {
-				if(this.keyword == ''){
+				this.tooltip = false;
+				if (this.keyword == '') {
 					uni.showToast({
 						title: '搜索内容不能为空！',
 						icon: 'none'
 					});
 					return false;
 				}
-				var params = {keyword:this.keyword};
-				this.$Http.post('/search/store',params).then(res => {
-					if(res.statusCode === 200){
+				var params = {
+					keyword: this.keyword
+				};
+				this.$Http.post('/search/store', params).then(res => {
+					if (res.statusCode === 200) {
 						uni.navigateTo({
-							url: "/pages/goods/search?keyword=" + this.keyword
+							url: "/pages/goods/search?keyword=" + this.keyword + '&channel=' + this.platform_type
 						});
 					}
 				})
@@ -162,79 +195,127 @@
 
 <style lang="scss">
 	.ui-bar-search-title-box {
-	    .cu-bar {
-	        padding-top: var(--status-bar-height);
-	        min-height: calc(var(--status-bar-height) + 101rpx);
-	        .content {
-	            top: var(--status-bar-height);
-	            width: calc(100% - 181.81rpx);
-	        }
-	        .search-form [class*="cuIcon-"] {
-	            margin: 0 0.8em 0 0.8em;
-	        }
-	        .search-form {
-	            /* #ifdef MP */
-	            margin-right: 181.81rpx;
-	            /* #endif */
-	            margin-left: 9.09rpx;
-	            .close-icon {
-	                font-size: 29.09rpx;
-	            }
-	        }
-	    }
-	    .cu-bar.fixed.no-shadow {
-	        box-shadow: inherit;
-	    }
-	    .cu-bar.bg-white {
-	        color: #333333;
-	    }
-	    .ui-seat-height {
-	        width: 100%;
-	        height: calc(var(--status-bar-height) + 101rpx);
-	    }
+		.cu-bar {
+			padding-top: var(--status-bar-height);
+			min-height: calc(var(--status-bar-height) + 101rpx);
+
+			.content {
+				top: var(--status-bar-height);
+				width: calc(100% - 181.81rpx);
+			}
+
+			.search-form [class*="cuIcon-"] {
+				margin: 0 0.8em 0 0.8em;
+			}
+
+			.search-form {
+				/* #ifdef MP */
+				margin-right: 181.81rpx;
+				/* #endif */
+				margin-left: 9.09rpx;
+
+				.close-icon {
+					font-size: 29.09rpx;
+				}
+			}
+		}
+
+		.cu-bar.fixed.no-shadow {
+			box-shadow: inherit;
+		}
+
+		.cu-bar.bg-white {
+			color: #333333;
+		}
+
+		.ui-seat-height {
+			width: 100%;
+			height: calc(var(--status-bar-height) + 101rpx);
+		}
+	}
+
+	.ui-search-list-view {
+		position: relative;
+		width: 100%;
+
+		.search-list-view {
+			.search-bar-view {
+				position: relative;
+				margin-bottom: 18.18rpx;
+				width: 100%;
+
+				.icon-right {
+					position: absolute;
+					right: 0;
+					top: 5.45rpx;
+				}
+
+				.text-right {
+					position: absolute;
+					right: 0;
+					top: 4rpx;
+
+					text+text {
+						margin-left: 27.27rpx;
+					}
+				}
+			}
+
+			.btn-view {
+				position: relative;
+				padding-bottom: 36.36rpx;
+				width: 100%;
+
+				.cu-btn {
+					color: #333333;
+					height: 54.54rpx;
+					font-size: 23.63rpx;
+					margin-right: 27.27rpx;
+					margin-bottom: 18.18rpx;
+
+					.close-icon {
+						top: 0;
+						color: #9c9797;
+						right: -9.09rpx;
+						position: absolute;
+						font-size: 27.27rpx;
+					}
+				}
+			}
+		}
+	}
+
+	.wrapper {
+		position: relative;
+		display: inline-block;
 	}
 	
-	.ui-search-list-view {
-	    position: relative;
-	    width: 100%;
-	    .search-list-view {
-	        .search-bar-view {
-	            position: relative;
-	            margin-bottom: 18.18rpx;
-	            width: 100%;
-	            .icon-right {
-	                position: absolute;
-	                right: 0;
-	                top: 5.45rpx;
-	            }
-	            .text-right {
-	                position: absolute;
-	                right: 0;
-	                top: 4rpx;
-	                text+text {
-	                    margin-left: 27.27rpx;
-	                }
-	            }
-	        }
-	        .btn-view {
-	            position: relative;
-	            padding-bottom: 36.36rpx;
-	            width: 100%;
-	            .cu-btn {
-	                color: #333333;
-	                height: 54.54rpx;
-	                font-size: 23.63rpx;
-	                margin-right: 27.27rpx;
-	                margin-bottom: 18.18rpx;
-	                .close-icon {
-	                    top: 0;
-	                    color: #9c9797;
-	                    right: -9.09rpx;
-	                    position: absolute;
-	                    font-size: 27.27rpx;
-	                }
-	            }
-	        }
-	    }
+	.wrapper_show {
+		visibility: hidden;
+	}
+
+	.wrapper .tooltip {
+		width: 100px;
+		background-color: #555;
+		color: #fff;
+		border-radius: 6px;
+		padding: 5px 0;
+		text-align: center;
+		position: absolute;
+		z-index: 1;
+		top: 135%;
+		left: 50%;
+		transition: opacity 1s;
+	}
+
+	.wrapper .tooltip::after {
+		content: "";
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		margin-left: -45px;
+		border-width: 5px;
+		border-style: solid;
+		border-color: transparent transparent #555 transparent;
 	}
 </style>

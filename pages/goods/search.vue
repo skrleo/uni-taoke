@@ -2,6 +2,17 @@
 	<view>
 		<view class="bg-white search grid col-1">
 			<view class="cu-bar">
+				<view class="wrapper bg-white">
+					<view class="tooltip" v-if="tooltip">
+						<view class="solid-bottom" v-for="(item,index) in platform" :key="index" @click="cutoverTap(item)">
+							<view class="padding-sm" :data-id="item.type">{{item.name}}</view>
+						</view>
+					</view>
+					<view class="padding-left-xs" @tap="platformTap">
+						<text :data-id="platform_type">{{platform_name}}</text>
+						<text class="cuIcon-triangledownfill"></text>
+					</view>
+				</view>
 				<view class="search-form round">
 					<text class="cuIcon-search"></text>
 					<input :adjust-position="false" type="text" v-model="keyword" placeholder="搜索商品" confirm-type="search" @confirm="searchTap()"></input>
@@ -85,6 +96,7 @@
 		},
 		data() {
 			return {
+				tooltip:false,
 				deploy_icon: 'apps',
 				sales_icon: 'triangledownfill',
 				icon_type: '',
@@ -92,7 +104,6 @@
 				shareImage: '',
 				sharePath: '/pages/goods/lists',
 				CustomBar: this.CustomBar,
-				channel: 'pdd',
 				fields: [{
 						label: "综合",
 						is_icon: 0,
@@ -129,17 +140,22 @@
 					},
 					noMoreSize: 5, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
 					empty: {
-						tip: '我是有底线的'
+						tip: '-我是有底线的-'
 					}
 				},
 				goods_lists: [],
+				platform_type: 'pdd',
+				platform_name: '拼多多',
+				platform:[{name: '拼多多',type : 'pdd'},{name: '京东',type : 'jd'},{name: '唯品会',type : 'vip'}]
 			}
 		},
 		onLoad(option) {
 			this.keyword = option.keyword;
+			this.platform_type = option.channel;
+			this.platform_name = this.platform.find(v => v.type == option.channel).name;
 			var params = {
 				page_type: 'search',
-				channel: this.channel,
+				channel: this.platform_type,
 				keyword: this.keyword
 			}
 			this.$Http.get('/page/share', params).then(res => {
@@ -170,6 +186,7 @@
 		},
 		methods: {
 			sortBy(type, sort = '') {
+				this.tooltip = false;
 				if (type == 'filter') {
 					if (this.icon_type == 'filter') {
 						this.icon_type = '';
@@ -204,6 +221,7 @@
 
 			},
 			hideModal(e) {
+				this.tooltip = false;
 				this.icon_type = null
 			},
 			/*下拉刷新的回调 */
@@ -211,7 +229,7 @@
 				this.mescroll.resetUpScroll()
 			},
 			upCallback(page) {
-				this.$Http.get('/goods/lists?type=1&channel=' + this.channel + '&pageNum=' + page.num + '&pageSize=' + page.size +
+				this.$Http.get('/goods/lists?type=1&channel=' + this.platform_type + '&pageNum=' + page.num + '&pageSize=' + page.size +
 					'&goods_type=1&keyword=' + this.keyword).then(res => {
 					if (page.num == 1) this.goods_lists = [];
 					this.goods_lists = this.goods_lists.concat(res.lists);
@@ -225,14 +243,17 @@
 				uni.navigateBack();
 			},
 			tabSelect(e) {
+				this.tooltip = false;
 				this.TabCur = e.currentTarget.dataset.id;
 			},
 			goodsInfo(e) {
+				this.tooltip = false;
 				uni.navigateTo({
 					url: "/pages/goods/detail?g=" + e.data.sign_key + "&c=" + e.data.platform_type
 				});
 			},
 			searchTap() {
+				this.tooltip = false;
 				if (this.keyword == '') {
 					uni.showToast({
 						title: '搜索内容不能为空！',
@@ -249,6 +270,14 @@
 						this.mescroll.resetUpScroll()
 					}
 				})
+			},
+			cutoverTap(e){
+				this.tooltip = false;
+				this.platform_type = e.type;
+				this.platform_name = e.name;
+			},
+			platformTap(){
+				this.tooltip = true;
 			}
 		}
 	}
@@ -282,5 +311,38 @@
 		width: 100%;
 	}
 
+	.wrapper {
+		position: relative;
+		display: inline-block;
+	}
+	
+	.wrapper_show {
+		visibility: hidden;
+	}
+
+	.wrapper .tooltip {
+		width: 100px;
+		background-color: #555;
+		color: #fff;
+		border-radius: 6px;
+		padding: 5px 0;
+		text-align: center;
+		position: absolute;
+		z-index: 1;
+		top: 135%;
+		left: 50%;
+		transition: opacity 1s;
+	}
+
+	.wrapper .tooltip::after {
+		content: "";
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		margin-left: -45px;
+		border-width: 5px;
+		border-style: solid;
+		border-color: transparent transparent #555 transparent;
+	}
 	@import "../../static/style/sort_list.scss";
 </style>
