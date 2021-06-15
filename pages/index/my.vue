@@ -57,8 +57,17 @@
 				</view>
 			</view>
 		</view>
+		
+		<view class="padding" v-if="banner_list.length > 0">
+			<swiper class="screen-swiper round-dot" :indicator-dots="true" :circular="true" :autoplay="true" interval="5000"
+			 duration="500">
+				<swiper-item v-for="(item,index) in banner_list" :key="index" @click="bannerTap(item)">
+					<image :src="item.url" mode="aspectFill" class="swiper-image"></image>
+				</swiper-item>
+			</swiper>
+		</view>
 
-		<view class="cu-list menu sm-border card-menu margin-top">
+		<view class="cu-list menu sm-border card-menu">
 			<view class="cu-item arrow">
 				<navigator hover-class="none" class="content" url="/pages/help/index" open-type="redirect">
 					<text class="cuIcon-question text-grey"></text>
@@ -88,7 +97,7 @@
 			</view>
 		</view>
 
-		<view class="cu-list menu sm-border card-menu margin-top">
+		<view class="cu-list menu sm-border card-menu margin-tb">
 			<view class="cu-item text-center" @click="logout">
 				<view class="content">
 					<text class="text-red">退出当前账号</text>
@@ -140,6 +149,7 @@
 				shareTitle: '邀请您加入云淘荟买，更多优惠等你来淘！',
 				shareImage: '',
 				sharePath: '/pages/index/home',
+				banner_list: [],
 			}
 		},
 		computed: {
@@ -235,6 +245,26 @@
 					icon: 'none'
 				});
 			},
+			bannerTap() {
+				var options = {};
+				if (item.jump_type !== 2) {
+					options = {
+						url: item.jump_url
+					}
+				} else {
+					options = {
+						app_id: item.app_id,
+						path: item.jump_url,
+					}
+				}
+				if (item.is_login) {
+					this.checkAuth(() => {
+						this.navigateTo(options, item.jump_type);
+					});
+				} else {
+					this.navigateTo(options, item.jump_type);
+				}
+			},
 			// 退出登录
 			logout() {
 				uni.showModal({
@@ -265,6 +295,11 @@
 
 	.page.show {
 		overflow: hidden;
+	}
+	
+	.screen-swiper{
+		height: 188rpx;
+		min-height: 188rpx !important;
 	}
 
 	.switch-sex::after {

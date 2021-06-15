@@ -67,7 +67,7 @@
 			<text class="text-black through">实付款:</text><text class="text-red text-lg">￥{{order.goods_price || '0.00'}}</text>
 		</view>
 
-		<view class="cu-list menu sm-border margin-top-sm no-border">
+		<view class="cu-list menu sm-border margin-top-sm no-border" style="margin-bottom: 155rpx;">
 			<view class="cu-item">
 				<view class="content">
 					<text class="text-black">订单编号</text>

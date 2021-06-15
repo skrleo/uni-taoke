@@ -1,14 +1,21 @@
 <template>
 	<page class="bg-white">
 		<view class="login bg-white">
-			<view class="padding-xs flex align-center padding-top-xl">
-				<view class="flex-sub text-center text-xl" style="margin-top: 80upx;">
+			<view class="flex justify-center align-center" style="margin-top: 80upx;">
+				<!-- <view>
 					<view class="cu-avatar xl round" style="background-image:url(https://img.17wangku.com/taoke/logo.png);"></view>
+					<view class="text-center margin-top">
+						<text class="text-black text-bold">云淘荟买</text>
+					</view>
 				</view>
-			</view>
-			<view class="padding-xs flex align-center margin-bottom-xl">
-				<view class="flex-sub text-center text-xl">
-					<text class="text-black text-bold">云淘荟买</text>
+				<view class="align-center padding">
+					<text class="cuIcon-safe text-bold text-black"></text>
+				</view> -->
+				<view>
+					<view class="cu-avatar xl round" style="background-image:url(https://img.17wangku.com/taoke/logo.png);"></view>
+					<view class="text-center margin-top">
+						<text class="text-black text-bold">云淘荟买</text>
+					</view>
 				</view>
 			</view>
 			<view class="margin-left-lg" style="margin-top: 120upx;">
@@ -38,7 +45,7 @@
 				</view>
 			</view>
 
-			<view class="flex align-center justify-center text-muted protocol bg-white">
+			<view class="flex align-center justify-center text-muted protocol bg-white" style="margin-top: 410rpx;">
 				注册即代表同意<text class="text-red" @tap="protocolTap">《用户协议》</text>
 			</view>
 		</view>

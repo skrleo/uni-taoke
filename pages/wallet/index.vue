@@ -7,7 +7,7 @@
 
 		<view class="cu-card case">
 			<view class="cu-item shadow">
-				<view class="cu-list padding bg-black" style="height: 195px;">
+				<view class="cu-list padding" style="height: 195px;background-color: #2B2E3D;">
 					<view class="cu-item">
 						<view class="content padding-tb-sm">
 							<view class="content flex-sub">
@@ -33,7 +33,7 @@
 						<view class="content padding-tb-sm">
 							<view class="content flex-sub">
 								<view class="text-gray text-sm flex justify-between">
-									<text>已经结算金额(元) <text class="cuIcon-question"></text></text>
+									<text>已结算金额(元) <text class="cuIcon-question"></text></text>
 									<text @click="recordTap(2)">结算明细<text class="cuIcon-right"></text></text>
 								</view>
 							</view>

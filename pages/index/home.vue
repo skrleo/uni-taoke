@@ -17,6 +17,7 @@
 						</view>
 					</swiper-item>
 				</swiper>
+				
 				<view class="cu-list grid col-5 no-border" v-if="grid_list.length > 0">
 					<view class="cu-item" v-for="(item,index) in grid_list" :key="index" @tap='swiperInfo'>
 						<view :class="['cuIcon-' + item.thumb,'text-' + item.bgcolor]">
@@ -233,7 +234,7 @@
 			confirmTap() {
 				this.modalShow = false;
 				uni.navigateTo({
-					url: "/pages/goods/search?keyword=" + this.clipboard
+					url: "/pages/goods/search?keyword=" + this.clipboard + '&channel=pdd'
 				});
 			},
 			posterTap() {

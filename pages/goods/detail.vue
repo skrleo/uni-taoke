@@ -126,6 +126,92 @@
 			</view>
 		</view>
 
+		<!--选择规格-->
+		<view class="cu-modal bottom-modal bottom-modal-box" :class="bottomModal?'show':''">
+			<view class="cu-dialog bg-white">
+				<!--标题-->
+				<view class="text-black text-center margin-tb text-lg title-bar">
+					<text>选择规格</text>
+					<text class="cuIcon-close close-icon" @tap="hideModal"></text>
+				</view>
+				
+				<!--内容区域-->
+				<view class="modal-content">
+					
+					<!--选择规格-->
+					<view class="view-box select">
+						<!--商品信息-->
+						<view class="cu-list menu-avatar">
+							<view class="cu-item">
+								<view class="cu-avatar radius lg" style="background-image:url(/static/images/home/goods/1.png);"/>
+								<view class="content">
+									<view class="text-price-view">
+										<text class="text-price text-red margin-right-xs">2699</text>
+										<text class="text-sm text-gray text-through">￥6999</text>
+										<text class="cu-tag bg-gradual-red radius sm">
+											<text class="cuIcon-hotfill"/>
+											<text>秒杀中</text>
+										</text>
+									</view>
+									<view class="text-black text-sm flex">
+										<view class="text-cut">已选: 99新深空灰色64G国行三网通</view>
+									</view>
+								</view>
+							</view>
+						</view>
+						
+						<!--规格数据-->
+						<view class="select-btn-list-boox">
+							<view class="select-item">
+								<view class="text-black">成色</view>
+								<view class="select-btn">
+									<button class="cu-btn">95新</button>
+									<button class="cu-btn">9成新</button>
+									<button class="cu-btn light bg-red">99新</button>
+								</view>
+							</view>
+							
+							<view class="select-item">
+								<view class="text-black">颜色</view>
+								<view class="select-btn">
+									<button class="cu-btn light bg-red">深空灰色</button>
+									<button class="cu-btn" disabled>银色</button>
+								</view>
+							</view>
+							
+							<view class="select-item">
+								<view class="text-black">容量</view>
+								<view class="select-btn">
+									<button class="cu-btn" disabled>256G</button>
+									<button class="cu-btn light bg-red">64G</button>
+								</view>
+							</view>
+							
+							<view class="select-item">
+								<view class="text-black">版本</view>
+								<view class="select-btn">
+									<button class="cu-btn">港澳版移动4G/联通4G</button>
+									<button class="cu-btn">其他版本移动4G/联通4G</button>
+									<button class="cu-btn">其他版本三网通</button>
+									<button class="cu-btn light bg-red">国行三网通</button>
+								</view>
+							</view>
+							
+						</view>
+						
+					</view>
+					
+					<!--公共按钮-->
+					<view class="footer-fixed">
+						<view class="flex flex-direction">
+							<button class="cu-btn bg-red lg">确定</button>
+						</view>
+					</view>
+					
+				</view>
+			</view>
+		</view>
+
 		<!-- 海报分享 -->
 		<qrcode-poster ref="poster" :title="goodsInfo.goods_name" @touchmove.stop.prevent="moveHandle" :subTitle="goodsInfo.goods_name"
 		 :headerImg="goodsInfo.thumb_url" :price="goodsInfo.goods_price"></qrcode-poster>
@@ -137,6 +223,7 @@
 	export default {
 		data() {
 			return {
+				bottomModal:true,
 				cardCur: 0,
 				dotStyle: false,
 				towerStart: 0,
@@ -563,5 +650,107 @@
 		bottom: 0;
 		left: 0;
 		width: 100%;
+	}
+	
+	.bottom-modal-box {
+		.title-bar {
+			position: relative;
+			width: 100%;
+			.close-icon {
+				position: absolute;
+				right: 36.36rpx;	
+			}
+		}
+		.modal-content {
+			position: relative;
+			width: 100%;
+			overflow-y: auto;
+			height: calc(100vh - 654.54rpx);
+			padding: 0 29.09rpx 29.09rpx;
+			margin-bottom: 118.18rpx;
+			.view-box {
+				position: relative;
+				width: 100%;
+				padding: 0;
+				text-align: left;
+			}
+			.view-box.service {
+				.text-view {
+					margin-bottom: 18.18rpx;
+				}
+				.text-list-view {
+					position: relative;
+					width: 100%;
+					margin-bottom: 18.18rpx;
+					.text-cut {
+						padding-right: 21rpx;
+					}
+				}
+				.text-list-view + .text-view {
+					margin-top: 36.36rpx;
+				}
+			}
+			.view-box.promotion {
+				.text-view {
+					margin-bottom: 18.18rpx;
+					.cu-tag {
+						position: relative;
+						top: -3.63rpx;
+					}
+				}
+				.text-list-view {
+					position: relative;
+					width: 100%;
+					margin-bottom: 18.18rpx;
+					.text-cut {
+						padding-right: 218.18rpx;
+					}
+					.text-right-view {
+						position: absolute;
+						right: 0;
+						top: 2rpx;
+					}
+				}
+				.text-list-view + .text-view {
+					margin-top: 36.36rpx;
+				}
+			}
+			.view-box.select {
+				.cu-list.menu-avatar>.cu-item {
+					.content {
+						width: calc(100% - 94.54rpx - 59.99rpx);
+					}
+				}
+				.select-btn-list-boox {
+					.select-item {
+						padding: 18.18rpx 0;
+						border-bottom: 2rpx solid #f3f3f3;
+						.select-btn {
+							position: relative;
+							margin-top: 14.54rpx;
+							width: 100%;
+							.cu-btn {
+								font-size: 23.63rpx;
+								margin: 5rpx 16.36rpx 5rpx 0;
+							}
+							.cu-btn.light {
+								border: 2rpx solid;	
+							}
+							.cu-btn[disabled] {
+								color: #aaaaaa;
+							}
+						}
+					}
+				}
+			}
+			.footer-fixed {
+				padding: 9.09rpx 29.09rpx 29.09rpx;
+			}
+		}
+	}
+	.bottom-modal-box.cu-modal.bottom-modal {
+		.cu-dialog {
+			border-radius: 36.36rpx 36.36rpx 0 0;
+		}
 	}
 </style>

@@ -37,7 +37,7 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTextStyle": "#fff",
+						"navigationBarTextStyle": "#ffffff",
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "我的钱包"
 					}
@@ -45,7 +45,7 @@
 				{
 					"path": "extract",
 					"style": {
-						"navigationBarTextStyle": "#fff",
+						"navigationBarTextStyle": "#ffffff",
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "余额提现"
 					}
@@ -53,7 +53,7 @@
 				{
 					"path": "record",
 					"style": {
-						"navigationBarTextStyle": "#fff",
+						"navigationBarTextStyle": "#ffffff",
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "提现记录"
 					}
@@ -67,7 +67,20 @@
 					"path": "index",
 					"style": {
 						"navigationBarTextStyle": "black",
-						"navigationBarBackgroundColor": "#fff"
+						"navigationBarBackgroundColor": "#ffffff"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/invite",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTextStyle": "black",
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationStyle":"custom"
 					}
 				}
 			]
@@ -78,7 +91,7 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTextStyle": "#fff",
+						"navigationBarTextStyle": "#ffffff",
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "关于我们"
 					}
@@ -91,7 +104,7 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTextStyle": "#fff",
+						"navigationBarTextStyle": "#ffffff",
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "帮助中心"
 					}
@@ -104,7 +117,7 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTextStyle": "#fff",
+						"navigationBarTextStyle": "#ffffff",
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "客服"
 					}
@@ -118,7 +131,7 @@
 					"path": "index",
 					"style": {
 						"navigationBarTextStyle": "black",
-						"navigationBarBackgroundColor": "#fff"
+						"navigationBarBackgroundColor": "#ffffff"
 					}
 				}
 			]
@@ -129,7 +142,7 @@
 				{
 					"path": "lists",
 					"style": {
-						"navigationBarTextStyle": "#fff",
+						"navigationBarTextStyle": "#ffffff",
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "我的订单"
 					}
@@ -137,7 +150,7 @@
 				{
 					"path": "detail",
 					"style": {
-						"navigationBarTextStyle": "#fff",
+						"navigationBarTextStyle": "#ffffff",
 						"navigationBarBackgroundColor": "#2B2E3D",
 						"navigationBarTitleText": "订单详情"
 					}
@@ -152,7 +165,7 @@
 					"style": {
 						"backgroundColorTop": "#ffffff",
 						"navigationBarTextStyle": "black",
-						"navigationBarBackgroundColor": "#fff",
+						"navigationBarBackgroundColor": "#ffffff",
 						"navigationBarTitleText": "搜索"
 					}
 				},
@@ -161,14 +174,14 @@
 					"style": {
 						"backgroundColorTop": "#ffffff",
 						"navigationBarTextStyle": "black",
-						"navigationBarBackgroundColor": "#fff",
+						"navigationBarBackgroundColor": "#ffffff",
 						"navigationBarTitleText": "搜索"
 					}
 				},
 				{
 					"path": "lists",
 					"style": {
-						"navigationBarTextStyle": "#fff",
+						"navigationBarTextStyle": "#ffffff",
 						"navigationBarBackgroundColor": "#2B2E3D"
 					}
 				},
@@ -177,7 +190,7 @@
 					"style": {
 						// "navigationStyle":"custom",
 						"navigationBarTextStyle": "black",
-						"navigationBarBackgroundColor": "#fff",
+						"navigationBarBackgroundColor": "#ffffff",
 						"navigationBarTitleText": "商品详情"
 					}
 				}
@@ -190,7 +203,7 @@
 					"style": {
 						"disableScroll": true,
 						"navigationBarTextStyle": "black",
-						"navigationBarBackgroundColor": "#fff",
+						"navigationBarBackgroundColor": "#ffffff",
 						"navigationBarTitleText": ""
 					}
 				}
