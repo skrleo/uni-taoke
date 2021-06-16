@@ -10,7 +10,7 @@
 
 # 体验版本
 
-![](static\print\4c873d7f1d4261847f443e7d7dff8d2.jpg)
+![](./static/print/4c873d7f1d4261847f443e7d7dff8d2.jpg)
 
 # 界面样式
 ![](./static/print/7f1b09ee46446a5e64735504ecff9d3.png) ![](./static/print/7f8b23822d942cecf66fda0fadd30f3.png) ![](./static/print/8b869b4e8ae2c121293a16fe034bd60.png) ![](./static/print/12b33685a3bc3e52a970d30d109c4fd.png) ![](./static/print/125efd4f681571e513f4f14e95e2674.png) ![](./static/print/291c0ca6fd5e3953faa061297ed56b8.png) ![](./static/print/2185bf5a862422358f15a4a67388714.png) ![](./static/print/b481a7ec57475f2381a0b62436ffff2.png) ![](./static/print/bc9a2ed8c154aa4e0d904e56bbe5ba0.png)
